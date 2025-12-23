@@ -1,0 +1,22 @@
+---
+created: {{date}}
+tags:
+  - note
+  - journal
+---
+- [[Update the obsidian web clipper addon with properties from types.json]]
+- [[design a homepage]]
+- [[study for acupuncture prescriptions]]
+- [[instead of the baseview or dataviewjs that calculates things being due green, yellow, red depending on how much time's left just use tasknotes]]
+- [[get a way to import canvas classes to obsidian with all the assigned tasks. easy way to import from canvas]]
+- [[do laundry]]
+- [[give nala a bath]]
+- [[get all spring 2026 classes into obsidian]]
+- [[buy clothes]]
+- [[buy shoes]]
+- [[do the esp32 wifi pentest build]]
+- [[get the errors in the vault fixed like dates, updated, last, created, etc]]
+- [[get all the TCM stuff imported]]
+- [[end of term paperwork for clinic]]
+- [[do the thing gemini3 suggested to integrate tasknotes into the class, classwork templates, and either build out the dashboard with dataviewjs or change it or something. use tasknotes agenda and kanban]]
+- [ ] 

@@ -1,0 +1,35 @@
+﻿/* Zen Hub Dashboard Tiles */
+.zen-tile {
+    background: var(--background-secondary);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid var(--background-modifier-border);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* The Nyan Track */
+.nyan-container {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    background: #1a1a1a;
+    border-radius: 20px;
+    margin-top: 20px;
+    overflow: hidden;
+    border: 2px solid #333;
+}
+
+.nyan-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #ff0000, #ff9900, #ffff00, #33ff00, #0099ff, #6633ff);
+    transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.nyan-cat {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    z-index: 10;
+    transition: left 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}

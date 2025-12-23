@@ -1,0 +1,927 @@
+/*
+==================================================
+ZEN GARDEN DASHBOARD
+==================================================
+
+Calm, meditative dashboard inspired by Japanese
+aesthetics, sacred geometry, and mindful design.
+
+Features:
+- Sacred geometry patterns
+- Soft color palette
+- Gentle animations
+- Natural textures
+- Breathing effects
+- Minimal distractions
+
+Requires: dashboard-components.css
+
+Version: 1.0
+Created: 2025-12-10
+==================================================
+*/
+
+/* ============================================
+   COLOR PALETTE
+   ============================================ */
+
+.zen-dashboard {
+  /* Zen color scheme - inspired by nature */
+  --zen-sage: #9caf88;
+  --zen-rose: #e8b4b8;
+  --zen-cream: #f5f1e8;
+  --zen-sand: #d4c5b9;
+  --zen-stone: #8d9b9e;
+  --zen-bamboo: #7ba05b;
+  --zen-lotus: #c8a2c8;
+  --zen-sky: #b8d4e8;
+  
+  /* Background layers */
+  --zen-bg-primary: #faf8f5;
+  --zen-bg-secondary: #f0ede6;
+  --zen-bg-tertiary: #e8e4dc;
+  --zen-bg-card: rgba(255, 255, 255, 0.9);
+  
+  /* Text colors */
+  --zen-text-primary: #3d4a3e;
+  --zen-text-secondary: #6b7b6e;
+  --zen-text-muted: #9eaa9f;
+  
+  /* Shadow and glow */
+  --zen-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --zen-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --zen-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Dark mode zen theme */
+body.theme-dark .zen-dashboard {
+  --zen-bg-primary: #2a2f2a;
+  --zen-bg-secondary: #363b36;
+  --zen-bg-tertiary: #424742;
+  --zen-bg-card: rgba(54, 59, 54, 0.9);
+  --zen-text-primary: #e0e5e0;
+  --zen-text-secondary: #b0b5b0;
+  --zen-text-muted: #808580;
+}
+
+/* ============================================
+   BASE DASHBOARD STYLING
+   ============================================ */
+
+.zen-dashboard {
+  background: var(--zen-bg-primary);
+  color: var(--zen-text-primary);
+  padding: 0 !important;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Subtle texture overlay */
+.zen-dashboard::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('data:image/svg+xml,%3Csvg width="100" height="100" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100" height="100" filter="url(%23noise)" opacity="0.03"/%3E%3C/svg%3E');
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Floating geometry decorations */
+.zen-dashboard::after {
+  content: '';
+  position: fixed;
+  top: 10%;
+  right: 5%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(156, 175, 136, 0.05) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  animation: zen-float 20s ease-in-out infinite;
+}
+
+@keyframes zen-float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-30px) rotate(10deg);
+  }
+}
+
+/* Content wrapper */
+.zen-dashboard .markdown-preview-section {
+  position: relative;
+  z-index: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 60px 40px;
+}
+
+/* ============================================
+   SACRED GEOMETRY HEADER
+   ============================================ */
+
+.zen-header {
+  text-align: center;
+  padding: 60px 40px;
+  margin: -60px -40px 60px;
+  background: linear-gradient(135deg, var(--zen-bg-secondary) 0%, var(--zen-bg-primary) 100%);
+  border-bottom: 3px solid var(--zen-sage);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Flower of Life pattern */
+.zen-header::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  background-image: radial-gradient(circle at 50% 50%, transparent 48%, var(--zen-sage) 50%, transparent 52%),
+                    radial-gradient(circle at 50% 35%, transparent 48%, var(--zen-sage) 50%, transparent 52%),
+                    radial-gradient(circle at 62% 42%, transparent 48%, var(--zen-sage) 50%, transparent 52%),
+                    radial-gradient(circle at 62% 58%, transparent 48%, var(--zen-sage) 50%, transparent 52%),
+                    radial-gradient(circle at 50% 65%, transparent 48%, var(--zen-sage) 50%, transparent 52%),
+                    radial-gradient(circle at 38% 58%, transparent 48%, var(--zen-sage) 50%, transparent 52%),
+                    radial-gradient(circle at 38% 42%, transparent 48%, var(--zen-sage) 50%, transparent 52%);
+  background-size: 80px 80px;
+  opacity: 0.1;
+  z-index: 0;
+  animation: zen-breathe 8s ease-in-out infinite;
+}
+
+@keyframes zen-breathe {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.05);
+    opacity: 0.15;
+  }
+}
+
+.zen-header-content {
+  position: relative;
+  z-index: 1;
+}
+
+.zen-title {
+  font-size: 3em;
+  font-weight: 300;
+  color: var(--zen-sage);
+  margin: 0 0 16px 0;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  font-family: var(--font-interface);
+}
+
+.zen-subtitle {
+  font-size: 1.2em;
+  color: var(--zen-text-secondary);
+  font-weight: 300;
+  font-style: italic;
+  margin: 0 0 32px 0;
+  letter-spacing: 2px;
+}
+
+.zen-date {
+  font-size: 1em;
+  color: var(--zen-text-muted);
+  font-weight: 400;
+}
+
+/* Enso (Zen circle) decoration */
+.zen-enso {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  width: 80px;
+  height: 80px;
+  border: 3px solid var(--zen-sage);
+  border-radius: 50%;
+  border-top-color: transparent;
+  border-right-color: transparent;
+  opacity: 0.3;
+  transform: rotate(-45deg);
+}
+
+/* ============================================
+   CARDS
+   ============================================ */
+
+.zen-card {
+  background: var(--zen-bg-card);
+  border: 1px solid var(--zen-sand);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: var(--zen-shadow-md);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle gradient overlay */
+.zen-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--zen-sage), var(--zen-rose), var(--zen-lotus));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.zen-card:hover::before {
+  opacity: 1;
+}
+
+.zen-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--zen-shadow-lg);
+  border-color: var(--zen-sage);
+}
+
+/* Card header */
+.zen-card-header {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--zen-bg-tertiary);
+}
+
+.zen-card-title {
+  font-size: 1.4em;
+  font-weight: 600;
+  color: var(--zen-sage);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  letter-spacing: 1px;
+}
+
+.zen-card-icon {
+  font-size: 1.3em;
+  opacity: 0.8;
+}
+
+/* ============================================
+   INTENTION SECTION
+   ============================================ */
+
+.zen-intention {
+  background: linear-gradient(135deg, var(--zen-bg-card) 0%, rgba(156, 175, 136, 0.1) 100%);
+  border: 2px solid var(--zen-sage);
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: var(--zen-shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.zen-intention::before {
+  content: '🌸';
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 3em;
+  opacity: 0.1;
+  animation: zen-float 15s ease-in-out infinite;
+}
+
+.zen-intention-quote {
+  font-size: 1.5em;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--zen-text-secondary);
+  margin: 0 0 24px 0;
+  line-height: 1.6;
+}
+
+.zen-intention-input {
+  width: 100%;
+  padding: 16px;
+  background: var(--zen-bg-secondary);
+  border: 2px solid var(--zen-sage);
+  border-radius: 12px;
+  font-size: 1.1em;
+  color: var(--zen-text-primary);
+  font-family: var(--font-text);
+  resize: vertical;
+  min-height: 80px;
+  transition: all 0.3s ease;
+}
+
+.zen-intention-input:focus {
+  outline: none;
+  border-color: var(--zen-bamboo);
+  box-shadow: 0 0 0 3px rgba(156, 175, 136, 0.2);
+}
+
+/* ============================================
+   MINDFULNESS TIMER
+   ============================================ */
+
+.zen-timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.zen-timer-display {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: conic-gradient(var(--zen-sage) 0% 75%, var(--zen-bg-tertiary) 75% 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: var(--zen-shadow-md);
+  animation: zen-breathe-slow 6s ease-in-out infinite;
+}
+
+@keyframes zen-breathe-slow {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+.zen-timer-display::before {
+  content: '';
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  background: var(--zen-bg-primary);
+  position: absolute;
+}
+
+.zen-timer-time {
+  position: relative;
+  z-index: 1;
+  font-size: 2.5em;
+  font-weight: 700;
+  color: var(--zen-sage);
+  font-family: 'Courier New', monospace;
+}
+
+.zen-timer-controls {
+  display: flex;
+  gap: 16px;
+}
+
+.zen-timer-btn {
+  padding: 12px 32px;
+  background: var(--zen-sage);
+  color: white;
+  border: none;
+  border-radius: 24px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--zen-shadow-sm);
+}
+
+.zen-timer-btn:hover {
+  background: var(--zen-bamboo);
+  transform: translateY(-2px);
+  box-shadow: var(--zen-shadow-md);
+}
+
+/* ============================================
+   SPACED REPETITION CARDS
+   ============================================ */
+
+.zen-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.zen-flip-card {
+  perspective: 1000px;
+  height: 280px;
+  cursor: pointer;
+}
+
+.zen-flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.zen-flip-card:hover .zen-flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.zen-flip-card-front,
+.zen-flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-shadow: var(--zen-shadow-md);
+}
+
+.zen-flip-card-front {
+  background: linear-gradient(135deg, var(--zen-bg-card) 0%, rgba(156, 175, 136, 0.1) 100%);
+  border: 2px solid var(--zen-sage);
+}
+
+.zen-flip-card-back {
+  background: linear-gradient(135deg, var(--zen-sage) 0%, var(--zen-bamboo) 100%);
+  color: white;
+  transform: rotateY(180deg);
+}
+
+.zen-flip-card-icon {
+  font-size: 4em;
+  margin-bottom: 16px;
+}
+
+.zen-flip-card-title {
+  font-size: 1.2em;
+  font-weight: 600;
+  margin: 0;
+}
+
+.zen-flip-card-content {
+  font-size: 1em;
+  line-height: 1.6;
+}
+
+/* ============================================
+   GENTLE TASKS
+   ============================================ */
+
+.zen-task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.zen-task-item {
+  background: var(--zen-bg-secondary);
+  border: 1px solid var(--zen-sand);
+  border-left: 4px solid var(--zen-sage);
+  border-radius: 10px;
+  padding: 16px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.zen-task-item:hover {
+  transform: translateX(8px);
+  border-left-color: var(--zen-bamboo);
+  box-shadow: var(--zen-shadow-sm);
+}
+
+.zen-task-completed {
+  opacity: 0.6;
+  text-decoration: line-through;
+  border-left-color: var(--zen-text-muted);
+}
+
+.zen-task-text {
+  font-size: 1em;
+  color: var(--zen-text-primary);
+  margin: 0 0 8px 0;
+}
+
+.zen-task-meta {
+  font-size: 0.85em;
+  color: var(--zen-text-muted);
+  display: flex;
+  gap: 16px;
+}
+
+/* ============================================
+   PROGRESS VISUALIZATION
+   ============================================ */
+
+.zen-growth-tracker {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  padding: 40px 20px;
+  background: var(--zen-bg-secondary);
+  border-radius: 16px;
+  height: 200px;
+  position: relative;
+}
+
+.zen-growth-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.4s ease;
+}
+
+.zen-growth-stage:hover {
+  transform: scale(1.1);
+}
+
+.zen-growth-icon {
+  font-size: 3em;
+  filter: grayscale(100%);
+  opacity: 0.3;
+  transition: all 0.4s ease;
+}
+
+.zen-growth-stage.active .zen-growth-icon {
+  filter: grayscale(0%);
+  opacity: 1;
+  animation: zen-grow 1s ease-out;
+}
+
+@keyframes zen-grow {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.zen-growth-label {
+  font-size: 0.85em;
+  color: var(--zen-text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ============================================
+   READING PROGRESS
+   ============================================ */
+
+.zen-reading-card {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  background: var(--zen-bg-card);
+  border: 1px solid var(--zen-sand);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--zen-shadow-sm);
+  transition: all 0.3s ease;
+}
+
+.zen-reading-card:hover {
+  box-shadow: var(--zen-shadow-md);
+  border-color: var(--zen-sage);
+}
+
+.zen-reading-cover {
+  width: 80px;
+  height: 120px;
+  background: linear-gradient(135deg, var(--zen-sage), var(--zen-bamboo));
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5em;
+  box-shadow: var(--zen-shadow-sm);
+  flex-shrink: 0;
+}
+
+.zen-reading-info {
+  flex: 1;
+}
+
+.zen-reading-title {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: var(--zen-text-primary);
+  margin: 0 0 8px 0;
+}
+
+.zen-reading-author {
+  font-size: 0.95em;
+  color: var(--zen-text-secondary);
+  margin: 0 0 16px 0;
+}
+
+.zen-reading-progress {
+  width: 100%;
+  height: 8px;
+  background: var(--zen-bg-tertiary);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.zen-reading-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--zen-sage), var(--zen-bamboo));
+  border-radius: 10px;
+  transition: width 0.6s ease;
+}
+
+.zen-reading-percent {
+  font-size: 0.9em;
+  color: var(--zen-sage);
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+/* ============================================
+   MOOD TRACKER
+   ============================================ */
+
+.zen-mood-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+  gap: 12px;
+}
+
+.zen-mood-cell {
+  aspect-ratio: 1;
+  background: var(--zen-bg-tertiary);
+  border: 2px solid var(--zen-sand);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.zen-mood-cell:hover {
+  transform: scale(1.1);
+  border-color: var(--zen-sage);
+}
+
+.zen-mood-cell::after {
+  content: attr(data-date);
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.4em;
+  color: var(--zen-text-muted);
+  white-space: nowrap;
+}
+
+/* Different mood states */
+.zen-mood-great {
+  background: linear-gradient(135deg, rgba(156, 175, 136, 0.3), rgba(123, 160, 91, 0.3));
+  border-color: var(--zen-bamboo);
+}
+
+.zen-mood-good {
+  background: linear-gradient(135deg, rgba(184, 212, 232, 0.3), rgba(156, 175, 136, 0.3));
+  border-color: var(--zen-sky);
+}
+
+.zen-mood-neutral {
+  background: rgba(212, 197, 185, 0.3);
+  border-color: var(--zen-sand);
+}
+
+.zen-mood-sad {
+  background: rgba(232, 180, 184, 0.3);
+  border-color: var(--zen-rose);
+}
+
+/* ============================================
+   JOURNAL ENTRIES
+   ============================================ */
+
+.zen-journal-entry {
+  background: var(--zen-bg-card);
+  border-left: 4px solid var(--zen-sage);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 16px;
+  box-shadow: var(--zen-shadow-sm);
+  transition: all 0.3s ease;
+}
+
+.zen-journal-entry:hover {
+  box-shadow: var(--zen-shadow-md);
+  transform: translateX(4px);
+}
+
+.zen-journal-date {
+  font-size: 0.9em;
+  color: var(--zen-text-muted);
+  margin-bottom: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.zen-journal-content {
+  font-size: 1em;
+  color: var(--zen-text-primary);
+  line-height: 1.8;
+  font-style: italic;
+}
+
+.zen-journal-tags {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.zen-journal-tag {
+  padding: 6px 14px;
+  background: rgba(156, 175, 136, 0.15);
+  border: 1px solid var(--zen-sage);
+  border-radius: 16px;
+  font-size: 0.85em;
+  color: var(--zen-sage);
+  font-weight: 500;
+}
+
+/* ============================================
+   MOBILE RESPONSIVENESS
+   ============================================ */
+
+@media (max-width: 768px) {
+  .zen-dashboard .markdown-preview-section {
+    padding: 40px 20px;
+  }
+  
+  .zen-header {
+    padding: 40px 20px;
+    margin: -40px -20px 40px;
+  }
+  
+  .zen-title {
+    font-size: 2em;
+    letter-spacing: 4px;
+  }
+  
+  .zen-subtitle {
+    font-size: 1em;
+  }
+  
+  .zen-card {
+    padding: 24px;
+  }
+  
+  .zen-timer-display {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .zen-timer-display::before {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .zen-timer-time {
+    font-size: 2em;
+  }
+  
+  .zen-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .zen-reading-card {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .zen-dashboard::after,
+  .zen-header::before,
+  .zen-timer-display,
+  .zen-flip-card-inner,
+  .zen-growth-icon {
+    animation: none;
+  }
+  
+  .zen-flip-card:hover .zen-flip-card-inner {
+    transform: none;
+  }
+}
+
+/* ============================================
+   STYLE SETTINGS CONFIGURATION
+   ============================================ */
+
+/*@settings
+name: Zen Garden Dashboard
+id: zen-garden-dashboard
+settings:
+  # ================================
+  # COLOR SCHEME
+  # ================================
+  -
+    id: zen-colors
+    title: Zen Colors
+    type: heading
+    level: 1
+    collapsed: true
+  -
+    id: zen-sage
+    title: Primary Color (Sage)
+    type: variable-themed-color
+    format: hex
+    default-light: '#9caf88'
+    default-dark: '#9caf88'
+  -
+    id: zen-rose
+    title: Accent Color (Rose)
+    type: variable-themed-color
+    format: hex
+    default-light: '#e8b4b8'
+    default-dark: '#e8b4b8'
+  -
+    id: zen-bamboo
+    title: Success Color (Bamboo)
+    type: variable-themed-color
+    format: hex
+    default-light: '#7ba05b'
+    default-dark: '#7ba05b'
+    
+  # ================================
+  # EFFECTS
+  # ================================
+  -
+    id: zen-effects
+    title: Visual Effects
+    type: heading
+    level: 1
+    collapsed: true
+  -
+    id: enable-geometry
+    title: Enable Sacred Geometry
+    description: Show flower of life pattern in header
+    type: class-toggle
+    default: true
+  -
+    id: enable-texture
+    title: Enable Texture Overlay
+    description: Subtle paper texture effect
+    type: class-toggle
+    default: true
+    
+  # ================================
+  # ANIMATIONS
+  # ================================
+  -
+    id: zen-animations
+    title: Animations
+    type: heading
+    level: 1
+    collapsed: true
+  -
+    id: enable-breathe
+    title: Enable Breathing Animation
+    description: Gentle pulsing on elements
+    type: class-toggle
+    default: true
+  -
+    id: breathe-speed
+    title: Breathing Speed
+    description: Duration of breathing cycle
+    type: variable-number-slider
+    default: 8
+    min: 4
+    max: 16
+    step: 1
+    format: s
+*/

@@ -1,6 +1,6 @@
 ---
 categories:
-  - "[[Show episodes]]"
+  - "[[Shows]]"
 show:
 season:
 episode:

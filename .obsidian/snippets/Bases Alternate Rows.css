@@ -1,0 +1,6 @@
+.bases-tbody > .bases-tr {
+	background-color: rgba(0, 0, 0, 0.3);
+}
+.bases-tr:nth-child(even) {
+	background-color: rgba(0, 0, 0, 0.1);
+}

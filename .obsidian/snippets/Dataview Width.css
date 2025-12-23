@@ -1,0 +1,4 @@
+.dataview.table-view-table {
+    width: 100% !important; /* Makes the table use the full width of the note */
+    max-width: none !important; /* Removes any max-width constraints */
+}

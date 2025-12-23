@@ -1,0 +1,156 @@
+/* Container */
+.sleep-widget {
+    background: rgba(20, 20, 30, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 20px;
+    font-family: var(--font-ui);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.sleep-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.sleep-header h3 { margin: 0; color: var(--text-normal); font-size: 1.1em; }
+.btn-save {
+    background: var(--interactive-accent);
+    color: var(--text-on-accent);
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+.btn-save:hover { opacity: 0.9; }
+
+/* CLOCKS */
+.clocks-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.clock-container {
+    text-align: center;
+    width: 120px;
+}
+.clock-label {
+    font-size: 0.8em;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.clock-face {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.1);
+    background: rgba(0,0,0,0.2);
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+}
+.clock-face:active { cursor: grabbing; border-color: rgba(255,255,255,0.2); }
+
+/* Ticks at 12, 3, 6, 9 */
+.clock-tick {
+    position: absolute;
+    width: 2px;
+    height: 6px;
+    background: rgba(255,255,255,0.2);
+    left: 50%;
+    top: 0;
+    transform-origin: 50% 60px; /* 60px is half width */
+}
+
+.clock-knob {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px currentColor;
+    border: 2px solid white;
+    pointer-events: none; /* Let clicks pass to face */
+}
+
+.clock-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+}
+
+.clock-time { font-weight: bold; font-size: 1.2em; color: var(--text-normal); }
+.clock-ampm { 
+    font-size: 0.7em; 
+    color: var(--text-muted); 
+    background: rgba(255,255,255,0.1); 
+    padding: 2px 6px; 
+    border-radius: 4px;
+    margin-top: 2px;
+    pointer-events: auto; /* Allow clicking AM/PM */
+    cursor: pointer;
+}
+.clock-ampm:hover { background: rgba(255,255,255,0.2); color: var(--text-normal); }
+
+/* Duration Pill */
+.sleep-duration {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255,255,255,0.05);
+    padding: 8px 12px;
+    border-radius: 12px;
+}
+.duration-val { font-size: 1.4em; font-weight: bold; color: #4facfe; }
+.duration-unit { font-size: 0.8em; color: var(--text-muted); }
+
+/* VITALS */
+.sleep-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.1);
+    margin: 20px 0;
+}
+
+.vital-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 10px;
+}
+.vital-icon { font-size: 1.2em; width: 30px; text-align: center; }
+.vital-label { flex: 1; font-size: 0.9em; color: var(--text-normal); }
+.vital-score { font-weight: bold; width: 20px; text-align: right; color: #4facfe; }
+
+.vital-slider {
+    -webkit-appearance: none;
+    width: 100px;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.1);
+    outline: none;
+    cursor: pointer;
+}
+.vital-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}

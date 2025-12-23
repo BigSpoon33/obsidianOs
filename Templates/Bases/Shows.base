@@ -1,7 +1,8 @@
 filters:
   and:
     - '!file.name.contains("Template")'
-    - note.categories.contains(link("Shows"))
+    - categories.contains(link("Shows"))
+    - episode.isEmpty()
 properties:
   file.name:
     displayName: Name
@@ -18,7 +19,7 @@ properties:
   note.cast:
     displayName: Cast
 views:
-  - type: table
+  - type: cards
     name: All
     order:
       - file.name
@@ -28,12 +29,13 @@ views:
       - director
       - genre
     sort:
-      - column: note.rating
+      - property: rating
         direction: DESC
-      - column: file.name
+      - property: file.name
         direction: ASC
-      - column: note.director
+      - property: director
         direction: ASC
+    image: note.image
   - type: table
     name: Favorites
     filters:
@@ -59,7 +61,7 @@ views:
       - director
       - genre
     sort:
-      - column: note.last
+      - property: last
         direction: DESC
     limit: 20
   - type: table
@@ -92,3 +94,8 @@ views:
       - year
       - cast
       - genre
+  - type: table
+    name: Episodes
+    filters:
+      and:
+        - file.properties.show.contains(this.file.name)

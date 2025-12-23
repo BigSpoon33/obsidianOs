@@ -1,0 +1,95 @@
+/* Container */
+.shopping-container {
+    margin-top: 30px;
+    border-top: 2px dashed rgba(255,255,255,0.1);
+    padding-top: 20px;
+    font-family: var(--font-ui);
+}
+
+.shopping-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.shopping-header h3 { margin: 0; }
+
+.btn-generate {
+    background: var(--interactive-accent);
+    color: var(--text-on-accent);
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+.btn-generate:hover { opacity: 0.9; }
+
+/* Grid Layout */
+.shopping-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+/* Recipe Card */
+.shopping-card {
+    background: var(--background-secondary);
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.recipe-title {
+    font-weight: bold;
+    border-bottom: 1px solid var(--background-modifier-border);
+    padding-bottom: 6px;
+    margin-bottom: 8px;
+    color: var(--text-accent);
+    font-size: 0.9em;
+}
+
+/* Ingredients */
+.ingredient-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.ing-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.85em;
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.ing-item:hover { background: var(--background-modifier-hover); }
+
+.ing-item.checked {
+    opacity: 0.4;
+    text-decoration: line-through;
+}
+
+.checkbox {
+    width: 14px;
+    height: 14px;
+    border: 1px solid var(--text-muted);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--text-normal);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.ing-item.checked .checkbox {
+    background: var(--text-muted);
+    border-color: var(--text-muted);
+    color: var(--background-primary);
+}

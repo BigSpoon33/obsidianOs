@@ -1,0 +1,8 @@
+filters:
+  and:
+    - file.tags.contains("categories")
+views:
+  - type: cards
+    name: Table
+    image: note.image
+    cardSize: 110

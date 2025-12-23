@@ -1,0 +1,126 @@
+/* Container */
+.mood-widget {
+    background: rgba(20, 20, 30, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 16px;
+    font-family: var(--font-ui);
+    margin-bottom: 20px;
+}
+
+.mood-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    color: var(--text-normal);
+}
+.mood-title { font-weight: 600; font-size: 0.95em; }
+.mood-score { font-family: monospace; opacity: 0.8; }
+
+/* Slider */
+.mood-slider-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 0 10px;
+}
+.mood-range {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.1);
+    outline: none;
+    cursor: pointer;
+}
+.mood-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(161, 140, 209, 0.5);
+}
+
+/* Chips Grid */
+.emotion-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.emotion-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 0.85em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.emotion-chip:hover {
+    background: rgba(255,255,255,0.05);
+    color: var(--text-normal);
+}
+
+.emotion-chip.active {
+    color: #fff;
+    border-color: var(--chip-color) !important; /* Force override */
+    box-shadow: 0 0 8px var(--chip-color);
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    opacity: 0.8;
+}
+
+/* Custom Input */
+.custom-emotion-area {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 12px;
+}
+
+.mood-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed rgba(255,255,255,0.2);
+    color: var(--text-normal);
+    padding: 4px 0;
+    font-size: 0.9em;
+}
+.mood-input:focus {
+    outline: none;
+    border-bottom-color: var(--interactive-accent);
+}
+
+.custom-tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.custom-tag {
+    font-size: 0.8em;
+    padding: 2px 8px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--text-muted);
+}
+.custom-tag:hover {
+    background: rgba(255, 107, 107, 0.2);
+    color: #ff6b6b;
+}

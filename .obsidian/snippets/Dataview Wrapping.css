@@ -1,0 +1,3 @@
+.dataview.table-view-table td {
+    white-space: normal !important; /* Wraps text instead of truncating it */
+}

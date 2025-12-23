@@ -1,7 +1,11 @@
 filters:
-  and:
-    - note.categories.contains(link("Clippings"))
-    - '!file.name.contains("Template")'
+  or:
+    - and:
+        - file.tags.contains(link("Clippings"))
+        - '!file.name.contains("Template")'
+    - and:
+        - categories.contains(link("Clippings"))
+        - '!file.name.contains("Template")'
 properties:
   file.name:
     displayName: Title
@@ -19,6 +23,7 @@ views:
       - author
       - created
       - published
+      - tags
     sort:
       - property: created
         direction: DESC

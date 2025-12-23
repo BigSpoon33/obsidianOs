@@ -12,7 +12,7 @@ properties:
   note.genre:
     displayName: Genre
 views:
-  - type: table
+  - type: cards
     name: Books
     order:
       - file.name
@@ -25,6 +25,7 @@ views:
     sort:
       - property: file.name
         direction: ASC
+    image: note.cover
   - type: table
     name: Top rated
     order:

@@ -1,0 +1,350 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//TaskNotes//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:study-for-acupuncture-prescriptions-md-0-1766522308490@tasknotes
+DTSTAMP:20251223T203828Z
+SUMMARY:study for acupuncture prescriptions
+DTSTART:20251209T080000Z
+DTEND:20251212T080000Z
+DESCRIPTION:Priority: normal\nStatus: done\nTags: task\n\nExported from Tas
+ kNotes: study for acupuncture prescriptions.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:COMPLETED
+END:VEVENT
+BEGIN:VEVENT
+UID:link-zotero-research-to-all-the-chemical-constituents-in-the-single-her
+ b-TCM-vault-md-1-1766522308491@tasknotes
+DTSTAMP:20251223T203828Z
+SUMMARY:link zotero research to all the chemical constituents in the single
+  herb TCM vault
+DTSTART:20251210T080000Z
+DTEND:20251210T090000Z
+DESCRIPTION:Priority: normal\nStatus: open\nTags: task\n\nExported from Tas
+ kNotes: link zotero research to all the chemical constituents in the singl
+ e herb TCM vault.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:NEEDS-ACTION
+END:VEVENT
+BEGIN:VEVENT
+UID:instead-of-the-baseview-or-dataviewjs-that-calculates-things-being-due-
+ green--yellow--red-depending-on-how-much-time-s-left-just-use-tasknotes-md
+ -2-1766522308491@tasknotes
+DTSTAMP:20251223T203828Z
+SUMMARY:instead of the baseview or dataviewjs that calculates things being 
+ due green\, yellow\, red depending on how much time's left just use taskno
+ tes
+DTSTART:20251209T080000Z
+DTEND:20251209T090000Z
+DESCRIPTION:Priority: normal\nStatus: done\nTags: task\n\nExported from Tas
+ kNotes: instead of the baseview or dataviewjs that calculates things being
+  due green\, yellow\, red depending on how much time's left just use taskn
+ otes.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:COMPLETED
+END:VEVENT
+BEGIN:VEVENT
+UID:give-nala-a-bath-md-3-1766522308491@tasknotes
+DTSTAMP:20251223T203828Z
+SUMMARY:give nala a bath
+DTSTART:20251209T080000Z
+DTEND:20251210T080000Z
+DESCRIPTION:Priority: normal\nStatus: open\nTags: task\n\nExported from Tas
+ kNotes: give nala a bath.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:NEEDS-ACTION
+END:VEVENT
+BEGIN:VEVENT
+UID:get-the-errors-in-the-vault-fixed-like-dates--updated--last--created--e
+ tc-md-4-1766522308492@tasknotes
+DTSTAMP:20251223T203828Z
+SUMMARY:get the errors in the vault fixed like dates\, updated\, last\, cre
+ ated\, etc
+DTSTART:20251209T080000Z
+DTEND:20251209T090000Z
+DESCRIPTION:Priority: normal\nStatus: open\nTags: task\n\nExported from Tas
+ kNotes: get the errors in the vault fixed like dates\, updated\, last\, cr
+ eated\, etc.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:NEEDS-ACTION
+END:VEVENT
+BEGIN:VEVENT
+UID:get-all-the-TCM-stuff-imported-md-5-1766522308492@tasknotes
+DTSTAMP:20251223T203828Z
+SUMMARY:get all the TCM stuff imported
+DTSTART:20251209T080000Z
+DTEND:20251209T090000Z
+DESCRIPTION:Priority: normal\nStatus: open\nTags: task\n\nExported from Tas
+ kNotes: get all the TCM stuff imported.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:NEEDS-ACTION
+END:VEVENT
+BEGIN:VEVENT
+UID:get-all-spring-2026-classes-into-obsidian-md-6-1766522308492@tasknotes
+DTSTAMP:20251223T203828Z
+SUMMARY:get all spring 2026 classes into obsidian
+DTSTART:20251209T080000Z
+DTEND:20251209T090000Z
+DESCRIPTION:Priority: normal\nStatus: open\nTags: task\n\nExported from Tas
+ kNotes: get all spring 2026 classes into obsidian.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:NEEDS-ACTION
+END:VEVENT
+BEGIN:VEVENT
+UID:get-a-way-to-import-canvas-classes-to-obsidian-with-all-the-assigned-ta
+ sks--easy-way-to-import-from-canvas-md-7-1766522308492@tasknotes
+DTSTAMP:20251223T203828Z
+SUMMARY:get a way to import canvas classes to obsidian with all the assigne
+ d tasks. easy way to import from canvas
+DTSTART:20251209T080000Z
+DTEND:20251209T090000Z
+DESCRIPTION:Priority: normal\nStatus: open\nTags: task\n\nExported from Tas
+ kNotes: get a way to import canvas classes to obsidian with all the assign
+ ed tasks. easy way to import from canvas.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:NEEDS-ACTION
+END:VEVENT
+BEGIN:VEVENT
+UID:end-of-term-paperwork-for-clinic-md-8-1766522308492@tasknotes
+DTSTAMP:20251223T203828Z
+SUMMARY:end of term paperwork for clinic
+DTSTART:20251210T080000Z
+DTEND:20251210T090000Z
+DESCRIPTION:Priority: normal\nStatus: open\nTags: task\n\nExported from Tas
+ kNotes: end of term paperwork for clinic.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:NEEDS-ACTION
+END:VEVENT
+BEGIN:VEVENT
+UID:do-the-thing-gemini3-suggested-to-integrate-tasknotes-into-the-class--c
+ lasswork-templates--and-either-build-out-the-dashboard-with-dataviewjs-or-
+ change-it-or-something--use-tasknotes-agenda-and-kanban-md-9-1766522308492
+ @tasknotes
+DTSTAMP:20251223T203828Z
+SUMMARY:do the thing gemini3 suggested to integrate tasknotes into the clas
+ s\, classwork templates\, and either build out the dashboard with dataview
+ js or change it or something. use tasknotes agenda and kanban
+DTSTART:20251210T080000Z
+DTEND:20251210T090000Z
+DESCRIPTION:Priority: normal\nStatus: done\nTags: task\n\nExported from Tas
+ kNotes: do the thing gemini3 suggested to integrate tasknotes into the cla
+ ss\, classwork templates\, and either build out the dashboard with datavie
+ wjs or change it or something. use tasknotes agenda and kanban.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:COMPLETED
+END:VEVENT
+BEGIN:VEVENT
+UID:do-the-esp32-wifi-pentest-build-md-10-1766522308492@tasknotes
+DTSTAMP:20251223T203828Z
+SUMMARY:do the esp32 wifi pentest build
+DTSTART:20251209T080000Z
+DTEND:20251209T090000Z
+DESCRIPTION:Priority: normal\nStatus: open\nTags: task\n\nExported from Tas
+ kNotes: do the esp32 wifi pentest build.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:NEEDS-ACTION
+END:VEVENT
+BEGIN:VEVENT
+UID:do-laundry-md-11-1766522308492@tasknotes
+DTSTAMP:20251223T203828Z
+SUMMARY:do laundry
+DTSTART:20251209T080000Z
+DTEND:20251210T080000Z
+DESCRIPTION:Priority: normal\nStatus: done\nTags: task\n\nExported from Tas
+ kNotes: do laundry.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:COMPLETED
+END:VEVENT
+BEGIN:VEVENT
+UID:design-a-homepage-md-12-1766522308492@tasknotes
+DTSTAMP:20251223T203828Z
+SUMMARY:design a homepage
+DTSTART:20251209T080000Z
+DTEND:20251209T090000Z
+DESCRIPTION:Priority: normal\nStatus: open\nTags: task\n\nExported from Tas
+ kNotes: design a homepage.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:NEEDS-ACTION
+END:VEVENT
+BEGIN:VEVENT
+UID:buy-shoes-md-13-1766522308492@tasknotes
+DTSTAMP:20251223T203828Z
+SUMMARY:buy shoes
+DTSTART:20251209T080000Z
+DTEND:20251209T090000Z
+DESCRIPTION:Priority: normal\nStatus: done\nTags: task\n\nExported from Tas
+ kNotes: buy shoes.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:COMPLETED
+END:VEVENT
+BEGIN:VEVENT
+UID:buy-clothes-md-14-1766522308492@tasknotes
+DTSTAMP:20251223T203828Z
+SUMMARY:buy clothes
+DTSTART:20251209T080000Z
+DTEND:20251209T090000Z
+DESCRIPTION:Priority: normal\nStatus: done\nTags: task\n\nExported from Tas
+ kNotes: buy clothes.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:COMPLETED
+END:VEVENT
+BEGIN:VEVENT
+UID:Update-the-obsidian-web-clipper-addon-with-properties-from-types-json-m
+ d-15-1766522308493@tasknotes
+DTSTAMP:20251223T203828Z
+SUMMARY:Update the obsidian web clipper addon with properties from types.js
+ on
+DTSTART:20251209T080000Z
+DTEND:20251209T090000Z
+DESCRIPTION:Priority: normal\nStatus: done\nTags: task\n\nExported from Tas
+ kNotes: Update the obsidian web clipper addon with properties from types.j
+ son.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:COMPLETED
+END:VEVENT
+BEGIN:VEVENT
+UID:TaskNotes-Tasks-testing-tasks-md-16-1766522308493@tasknotes
+DTSTAMP:20251223T203828Z
+SUMMARY:testing tasks
+DTSTART:20251218T080000Z
+DTEND:20251219T080000Z
+DESCRIPTION:Priority: normal\nStatus: open\nTags: task\n\nExported from Tas
+ kNotes: TaskNotes/Tasks/testing tasks.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:NEEDS-ACTION
+END:VEVENT
+BEGIN:VEVENT
+UID:TaskNotes-Tasks-testing-due-today-md-17-1766522308493@tasknotes
+DTSTAMP:20251223T203828Z
+SUMMARY:testing due today
+DTSTART:20251220T080000Z
+DTEND:20251220T080000Z
+DESCRIPTION:Priority: normal\nStatus: open\nTags: task\n\nExported from Tas
+ kNotes: TaskNotes/Tasks/testing due today.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:NEEDS-ACTION
+END:VEVENT
+BEGIN:VEVENT
+UID:TaskNotes-Tasks-test-air-purifier-for-car-md-18-1766522308493@tasknotes
+DTSTAMP:20251223T203828Z
+SUMMARY:test air purifier for car
+DTSTART:20251218T080000Z
+DTEND:20251218T090000Z
+DESCRIPTION:Priority: normal\nStatus: open\nTags: task\n\nExported from Tas
+ kNotes: TaskNotes/Tasks/test air purifier for car.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:NEEDS-ACTION
+END:VEVENT
+BEGIN:VEVENT
+UID:TaskNotes-Tasks-task-testing-calendar-sync-md-19-1766522308493@tasknote
+ s
+DTSTAMP:20251223T203828Z
+SUMMARY:task testing calendar sync
+DTSTART:20251224T080000Z
+DTEND:20251224T090000Z
+DESCRIPTION:Priority: normal\nStatus: open\nTags: task\n\nExported from Tas
+ kNotes: TaskNotes/Tasks/task testing calendar sync.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:NEEDS-ACTION
+END:VEVENT
+BEGIN:VEVENT
+UID:TaskNotes-Tasks-recurring-task-test-md-20-1766522308493@tasknotes
+DTSTAMP:20251223T203828Z
+SUMMARY:recurring task test
+DTSTART:20251224T080000Z
+DTEND:20251222T080000Z
+DESCRIPTION:Priority: normal\nStatus: open\nTags: task\n\nExported from Tas
+ kNotes: TaskNotes/Tasks/recurring task test.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:NEEDS-ACTION
+END:VEVENT
+BEGIN:VEVENT
+UID:TaskNotes-Tasks-kritagimp-to-ai-md-21-1766522308493@tasknotes
+DTSTAMP:20251223T203828Z
+SUMMARY:kritagimp to ai
+DTSTART:20251221T080000Z
+DTEND:20251221T090000Z
+DESCRIPTION:Priority: normal\nStatus: open\nProjects: [[animated gif icon w
+ orkflow]]\nTags: task\n\nExported from TaskNotes: TaskNotes/Tasks/kritagim
+ p to ai.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:NEEDS-ACTION
+END:VEVENT
+BEGIN:VEVENT
+UID:TaskNotes-Tasks-flf-idleactive-animations-md-22-1766522308493@tasknotes
+DTSTAMP:20251223T203828Z
+SUMMARY:flf idleactive animations
+DTSTART:20251221T080000Z
+DTEND:20251221T090000Z
+DESCRIPTION:Priority: normal\nStatus: open\nProjects: [[animated gif icon w
+ orkflow]]\nTags: task\n\nExported from TaskNotes: TaskNotes/Tasks/flf idle
+ active animations.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:NEEDS-ACTION
+END:VEVENT
+BEGIN:VEVENT
+UID:TaskNotes-Tasks-animated-gif-icon-workflow-md-23-1766522308493@tasknote
+ s
+DTSTAMP:20251223T203828Z
+SUMMARY:animated gif icon workflow
+DTSTART:20251221T080000Z
+DTEND:20251221T090000Z
+DESCRIPTION:Priority: normal\nStatus: open\nProjects: [[Datacore Examples]]
+ \nTags: task\n\nExported from TaskNotes: TaskNotes/Tasks/animated gif icon
+  workflow.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:NEEDS-ACTION
+END:VEVENT
+BEGIN:VEVENT
+UID:TaskNotes-Tasks-animate-icons-md-24-1766522308493@tasknotes
+DTSTAMP:20251223T203828Z
+SUMMARY:animate icons
+DTSTART:20251221T080000Z
+DTEND:20251221T090000Z
+DESCRIPTION:Priority: normal\nStatus: open\nProjects: [[animated gif icon w
+ orkflow]]\nTags: task\n\nExported from TaskNotes: TaskNotes/Tasks/animate 
+ icons.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:NEEDS-ACTION
+END:VEVENT
+BEGIN:VEVENT
+UID:TaskNotes-Tasks-64x64-and-128x128-icon-creation-md-25-1766522308494@tas
+ knotes
+DTSTAMP:20251223T203828Z
+SUMMARY:64x64 and 128x128 icon creation
+DTSTART:20251221T080000Z
+DTEND:20251221T090000Z
+DESCRIPTION:Priority: normal\nStatus: open\nProjects: [[animated gif icon w
+ orkflow]]\nTags: task\n\nExported from TaskNotes: TaskNotes/Tasks/64x64 an
+ d 128x128 icon creation.md
+CATEGORIES:task
+PRIORITY:5
+STATUS:NEEDS-ACTION
+END:VEVENT
+END:VCALENDAR

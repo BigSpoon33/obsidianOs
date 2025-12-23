@@ -1,0 +1,10 @@
+filters:
+  and:
+    - categories == ["[[Show episodes]]"]
+    - '!file.name.contains("Template")'
+views:
+  - type: table
+    name: Table
+    filters:
+      and:
+        - file.properties.show.contains(this.file.name)

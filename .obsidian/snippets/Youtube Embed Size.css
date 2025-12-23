@@ -1,0 +1,4 @@
+.full-width-media iframe.external-embed[src*="youtube"] {
+    width: 640px; 
+    height: 360px;
+}

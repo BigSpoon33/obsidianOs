@@ -8,3 +8,5 @@ rating:
 created: {{date}}
 last: {{date}}
 ---
+
+![[Show.base#Episodes]]

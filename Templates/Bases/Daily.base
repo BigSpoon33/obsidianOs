@@ -19,8 +19,9 @@ views:
     name: Daily notes
     filters:
       and:
-        - '!tags.contains("daily")'
-        - '!tags.contains("monthly")'
+        - '!file.tags.contains("daily")'
+        - '!file.tags.contains("monthly")'
+        - '!file.tags.contains("weekly")'
     order:
       - file.name
       - created

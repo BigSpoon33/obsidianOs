@@ -1,0 +1,114 @@
+/* Container */
+.water-widget-container {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 16px;
+    margin: 10px 0;
+    font-family: var(--font-ui);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Header */
+.water-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 0.95em;
+}
+
+.water-title {
+    font-weight: 600;
+    color: var(--text-normal);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.water-stats {
+    font-family: var(--font-monospace);
+    color: var(--text-muted);
+}
+.water-current { color: #4facfe; font-weight: bold; font-size: 1.1em; }
+.water-divider { margin: 0 4px; opacity: 0.5; }
+
+/* Track */
+.water-track {
+    height: 24px;
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 12px;
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.05);
+    cursor: pointer;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+    width: 100%;
+    margin-bottom: 16px;
+    overflow: visible; /* Allow bubble to pop out */
+}
+
+/* Fill Gradient */
+.water-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #2d70b3 0%, #4facfe 100%);
+    border-radius: 12px;
+    pointer-events: none;
+    box-shadow: 0 0 15px rgba(79, 172, 254, 0.3);
+    transition: width 0.15s ease-out;
+}
+
+/* Bubble Cursor */
+.water-cursor {
+    position: absolute;
+    top: -4px; /* Pop out slightly */
+    width: 32px;
+    height: 32px;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0.4) 20%, rgba(255,255,255,0.1) 60%);
+    border: 1px solid rgba(255,255,255,0.6);
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transform: translateX(-50%);
+    pointer-events: none;
+    transition: left 0.1s linear, transform 0.1s;
+    z-index: 2;
+}
+
+.water-track:active .water-cursor {
+    transform: translateX(-50%) scale(0.9);
+}
+
+/* Controls */
+.water-controls {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.water-controls button {
+    font-size: 0.85em;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    background: var(--interactive-normal);
+    border: 1px solid var(--background-modifier-border);
+    transition: all 0.2s ease;
+    flex: 1; /* Equal width buttons */
+}
+
+.water-controls button:hover {
+    background: var(--interactive-hover);
+    transform: translateY(-1px);
+}
+
+/* Special styling for the Custom Bottle button */
+.water-controls .btn-bottle {
+    background: rgba(79, 172, 254, 0.1);
+    border-color: rgba(79, 172, 254, 0.3);
+    color: #4facfe;
+    font-weight: 600;
+    flex: 1.5; /* Slightly wider */
+}
+.water-controls .btn-bottle:hover {
+    background: rgba(79, 172, 254, 0.25);
+    box-shadow: 0 0 10px rgba(79, 172, 254, 0.2);
+}

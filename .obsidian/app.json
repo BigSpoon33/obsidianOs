@@ -1,4 +1,8 @@
 {
   "attachmentFolderPath": "Attachments",
-  "alwaysUpdateLinks": true
+  "alwaysUpdateLinks": true,
+  "newFileLocation": "root",
+  "propertiesInDocument": "source",
+  "showLineNumber": true,
+  "readableLineLength": true
 }

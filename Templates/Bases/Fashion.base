@@ -1,0 +1,11 @@
+filters:
+  and:
+    - categories.contains("Fashion")
+    - '!file.name.contains("template")'
+views:
+  - type: cards
+    name: Fashion
+    sort:
+      - property: created
+        direction: DESC
+    image: note.image

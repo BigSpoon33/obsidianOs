@@ -1,0 +1,946 @@
+/*
+==================================================
+ACADEMIC RESEARCH HUB DASHBOARD
+==================================================
+
+Professional academic dashboard with sophisticated
+organization, deadline tracking, and research tools.
+
+Features:
+- Urgency-based color coding
+- Assignment deadline tracking
+- Course progress visualization
+- Research pipeline management
+- Study session analytics
+- Professional aesthetics
+
+Requires: dashboard-components.css
+
+Version: 1.0
+Created: 2025-12-10
+==================================================
+*/
+
+/* ============================================
+   COLOR PALETTE
+   ============================================ */
+
+.academic-dashboard {
+  /* Academic color scheme */
+  --academic-navy: #1e3a5f;
+  --academic-burgundy: #6b2737;
+  --academic-gold: #d4a574;
+  --academic-forest: #2d5016;
+  --academic-slate: #4a5568;
+  --academic-copper: #b87333;
+  --academic-teal: #2c7a7b;
+  --academic-plum: #6b46c1;
+  
+  /* Status colors */
+  --academic-urgent: #dc2626;
+  --academic-warning: #f59e0b;
+  --academic-success: #10b981;
+  --academic-info: #3b82f6;
+  
+  /* Background layers */
+  --academic-bg-primary: #f9fafb;
+  --academic-bg-secondary: #f3f4f6;
+  --academic-bg-tertiary: #e5e7eb;
+  --academic-bg-card: #ffffff;
+  
+  /* Text colors */
+  --academic-text-primary: #111827;
+  --academic-text-secondary: #4b5563;
+  --academic-text-muted: #9ca3af;
+  
+  /* Borders and shadows */
+  --academic-border: #d1d5db;
+  --academic-shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  --academic-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --academic-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode academic theme */
+body.theme-dark .academic-dashboard {
+  --academic-bg-primary: #1f2937;
+  --academic-bg-secondary: #111827;
+  --academic-bg-tertiary: #374151;
+  --academic-bg-card: #1f2937;
+  --academic-text-primary: #f9fafb;
+  --academic-text-secondary: #d1d5db;
+  --academic-text-muted: #9ca3af;
+  --academic-border: #374151;
+}
+
+/* ============================================
+   BASE DASHBOARD STYLING
+   ============================================ */
+
+.academic-dashboard {
+  background: var(--academic-bg-primary);
+  color: var(--academic-text-primary);
+  padding: 0 !important;
+  font-family: var(--font-interface);
+}
+
+.academic-dashboard .markdown-preview-section {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+/* ============================================
+   HEADER SECTION
+   ============================================ */
+
+.academic-header {
+  background: linear-gradient(135deg, var(--academic-navy) 0%, var(--academic-burgundy) 100%);
+  color: white;
+  padding: 40px;
+  margin: -40px -40px 40px;
+  border-bottom: 4px solid var(--academic-gold);
+  box-shadow: var(--academic-shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative elements */
+.academic-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(212, 165, 116, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.academic-header-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.academic-header-left h1 {
+  font-size: 2.5em;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.academic-header-meta {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.academic-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95em;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.academic-meta-item strong {
+  color: var(--academic-gold);
+  font-weight: 700;
+}
+
+.academic-header-stats {
+  display: flex;
+  gap: 24px;
+}
+
+.academic-stat-box {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 16px 24px;
+  text-align: center;
+  min-width: 120px;
+}
+
+.academic-stat-value {
+  font-size: 2em;
+  font-weight: 700;
+  color: var(--academic-gold);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.academic-stat-label {
+  font-size: 0.85em;
+  color: rgba(255, 255, 255, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ============================================
+   URGENT DEADLINES BANNER
+   ============================================ */
+
+.academic-urgent-banner {
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
+  border: 2px solid var(--academic-urgent);
+  border-left-width: 8px;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 32px;
+  animation: urgent-pulse 2s ease-in-out infinite;
+}
+
+@keyframes urgent-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(220, 38, 38, 0);
+  }
+}
+
+.academic-urgent-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.3em;
+  font-weight: 700;
+  color: var(--academic-urgent);
+  margin-bottom: 16px;
+}
+
+.academic-urgent-icon {
+  font-size: 1.5em;
+  animation: blink 1.5s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.academic-deadline-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--academic-bg-card);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  border-left: 4px solid var(--academic-urgent);
+  transition: all 0.3s ease;
+}
+
+.academic-deadline-item:hover {
+  transform: translateX(8px);
+  box-shadow: var(--academic-shadow-md);
+}
+
+.academic-deadline-item.warning {
+  border-left-color: var(--academic-warning);
+}
+
+.academic-deadline-item.safe {
+  border-left-color: var(--academic-success);
+}
+
+.academic-deadline-title {
+  font-weight: 600;
+  color: var(--academic-text-primary);
+}
+
+.academic-deadline-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.academic-deadline-badge.urgent {
+  background: rgba(220, 38, 38, 0.15);
+  color: var(--academic-urgent);
+  border: 1px solid var(--academic-urgent);
+}
+
+.academic-deadline-badge.warning {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--academic-warning);
+  border: 1px solid var(--academic-warning);
+}
+
+.academic-deadline-badge.safe {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--academic-success);
+  border: 1px solid var(--academic-success);
+}
+
+/* ============================================
+   CARDS
+   ============================================ */
+
+.academic-card {
+  background: var(--academic-bg-card);
+  border: 1px solid var(--academic-border);
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: var(--academic-shadow-sm);
+  transition: all 0.3s ease;
+}
+
+.academic-card:hover {
+  box-shadow: var(--academic-shadow-lg);
+  border-color: var(--academic-navy);
+}
+
+.academic-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--academic-bg-tertiary);
+}
+
+.academic-card-title {
+  font-size: 1.4em;
+  font-weight: 700;
+  color: var(--academic-navy);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.academic-card-icon {
+  font-size: 1.2em;
+}
+
+.academic-card-action {
+  padding: 8px 16px;
+  background: var(--academic-navy);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9em;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.academic-card-action:hover {
+  background: var(--academic-burgundy);
+  transform: translateY(-2px);
+  box-shadow: var(--academic-shadow-sm);
+}
+
+/* ============================================
+   COURSE PROGRESS
+   ============================================ */
+
+.academic-course-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.academic-course-item {
+  background: var(--academic-bg-secondary);
+  border: 1px solid var(--academic-border);
+  border-left: 5px solid var(--academic-navy);
+  border-radius: 10px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.academic-course-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--academic-shadow-md);
+  border-left-color: var(--academic-gold);
+}
+
+.academic-course-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.academic-course-name {
+  font-size: 1.15em;
+  font-weight: 700;
+  color: var(--academic-text-primary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.academic-course-code {
+  font-size: 0.85em;
+  padding: 4px 10px;
+  background: var(--academic-navy);
+  color: white;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.academic-course-grade {
+  font-size: 1.3em;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--academic-success) 0%, var(--academic-teal) 100%);
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.academic-course-progress {
+  margin-top: 12px;
+}
+
+.academic-progress-bar-container {
+  width: 100%;
+  height: 12px;
+  background: var(--academic-bg-tertiary);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.academic-progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--academic-navy), var(--academic-gold));
+  border-radius: 10px;
+  transition: width 0.8s ease;
+  position: relative;
+  box-shadow: 0 0 10px rgba(212, 165, 116, 0.5);
+}
+
+.academic-progress-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: shimmer-progress 2s infinite;
+}
+
+@keyframes shimmer-progress {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.academic-progress-label {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 0.9em;
+  color: var(--academic-text-secondary);
+}
+
+/* ============================================
+   QUICK ACCESS BUTTONS
+   ============================================ */
+
+.academic-quick-access {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+
+.academic-class-btn {
+  background: linear-gradient(135deg, var(--academic-navy) 0%, var(--academic-burgundy) 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--academic-shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.academic-class-btn::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transform: rotate(45deg);
+  transition: all 0.5s ease;
+}
+
+.academic-class-btn:hover::before {
+  left: 50%;
+}
+
+.academic-class-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--academic-shadow-lg);
+}
+
+.academic-class-icon {
+  font-size: 2.5em;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.academic-class-name {
+  font-weight: 600;
+  font-size: 0.95em;
+  letter-spacing: 0.5px;
+}
+
+/* ============================================
+   ASSIGNMENT TABLE
+   ============================================ */
+
+.academic-assignment-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 16px;
+}
+
+.academic-assignment-table thead th {
+  background: var(--academic-navy);
+  color: white;
+  padding: 16px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: none;
+}
+
+.academic-assignment-table thead th:first-child {
+  border-radius: 8px 0 0 0;
+}
+
+.academic-assignment-table thead th:last-child {
+  border-radius: 0 8px 0 0;
+}
+
+.academic-assignment-table tbody tr {
+  background: var(--academic-bg-card);
+  border-bottom: 1px solid var(--academic-border);
+  transition: all 0.3s ease;
+}
+
+.academic-assignment-table tbody tr:hover {
+  background: var(--academic-bg-secondary);
+  transform: translateX(4px);
+  box-shadow: var(--academic-shadow-sm);
+}
+
+.academic-assignment-table tbody tr.urgent {
+  background: rgba(220, 38, 38, 0.05);
+  border-left: 4px solid var(--academic-urgent);
+}
+
+.academic-assignment-table tbody tr.warning {
+  background: rgba(245, 158, 11, 0.05);
+  border-left: 4px solid var(--academic-warning);
+}
+
+.academic-assignment-table tbody td {
+  padding: 16px;
+  color: var(--academic-text-primary);
+}
+
+.academic-assignment-title {
+  font-weight: 600;
+  color: var(--academic-text-primary);
+}
+
+.academic-assignment-course {
+  padding: 4px 10px;
+  background: var(--academic-bg-tertiary);
+  border-radius: 12px;
+  font-size: 0.85em;
+  font-weight: 600;
+  color: var(--academic-text-secondary);
+  display: inline-block;
+}
+
+.academic-status-badge {
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 0.85em;
+  font-weight: 600;
+  text-align: center;
+  display: inline-block;
+}
+
+.academic-status-badge.not-started {
+  background: rgba(107, 114, 128, 0.15);
+  color: var(--academic-slate);
+  border: 1px solid var(--academic-slate);
+}
+
+.academic-status-badge.in-progress {
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--academic-info);
+  border: 1px solid var(--academic-info);
+}
+
+.academic-status-badge.completed {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--academic-success);
+  border: 1px solid var(--academic-success);
+}
+
+/* ============================================
+   STUDY ANALYTICS
+   ============================================ */
+
+.academic-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.academic-stat-card {
+  background: linear-gradient(135deg, var(--academic-bg-card) 0%, var(--academic-bg-secondary) 100%);
+  border: 2px solid var(--academic-border);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.academic-stat-card::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, var(--academic-gold), var(--academic-copper));
+  border-radius: 16px;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.3s ease;
+}
+
+.academic-stat-card:hover::before {
+  opacity: 1;
+}
+
+.academic-stat-card:hover {
+  transform: translateY(-4px);
+  border-color: transparent;
+}
+
+.academic-stat-icon-large {
+  font-size: 3em;
+  margin-bottom: 12px;
+  opacity: 0.8;
+}
+
+.academic-stat-number-large {
+  font-size: 2.5em;
+  font-weight: 700;
+  color: var(--academic-navy);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.academic-stat-description {
+  font-size: 0.9em;
+  color: var(--academic-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+/* ============================================
+   RESEARCH PIPELINE
+   ============================================ */
+
+.academic-pipeline {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.academic-pipeline-stage {
+  background: var(--academic-bg-secondary);
+  border: 2px solid var(--academic-border);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.academic-pipeline-stage:hover {
+  border-color: var(--academic-navy);
+  box-shadow: var(--academic-shadow-md);
+}
+
+.academic-pipeline-icon {
+  font-size: 2.5em;
+  margin-bottom: 12px;
+}
+
+.academic-pipeline-count {
+  font-size: 2em;
+  font-weight: 700;
+  color: var(--academic-navy);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.academic-pipeline-label {
+  font-size: 0.9em;
+  color: var(--academic-text-secondary);
+  font-weight: 600;
+}
+
+/* ============================================
+   ZETTELKASTEN NOTES
+   ============================================ */
+
+.academic-notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.academic-note-card {
+  background: var(--academic-bg-card);
+  border: 1px solid var(--academic-border);
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.academic-note-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--academic-shadow-lg);
+  border-color: var(--academic-navy);
+}
+
+.academic-note-title {
+  font-size: 1.15em;
+  font-weight: 700;
+  color: var(--academic-text-primary);
+  margin-bottom: 12px;
+}
+
+.academic-note-meta {
+  display: flex;
+  gap: 16px;
+  font-size: 0.85em;
+  color: var(--academic-text-muted);
+  margin-bottom: 16px;
+}
+
+.academic-note-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.academic-note-tag {
+  padding: 4px 10px;
+  background: rgba(30, 58, 95, 0.1);
+  border: 1px solid rgba(30, 58, 95, 0.2);
+  border-radius: 12px;
+  font-size: 0.8em;
+  color: var(--academic-navy);
+  font-weight: 500;
+}
+
+/* ============================================
+   MOBILE RESPONSIVENESS
+   ============================================ */
+
+@media (max-width: 768px) {
+  .academic-dashboard .markdown-preview-section {
+    padding: 20px;
+  }
+  
+  .academic-header {
+    padding: 24px;
+    margin: -20px -20px 20px;
+  }
+  
+  .academic-header-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .academic-header-left h1 {
+    font-size: 1.8em;
+  }
+  
+  .academic-header-stats {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .academic-stat-box {
+    width: 100%;
+  }
+  
+  .academic-card {
+    padding: 20px;
+  }
+  
+  .academic-quick-access {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .academic-assignment-table {
+    font-size: 0.85em;
+  }
+  
+  .academic-assignment-table thead th,
+  .academic-assignment-table tbody td {
+    padding: 12px 8px;
+  }
+  
+  .academic-notes-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .academic-urgent-banner,
+  .academic-urgent-icon,
+  .academic-progress-bar-fill::after,
+  .academic-class-btn::before {
+    animation: none;
+  }
+}
+
+/* ============================================
+   STYLE SETTINGS CONFIGURATION
+   ============================================ */
+
+/*@settings
+name: Academic Research Hub
+id: academic-research-hub
+settings:
+  # ================================
+  # COLOR SCHEME
+  # ================================
+  -
+    id: academic-colors
+    title: Academic Colors
+    type: heading
+    level: 1
+    collapsed: true
+  -
+    id: academic-navy
+    title: Primary Color (Navy)
+    type: variable-themed-color
+    format: hex
+    default-light: '#1e3a5f'
+    default-dark: '#1e3a5f'
+  -
+    id: academic-burgundy
+    title: Secondary Color (Burgundy)
+    type: variable-themed-color
+    format: hex
+    default-light: '#6b2737'
+    default-dark: '#6b2737'
+  -
+    id: academic-gold
+    title: Accent Color (Gold)
+    type: variable-themed-color
+    format: hex
+    default-light: '#d4a574'
+    default-dark: '#d4a574'
+    
+  # ================================
+  # URGENCY INDICATORS
+  # ================================
+  -
+    id: academic-urgency
+    title: Urgency Indicators
+    type: heading
+    level: 1
+    collapsed: true
+  -
+    id: academic-urgent
+    title: Urgent Deadline Color
+    description: For assignments due in 1-2 days
+    type: variable-themed-color
+    format: hex
+    default-light: '#dc2626'
+    default-dark: '#dc2626'
+  -
+    id: academic-warning
+    title: Warning Deadline Color
+    description: For assignments due in 3-7 days
+    type: variable-themed-color
+    format: hex
+    default-light: '#f59e0b'
+    default-dark: '#f59e0b'
+  -
+    id: academic-success
+    title: Safe Deadline Color
+    description: For assignments due in 7+ days
+    type: variable-themed-color
+    format: hex
+    default-light: '#10b981'
+    default-dark: '#10b981'
+  -
+    id: enable-pulse
+    title: Enable Urgent Pulse Animation
+    description: Pulsing effect on urgent deadlines
+    type: class-toggle
+    default: true
+*/

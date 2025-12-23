@@ -1,0 +1,11 @@
+filters:
+  and:
+    - categories.contains("Quotes")
+    - '!file.name.contains("template")'
+views:
+  - type: cards
+    name: Quotes
+    sort:
+      - property: created
+        direction: DESC
+    image: note.image

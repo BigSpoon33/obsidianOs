@@ -1,0 +1,214 @@
+/* ==================================================================
+    ANALYTICS DASHBOARD (Restored & Aligned)
+    - Matches @furbas16e8 visual hierarchy
+   ================================================================== */
+
+.ativ-heatmaps-container {
+  /* --- PALETTE --- */
+  --ativ-c0: var(--background-modifier-border);
+  --ativ-text-normal: var(--text-normal);
+  --ativ-text-muted: var(--text-muted);
+  --ativ-text-accent: var(--interactive-accent);
+  --ativ-card-bg: var(--background-secondary);
+  --ativ-hover-bg: var(--background-modifier-hover);
+  
+  /* --- DIMENSIONS --- */
+  --ativ-cell-size: 11px;
+  --ativ-cell-gap: 3px;
+  --ativ-radius: 2px;
+  
+  /* --- CONTAINER --- */
+  display: block;
+  min-height: 250px;
+  padding: 20px 25px;
+  position: relative;
+  background: var(--ativ-card-bg);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-family: "JetBrains Mono", "Menlo", monospace;
+}
+
+/* ===================== */
+/* HEADER & TITLE        */
+/* ===================== */
+
+.ativ-heatmaps-container .title-tabs {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin-bottom: 25px;
+  padding-bottom: 12px;
+}
+
+/* The Gradient Line (Bottom Border) */
+.ativ-heatmaps-container .title-tabs::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 1px;
+  pointer-events: none;
+  background: radial-gradient(
+      circle at center,
+      var(--ativ-text-normal) 0%,
+      var(--ativ-text-accent) 60%,
+      transparent 100%
+  );
+  opacity: 0.5;
+}
+
+.ativ-heatmaps-container .title-tab {
+    margin: 0 0.5rem;
+    font-size: 1.2em;
+    font-weight: 500;
+    color: var(--ativ-text-normal);
+    letter-spacing: 0.2rem;
+    text-transform: uppercase;
+}
+
+/* Dropdown (Top Left) */
+.ativ-dropdown {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    z-index: 10;
+}
+
+.ativ-selector {
+    background: transparent;
+    color: var(--ativ-text-muted);
+    border: 1px solid var(--background-modifier-border);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.75em;
+    cursor: pointer;
+    transition: all 0.2s;
+    outline: none;
+}
+.ativ-selector:hover {
+    color: var(--ativ-text-normal);
+    border-color: var(--ativ-text-accent);
+}
+
+/* ===================== */
+/* HEATMAP               */
+/* ===================== */
+
+.ativ-heatmap-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.ativ-heatmap-svg { display: block; overflow: visible; }
+
+.ativ-heatmap-cell {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.ativ-heatmap-cell[data-level="0"] { fill: var(--ativ-c0); opacity: 0.2; } 
+
+.ativ-heatmap-cell:hover {
+  stroke: var(--ativ-text-normal);
+  stroke-width: 1px;
+  opacity: 1 !important;
+}
+
+.ativ-heatmap-month-label {
+    fill: var(--ativ-text-muted);
+    font-size: 9px;
+    font-family: inherit;
+    text-anchor: middle;
+}
+
+/* ===================== */
+/* STATS GRID            */
+/* ===================== */
+
+.ativ-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+.ativ-stat-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.ativ-stat-header { 
+    color: var(--ativ-text-muted); 
+    font-style: italic; 
+    font-size: 0.75em; 
+    margin-bottom: 4px; 
+}
+.ativ-stat-val { 
+    color: var(--ativ-text-normal); 
+    font-weight: bold; 
+    font-size: 1.1em; 
+}
+
+/* ===================== */
+/* TREND CHART           */
+/* ===================== */
+
+.ativ-trend-container {
+  width: 100%;
+  border-top: 1px dashed var(--background-modifier-border);
+  padding-top: 15px;
+}
+
+.ativ-trend-svg {
+  display: block;
+  height: 60px;
+  width: 100%;
+  overflow: visible;
+  margin-bottom: 10px;
+}
+
+.ativ-trend-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  font-size: 0.7em;
+  color: var(--ativ-text-muted);
+}
+
+.ativ-trend-group {
+    display: flex;
+    gap: 8px;
+}
+
+.ativ-toggle-btn { cursor: pointer; transition: color 0.2s; }
+.ativ-toggle-btn:hover { color: var(--ativ-text-normal); }
+
+.is-active { 
+    color: var(--ativ-text-normal) !important; 
+    font-weight: bold; 
+    text-shadow: 0 0 5px rgba(255,255,255,0.1); 
+}
+
+/* Chart Elements */
+.ativ-trend-area-fill { opacity: 0.2; stroke: none; }
+.ativ-trend-area-line { fill: none; stroke-width: 1.5px; }
+.ativ-trend-bar { opacity: 0.5; rx: 2px; }
+
+/* Tooltip */
+.ativ-tooltip {
+  position: absolute;
+  background: var(--background-primary);
+  border: 1px solid var(--background-modifier-border);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75em;
+  pointer-events: none;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  white-space: nowrap;
+}

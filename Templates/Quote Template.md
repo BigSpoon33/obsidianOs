@@ -1,7 +1,7 @@
 ---
 categories:
   - "[[Quotes]]"
-attribution: []
+attribution: "[[]]"
 source:
 created: {{date}}
 topics: []

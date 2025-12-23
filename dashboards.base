@@ -1,0 +1,8 @@
+views:
+  - type: cards
+    name: Table
+    filters:
+      and:
+        - file.tags.contains("dashboard")
+    image: note.banner
+    cardSize: 110

@@ -1,0 +1,87 @@
+/* Container */
+.planner-container {
+    font-family: var(--font-ui);
+    max-width: 100%;
+}
+
+.planner-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 10px;
+}
+.planner-header h2 { margin: 0; }
+.planner-stats { color: var(--text-muted); font-size: 0.9em; }
+
+/* The Grid */
+.planner-grid {
+    display: grid;
+    /* Responsive: 1 column on mobile, 7 columns on huge screens, or auto-fit */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+/* Day Card */
+.day-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.day-header {
+    background: rgba(0,0,0,0.2);
+    padding: 8px 12px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.85em;
+    color: var(--text-accent);
+}
+
+.day-meals {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Individual Slot */
+.meal-slot {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.slot-label {
+    font-size: 0.75em;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* The Dropdown */
+.meal-dropdown {
+    width: 100%;
+    background: var(--background-primary);
+    border: 1px solid var(--background-modifier-border);
+    color: var(--text-normal);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    cursor: pointer;
+    outline: none;
+    /* Ellipsis for long names */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.meal-dropdown:hover {
+    border-color: var(--interactive-accent);
+}

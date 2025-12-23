@@ -50,6 +50,24 @@
     "monthly-uses": "number",
     "runtime": "number",
     "pages": "number",
-    "acquired": "date"
+    "acquired": "date",
+    "course-code": "text",
+    "course-name": "text",
+    "instructor": "text",
+    "semester": "text",
+    "credits": "number",
+    "class": "multitext",
+    "assigned": "date",
+    "due": "date",
+    "title": "text",
+    "type": "multitext",
+    "target": "multitext",
+    "equipment": "multitext",
+    "duration": "number",
+    "sets": "number",
+    "reps": "text",
+    "weight": "number",
+    "intensity": "text",
+    "focus": "text"
   }
 }

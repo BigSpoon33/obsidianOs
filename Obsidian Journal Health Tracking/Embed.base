@@ -1,0 +1,530 @@
+formulas:
+  Thumbnail: image(Image)
+  Date: link(file,date(file.name).format("ddd, DD MMM"))
+  Sleep Quality: |-
+    if(note["Sleep Quality"].isEmpty(), "⚫⚫⚫⚫⚫",
+    if(note["Sleep Quality"] == 1, "🔴⚫⚫⚫⚫",
+    if(note["Sleep Quality"] == 2, "🔴🔴⚫⚫⚫",
+    if(note["Sleep Quality"] == 3, "🟣🟣🟣⚫⚫",
+    if(note["Sleep Quality"] == 4, "🔵🔵🔵🔵⚫",
+    if(note["Sleep Quality"] == 5, "⚪⚪⚪⚪⚪",
+    ""))))))
+    +
+    if(note["Sleep Time"].isEmpty(), " ❌", " " + note["Sleep Time"] + " hr")
+  Condition: |-
+    if(((if(note["Sleep Quality"].isEmpty(),number(1),note["Sleep Quality"])
+    +if(Toilet.isEmpty(),number(1),Toilet)
+    +if(Condition.isEmpty(),number(1),Condition)
+    +if(Mood.isEmpty(),number(1),Mood)
+    +if(Diet.isEmpty(),number(1),Diet))/5) >=3.5, "😎",
+    if(((if(note["Sleep Quality"].isEmpty(),number(1),note["Sleep Quality"])
+    +if(Toilet.isEmpty(),number(1),Toilet)
+    +if(Condition.isEmpty(),number(1),Condition)
+    +if(Mood.isEmpty(),number(1),Mood)
+    +if(Diet.isEmpty(),number(1),Diet))/5) >=3, "🙂",
+    if(((if(note["Sleep Quality"].isEmpty(),number(1),note["Sleep Quality"])
+    +if(Toilet.isEmpty(),number(1),Toilet)
+    +if(Condition.isEmpty(),number(1),Condition)
+    +if(Mood.isEmpty(),number(1),Mood)
+    +if(Diet.isEmpty(),number(1),Diet))/5) >=2.5, "🤢",
+    if(((if(note["Sleep Quality"].isEmpty(),number(1),note["Sleep Quality"])
+    +if(Toilet.isEmpty(),number(1),Toilet)
+    +if(Condition.isEmpty(),number(1),Condition)
+    +if(Mood.isEmpty(),number(1),Mood)
+    +if(Diet.isEmpty(),number(1),Diet))/5) >=2, "🥵",
+    if(((if(note["Sleep Quality"].isEmpty(),number(1),note["Sleep Quality"])
+    +if(Toilet.isEmpty(),number(1),Toilet)
+    +if(Condition.isEmpty(),number(1),Condition)
+    +if(Mood.isEmpty(),number(1),Mood)
+    +if(Diet.isEmpty(),number(1),Diet))/5) >=1.5, "☠️", "⚫")))))
+    +" "+
+    ((if(note["Sleep Quality"].isEmpty(),number(1),note["Sleep Quality"])
+    +if(Toilet.isEmpty(),number(1),Toilet)
+    +if(Condition.isEmpty(),number(1),Condition)
+    +if(Mood.isEmpty(),number(1),Mood)
+    +if(Diet.isEmpty(),number(1),Diet))/5)
+  Exercise: |-
+    if(Exercise.isEmpty(), "",
+    if(note["Exercise Time"].isEmpty(), Exercise,
+    Exercise + ", " + note["Exercise Time"] + " hr"))
+  Water: |-
+    if(Water >= 2250, "💙 " + number(Water/25).round(2) + " %",
+    if(Water >= 1750, "💧 " + number(Water/25).round(2) + " %",
+    if(Water >= 1250, "⚠️ " + number(Water/25).round(2) + " %",
+    if(Water >= 750, "🔥 " + number(Water/25).round(2) + " %",
+    if(Water >= 250, "🚨 " + number(Water/25).round(2) + " %",
+    "⚫"
+    )))))
+  Activity Status: |-
+    if(Supplement.isEmpty(), "⚫", "🌸") +
+    if(Medicine.isEmpty(), "⚫", "💊") +
+    if(Diet >= 3, "🥦", "⚫") +
+    if(Water >= 1750, "🐳", "⚫") +
+    if(Learn == true, "🧠", "⚫") +
+    if(Work == true, "📌", "⚫") +
+    if(Clean == true, "🧺", "⚫") +
+    if(Flow == true, "💙", "⚫") +
+    if(Plan == true, "🎯", "⚫") +
+    if(Exercise.isEmpty(), "⚫", "🏀")
+  Purchase Price: |-
+    if(file.hasTag("Wishlist"),"✨ ","")
+    +
+    if(note["Purchase Date"].isEmpty(),"","✔️ ")
+    +
+    if(Currency == "Gift", "Free Gift",
+    if(Currency == "Free", "Free",
+    if(Currency == "Purchased", "✔️",
+    if(Price.isEmpty(), "",
+    if(Currency == "IDR", "Rp " + Price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+    Currency + " " + Price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    )))))
+  Water Intake: |-
+    if(Water >= 2250, "⚪⚪⚪⚪⚪ " + Water + " ml - " + number(Water/25).round(2) + " %",
+    if(Water >= 1750, "🔵🔵🔵🔵⚫ " + Water + " ml - " + number(Water/25).round(2) + " %",
+    if(Water >= 1250, "🟣🟣🟣⚫⚫ " + Water + " ml - " + number(Water/25).round(2) + " %",
+    if(Water >= 750, "🔴🔴⚫⚫⚫ " + Water + " ml - " + number(Water/25).round(2) + " %",
+    if(Water >= 250, "🔴⚫⚫⚫⚫ " + Water + " ml - " + number(Water/25).round(2) + " %",
+    "⚫⚫⚫⚫⚫ ❌"
+    )))))
+  Weight Tracking: |-
+    if(Weight >= 78, "🔴🔴🔴🔴🔴 " + Weight + " kg",
+    if(Weight >= 77, "🔴🔴🔴🔴⚫ " + Weight + " kg",
+    if(Weight >= 76, "🟣🟣🟣⚫⚫ " + Weight + " kg",
+    if(Weight >= 75, "🔵🔵⚫⚫⚫ " + Weight + " kg",
+    if(Weight >= 74, "⚪⚫⚫⚫⚫ " + Weight + " kg",
+    "⚫⚫⚫⚫⚫ ❌"
+    )))))
+  Title Indicator: |-
+    if(file.hasTag("Cleaning"),"🧺 ",
+    if(file.hasTag("SelfImprovement"),"🧠 ",
+    if(file.hasTag("Quote"),"💚 ",
+    if(file.hasTag("Obsidian"),"🟣 ",
+    if(file.hasTag("Project"),"🔵 ",
+
+    if(file.hasTag("todo"),"🎯 ",""))))))
+    +
+    file.name
+  Today's Date: link(file,date(file.name).format("dddd, D MMMM"))
+  Diet Tracking: |-
+    if(Diet >= 5, "🟢🟢🟢🟢🟢",
+    if(Diet >= 4, "🟡🟡🟡🟡⚫",
+    if(Diet >= 3, "🟠🟠🟠⚫⚫",
+    if(Diet >= 2, "🔴🔴⚫⚫⚫",
+    if(Diet >= 1, "🔴⚫⚫⚫⚫",
+    "⚫⚫⚫⚫⚫"
+    )))))
+properties:
+  formula.Water Intake:
+    displayName: Water Intake Tracking
+  formula.Condition:
+    displayName: Body
+  note.Sleep Quality:
+    displayName: 💤 Quality
+  note.Sleep Time:
+    displayName: 💤 Hour
+  note.Exercise Time:
+    displayName: Exercise Hour
+  note.Exercise:
+    displayName: Today's Exercise
+views:
+  - type: table
+    name: Today's Condition
+    filters:
+      and:
+        - file.tags.contains("daily")
+        - file.name == today()
+    order:
+      - formula.Date
+      - Sleep Quality
+      - Sleep Time
+      - Weight
+      - Toilet
+      - Condition
+      - Mood
+      - Status
+    sort:
+      - property: Toilet
+        direction: DESC
+      - property: file.name
+        direction: DESC
+    limit: 5
+    columnSize:
+      formula.Date: 110
+    cardSize: 250
+    markers: number
+  - type: table
+    name: Today's Status
+    filters:
+      and:
+        - file.tags.contains("journal")
+        - file.name == today()
+    order:
+      - Supplement
+      - Medicine
+      - Locations
+    sort:
+      - property: file.name
+        direction: DESC
+    limit: 5
+    columnSize:
+      note.Supplement: 257
+      note.Medicine: 268
+    cardSize: 250
+    markers: number
+    rowHeight: medium
+  - type: table
+    name: Today's Diet
+    filters:
+      and:
+        - file.tags.contains("journal")
+        - file.name == today()
+    order:
+      - Breakfast
+      - Lunch
+      - Dinner
+      - Diet
+      - Beverage
+      - Water
+    sort:
+      - property: Dinner
+        direction: ASC
+      - property: file.name
+        direction: DESC
+    limit: 5
+    columnSize:
+      note.Breakfast: 141
+      note.Lunch: 154
+      note.Dinner: 168
+      note.Beverage: 189
+    cardSize: 250
+    markers: number
+    rowHeight: tall
+  - type: table
+    name: Today's Habit
+    filters:
+      and:
+        - file.tags.contains("journal")
+        - file.name == today()
+    order:
+      - Learn
+      - Work
+      - Clean
+      - Flow
+      - Plan
+      - Exercise Time
+      - Exercise
+    sort:
+      - property: file.name
+        direction: DESC
+    limit: 5
+    columnSize: {}
+    cardSize: 250
+    markers: number
+  - type: table
+    name: Today's Notes
+    filters:
+      and:
+        - file.tags.contains("journal")
+        - file.name == today()
+    order:
+      - Comment
+    sort:
+      - property: Comment
+        direction: DESC
+      - property: file.name
+        direction: DESC
+    limit: 5
+    columnSize: {}
+    cardSize: 250
+    markers: number
+    rowHeight: medium
+  - type: table
+    name: Today's Summary
+    filters:
+      and:
+        - file.tags.contains("journal")
+        - file.name == today()
+    order:
+      - formula.Condition
+      - formula.Activity Status
+      - formula.Sleep Quality
+      - formula.Weight Tracking
+      - formula.Water Intake
+    sort:
+      - property: file.name
+        direction: DESC
+    limit: 7
+    columnSize:
+      formula.Activity Status: 214
+      formula.Sleep Quality: 161
+      formula.Weight Tracking: 173
+    cardSize: 250
+    markers: number
+  - type: table
+    name: Yesterday's Condition
+    filters:
+      and:
+        - file.folder.startsWith("Journal")
+        - file.name == today() - (1 + " day")
+    order:
+      - formula.Date
+      - Sleep Quality
+      - Sleep Time
+      - Weight
+      - Toilet
+      - Condition
+      - Mood
+      - Status
+    sort:
+      - property: file.name
+        direction: DESC
+    limit: 5
+    columnSize:
+      formula.Date: 110
+    cardSize: 250
+    markers: number
+  - type: table
+    name: Yesterday's Status
+    filters:
+      and:
+        - file.folder.startsWith("Journal")
+        - file.name == today() - (1 + " day")
+    order:
+      - Supplement
+      - Medicine
+      - Locations
+    sort:
+      - property: file.name
+        direction: DESC
+    limit: 5
+    columnSize:
+      note.Supplement: 257
+      note.Medicine: 268
+    cardSize: 250
+    markers: number
+    rowHeight: medium
+  - type: table
+    name: Yesterday's Diet
+    filters:
+      and:
+        - file.folder.startsWith("Journal")
+        - file.name == today() - (1 + " day")
+    order:
+      - Breakfast
+      - Lunch
+      - Dinner
+      - Diet
+      - Beverage
+      - Water
+    sort:
+      - property: Dinner
+        direction: ASC
+      - property: file.name
+        direction: DESC
+    limit: 5
+    columnSize:
+      note.Breakfast: 141
+      note.Lunch: 154
+      note.Dinner: 168
+      note.Beverage: 189
+    cardSize: 250
+    markers: number
+    rowHeight: tall
+  - type: table
+    name: Yesterday's Habit
+    filters:
+      and:
+        - file.folder.startsWith("Journal")
+        - file.name == today() - (1 + " day")
+    order:
+      - Learn
+      - Work
+      - Clean
+      - Flow
+      - Plan
+      - Exercise Time
+      - Exercise
+    sort:
+      - property: file.name
+        direction: DESC
+    limit: 5
+    columnSize: {}
+    cardSize: 250
+    markers: number
+  - type: table
+    name: Yesterday's Notes
+    filters:
+      and:
+        - file.folder.startsWith("Journal")
+        - file.name == today() - (1 + " day")
+    order:
+      - Comment
+    sort:
+      - property: file.name
+        direction: DESC
+    limit: 5
+    columnSize: {}
+    cardSize: 250
+    markers: number
+    rowHeight: medium
+  - type: table
+    name: Yesterday's Summary
+    filters:
+      and:
+        - file.folder.startsWith("Journal")
+        - file.name == today() - (1 + " day")
+    order:
+      - formula.Condition
+      - formula.Activity Status
+      - formula.Sleep Quality
+      - formula.Weight Tracking
+      - formula.Water Intake
+    sort:
+      - property: file.name
+        direction: DESC
+    limit: 7
+    columnSize:
+      formula.Sleep Quality: 161
+      formula.Weight Tracking: 173
+    cardSize: 250
+    markers: number
+  - type: table
+    name: Health Tracking
+    filters:
+      and:
+        - file.folder.startsWith("Journal")
+        - file.ctime > "2025-08-01"
+        - file.name != today() + (1 + " day")
+    order:
+      - formula.Date
+      - formula.Condition
+      - formula.Activity Status
+      - formula.Sleep Quality
+      - formula.Weight Tracking
+      - formula.Water Intake
+      - formula.Diet Tracking
+      - formula.Exercise
+      - Status
+      - Comment
+    sort:
+      - property: file.name
+        direction: DESC
+    limit: 7
+    columnSize:
+      formula.Date: 97
+      formula.Sleep Quality: 156
+      formula.Weight Tracking: 170
+      formula.Water Intake: 234
+      formula.Exercise: 98
+      note.Status: 103
+      note.Comment: 452
+    cardSize: 250
+    markers: number
+  - type: table
+    name: Diet Tracking
+    filters:
+      and:
+        - file.folder.startsWith("Journal")
+        - file.ctime > "2025-08-01"
+        - file.name != today() + (1 + " day")
+    order:
+      - formula.Date
+      - formula.Activity Status
+      - formula.Diet Tracking
+      - formula.Water Intake
+      - Beverage
+      - Breakfast
+      - Lunch
+      - Dinner
+      - Status
+      - Comment
+    sort:
+      - property: file.name
+        direction: DESC
+    limit: 7
+    columnSize:
+      formula.Date: 97
+      formula.Activity Status: 256
+      note.Breakfast: 265
+      note.Lunch: 249
+      note.Dinner: 383
+      note.Beverage: 255
+      note.Water: 126
+      note.Status: 103
+      note.Comment: 419
+    cardSize: 250
+    markers: number
+    rowHeight: medium
+  - type: table
+    name: Medicine Tracking
+    filters:
+      and:
+        - file.folder.startsWith("Journal")
+        - file.ctime > "2025-08-01"
+        - file.name != today() + (1 + " day")
+    order:
+      - formula.Date
+      - formula.Activity Status
+      - formula.Water Intake
+      - Supplement
+      - Medicine
+      - Status
+      - Comment
+    sort:
+      - property: file.name
+        direction: DESC
+    limit: 7
+    columnSize:
+      formula.Date: 97
+      formula.Activity Status: 256
+      formula.Water Intake: 216
+      note.Supplement: 224
+      note.Medicine: 219
+      note.Status: 103
+      note.Comment: 419
+    cardSize: 250
+    markers: number
+    rowHeight: medium
+  - type: table
+    name: Journal Entries
+    filters:
+      and:
+        - file.folder.startsWith("Journal")
+        - file.ctime > "2025-08-01"
+    order:
+      - formula.Date
+      - formula.Activity Status
+      - formula.Sleep Quality
+      - formula.Weight Tracking
+      - formula.Water Intake
+      - formula.Diet Tracking
+      - formula.Exercise
+      - Supplement
+      - Medicine
+      - Breakfast
+      - Lunch
+      - Dinner
+      - Beverage
+      - Status
+      - Comment
+    sort:
+      - property: file.name
+        direction: DESC
+    columnSize:
+      formula.Date: 97
+      formula.Activity Status: 250
+      formula.Sleep Quality: 156
+      formula.Weight Tracking: 170
+      formula.Water Intake: 216
+      formula.Exercise: 98
+      note.Supplement: 233
+      note.Medicine: 218
+      note.Breakfast: 216
+      note.Lunch: 208
+      note.Dinner: 217
+      note.Beverage: 261
+      note.tags: 178
+      note.Status: 115
+      note.Comment: 293
+    cardSize: 250
+    markers: number

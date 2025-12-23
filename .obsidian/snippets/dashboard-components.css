@@ -1,0 +1,797 @@
+/*
+==================================================
+DASHBOARD COMPONENTS - SHARED UTILITIES
+==================================================
+
+Universal components for all dashboard variations.
+Fully integrated with Minimal Theme and Style Settings.
+
+Compatible with:
+- Minimal Theme (all variants)
+- Style Settings plugin
+- Mobile and Desktop
+- Light and Dark modes
+
+Version: 1.0
+Created: 2025-12-10
+==================================================
+*/
+
+/* ============================================
+   MINIMAL THEME INTEGRATION
+   ============================================ */
+
+/* Inherit Minimal theme variables and extend them */
+body {
+  /* Dashboard-specific enhancements to Minimal variables */
+  --dashboard-max-width: var(--max-width, 88%);
+  --dashboard-padding: var(--size-4-8, 40px);
+  --dashboard-radius: var(--radius-m, 8px);
+  --dashboard-radius-lg: var(--radius-l, 12px);
+  
+  /* Animation variables */
+  --dashboard-transition-speed: 0.3s;
+  --dashboard-animation-scale: 1.05;
+  
+  /* Spacing scale (compatible with Minimal) */
+  --dashboard-space-xs: var(--size-2-1, 2px);
+  --dashboard-space-sm: var(--size-2-2, 4px);
+  --dashboard-space-md: var(--size-4-2, 8px);
+  --dashboard-space-lg: var(--size-4-4, 16px);
+  --dashboard-space-xl: var(--size-4-8, 32px);
+  --dashboard-space-2xl: var(--size-4-12, 48px);
+}
+
+/* ============================================
+   RESPONSIVE GRID SYSTEM
+   ============================================ */
+
+/* Base grid container */
+.dashboard-grid {
+  display: grid;
+  gap: var(--dashboard-space-lg);
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* 2-column grid */
+.dashboard-grid-2col {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* 3-column grid */
+.dashboard-grid-3col {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* 4-column grid */
+.dashboard-grid-4col {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Flexible auto-fit grid */
+.dashboard-grid-auto {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* Asymmetric grid (sidebar + main) */
+.dashboard-grid-sidebar {
+  grid-template-columns: 300px 1fr;
+}
+
+/* Mobile breakpoints */
+@media (max-width: 768px) {
+  .dashboard-grid-2col,
+  .dashboard-grid-3col,
+  .dashboard-grid-4col,
+  .dashboard-grid-sidebar {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .dashboard-grid-3col,
+  .dashboard-grid-4col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ============================================
+   FLEXBOX UTILITIES
+   ============================================ */
+
+.dashboard-flex {
+  display: flex;
+  gap: var(--dashboard-space-lg);
+}
+
+.dashboard-flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--dashboard-space-md);
+}
+
+.dashboard-flex-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dashboard-space-md);
+}
+
+/* ============================================
+   CARD COMPONENTS
+   ============================================ */
+
+/* Base card style */
+.dashboard-card {
+  background: var(--background-primary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--dashboard-radius);
+  padding: var(--dashboard-space-lg);
+  transition: all var(--dashboard-transition-speed) ease;
+}
+
+/* Card with hover lift effect */
+.dashboard-card-hover {
+  background: var(--background-primary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--dashboard-radius);
+  padding: var(--dashboard-space-lg);
+  transition: all var(--dashboard-transition-speed) ease;
+  cursor: pointer;
+}
+
+.dashboard-card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border-color: var(--interactive-accent);
+}
+
+/* Card with image header */
+.dashboard-card-image {
+  background: var(--background-primary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--dashboard-radius);
+  overflow: hidden;
+  transition: all var(--dashboard-transition-speed) ease;
+}
+
+.dashboard-card-image-header {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.dashboard-card-image-content {
+  padding: var(--dashboard-space-lg);
+}
+
+/* Stat card (for metrics) */
+.dashboard-stat-card {
+  background: linear-gradient(135deg, var(--background-primary) 0%, var(--background-secondary) 100%);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--dashboard-radius-lg);
+  padding: var(--dashboard-space-xl);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-stat-value {
+  font-size: 2.5em;
+  font-weight: 700;
+  color: var(--text-accent);
+  line-height: 1;
+  margin: 0;
+}
+
+.dashboard-stat-label {
+  font-size: 0.9em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: var(--dashboard-space-sm);
+}
+
+.dashboard-stat-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 3em;
+  opacity: 0.1;
+}
+
+/* ============================================
+   BUTTON STYLES
+   ============================================ */
+
+/* Primary button (uses Minimal theme accent) */
+.dashboard-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dashboard-space-sm);
+  padding: var(--dashboard-space-md) var(--dashboard-space-lg);
+  background: var(--interactive-accent);
+  color: var(--text-on-accent);
+  border: none;
+  border-radius: var(--dashboard-radius);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--dashboard-transition-speed) ease;
+  text-decoration: none;
+}
+
+.dashboard-btn-primary:hover {
+  background: var(--interactive-accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Secondary button */
+.dashboard-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dashboard-space-sm);
+  padding: var(--dashboard-space-md) var(--dashboard-space-lg);
+  background: var(--background-secondary);
+  color: var(--text-normal);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--dashboard-radius);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--dashboard-transition-speed) ease;
+  text-decoration: none;
+}
+
+.dashboard-btn-secondary:hover {
+  background: var(--background-secondary-alt);
+  border-color: var(--interactive-accent);
+  transform: translateY(-2px);
+}
+
+/* Icon-only button */
+.dashboard-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all var(--dashboard-transition-speed) ease;
+}
+
+.dashboard-btn-icon:hover {
+  background: var(--interactive-accent);
+  color: var(--text-on-accent);
+  transform: scale(1.1);
+}
+
+/* Button group */
+.dashboard-btn-group {
+  display: flex;
+  gap: var(--dashboard-space-sm);
+  flex-wrap: wrap;
+}
+
+/* ============================================
+   PROGRESS INDICATORS
+   ============================================ */
+
+/* Linear progress bar */
+.dashboard-progress {
+  width: 100%;
+  height: 8px;
+  background: var(--background-modifier-border);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.dashboard-progress-fill {
+  height: 100%;
+  background: var(--interactive-accent);
+  border-radius: 10px;
+  transition: width 0.6s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated shimmer effect */
+.dashboard-progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    left: 100%;
+  }
+}
+
+/* Color-coded progress bars */
+.dashboard-progress-low .dashboard-progress-fill {
+  background: linear-gradient(90deg, #ef4444, #dc2626);
+}
+
+.dashboard-progress-medium .dashboard-progress-fill {
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+}
+
+.dashboard-progress-high .dashboard-progress-fill {
+  background: linear-gradient(90deg, #10b981, #059669);
+}
+
+.dashboard-progress-complete .dashboard-progress-fill {
+  background: linear-gradient(90deg, #8b5cf6, #7c3aed);
+}
+
+/* Circular progress */
+.dashboard-progress-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--interactive-accent) calc(var(--progress, 0) * 1%),
+    var(--background-modifier-border) 0
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.dashboard-progress-circle::before {
+  content: '';
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--background-primary);
+  position: absolute;
+}
+
+.dashboard-progress-circle-text {
+  position: relative;
+  z-index: 1;
+  font-size: 1.5em;
+  font-weight: 700;
+  color: var(--text-accent);
+}
+
+/* ============================================
+   ANIMATIONS & EFFECTS
+   ============================================ */
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dashboard-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Slide up animation */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dashboard-slide-up {
+  animation: slideUp 0.8s ease-out forwards;
+}
+
+/* Pulse animation */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+}
+
+.dashboard-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Glow effect */
+.dashboard-glow {
+  box-shadow: 0 0 20px rgba(var(--interactive-accent-rgb), 0.3);
+  transition: box-shadow var(--dashboard-transition-speed) ease;
+}
+
+.dashboard-glow:hover {
+  box-shadow: 0 0 30px rgba(var(--interactive-accent-rgb), 0.5);
+}
+
+/* Glass morphism effect */
+.dashboard-glass {
+  background: rgba(var(--background-primary-rgb), 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Gradient background */
+.dashboard-gradient-bg {
+  background: linear-gradient(135deg, 
+    var(--background-primary) 0%, 
+    var(--background-secondary) 100%
+  );
+}
+
+/* ============================================
+   BADGES & LABELS
+   ============================================ */
+
+.dashboard-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.85em;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.dashboard-badge-primary {
+  background: var(--interactive-accent);
+  color: var(--text-on-accent);
+}
+
+.dashboard-badge-success {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.5);
+}
+
+.dashboard-badge-warning {
+  background: rgba(245, 158, 11, 0.2);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.5);
+}
+
+.dashboard-badge-danger {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.5);
+}
+
+.dashboard-badge-info {
+  background: rgba(59, 130, 246, 0.2);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.5);
+}
+
+/* ============================================
+   SECTION HEADERS
+   ============================================ */
+
+.dashboard-section {
+  margin: var(--dashboard-space-2xl) 0;
+}
+
+.dashboard-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--dashboard-space-lg);
+  padding-bottom: var(--dashboard-space-md);
+  border-bottom: 2px solid var(--background-modifier-border);
+}
+
+.dashboard-section-title {
+  font-size: 1.5em;
+  font-weight: 700;
+  color: var(--text-normal);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--dashboard-space-sm);
+}
+
+.dashboard-section-subtitle {
+  font-size: 0.9em;
+  color: var(--text-muted);
+  margin-top: var(--dashboard-space-sm);
+}
+
+/* ============================================
+   DATAVIEW ENHANCEMENTS
+   ============================================ */
+
+/* Inline dataview styling */
+.dashboard-dataview-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  background: var(--background-secondary);
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+/* Dataview table styling */
+.dashboard-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.dashboard-table th {
+  background: var(--background-secondary);
+  padding: var(--dashboard-space-md);
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid var(--background-modifier-border);
+}
+
+.dashboard-table td {
+  padding: var(--dashboard-space-md);
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.dashboard-table tr:hover {
+  background: var(--background-secondary);
+}
+
+/* ============================================
+   MOBILE OPTIMIZATIONS
+   ============================================ */
+
+@media (max-width: 768px) {
+  .dashboard-hide-mobile {
+    display: none !important;
+  }
+  
+  .dashboard-stat-card {
+    padding: var(--dashboard-space-lg);
+  }
+  
+  .dashboard-stat-value {
+    font-size: 2em;
+  }
+  
+  .dashboard-btn-primary,
+  .dashboard-btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .dashboard-section {
+    margin: var(--dashboard-space-xl) 0;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .dashboard-fade-in,
+  .dashboard-slide-up,
+  .dashboard-pulse {
+    animation: none;
+  }
+}
+
+/* Focus styles for keyboard navigation */
+.dashboard-btn-primary:focus-visible,
+.dashboard-btn-secondary:focus-visible,
+.dashboard-btn-icon:focus-visible,
+.dashboard-card-hover:focus-visible {
+  outline: 2px solid var(--interactive-accent);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+/* Spacing utilities */
+.dashboard-mt-sm { margin-top: var(--dashboard-space-sm); }
+.dashboard-mt-md { margin-top: var(--dashboard-space-md); }
+.dashboard-mt-lg { margin-top: var(--dashboard-space-lg); }
+.dashboard-mt-xl { margin-top: var(--dashboard-space-xl); }
+
+.dashboard-mb-sm { margin-bottom: var(--dashboard-space-sm); }
+.dashboard-mb-md { margin-bottom: var(--dashboard-space-md); }
+.dashboard-mb-lg { margin-bottom: var(--dashboard-space-lg); }
+.dashboard-mb-xl { margin-bottom: var(--dashboard-space-xl); }
+
+.dashboard-p-sm { padding: var(--dashboard-space-sm); }
+.dashboard-p-md { padding: var(--dashboard-space-md); }
+.dashboard-p-lg { padding: var(--dashboard-space-lg); }
+.dashboard-p-xl { padding: var(--dashboard-space-xl); }
+
+/* Text utilities */
+.dashboard-text-center { text-align: center; }
+.dashboard-text-right { text-align: right; }
+.dashboard-text-left { text-align: left; }
+
+.dashboard-text-muted { color: var(--text-muted); }
+.dashboard-text-accent { color: var(--text-accent); }
+.dashboard-text-normal { color: var(--text-normal); }
+
+.dashboard-text-sm { font-size: 0.875em; }
+.dashboard-text-lg { font-size: 1.25em; }
+.dashboard-text-xl { font-size: 1.5em; }
+.dashboard-text-2xl { font-size: 2em; }
+
+.dashboard-font-bold { font-weight: 700; }
+.dashboard-font-semibold { font-weight: 600; }
+.dashboard-font-normal { font-weight: 400; }
+
+/* ============================================
+   STYLE SETTINGS CONFIGURATION
+   ============================================ */
+
+/*@settings
+name: Dashboard Components
+id: dashboard-components
+settings:
+  # ================================
+  # LAYOUT SETTINGS
+  # ================================
+  -
+    id: layout-section
+    title: Layout Settings
+    type: heading
+    level: 1
+    collapsed: true
+  -
+    id: dashboard-max-width
+    title: Maximum Width
+    description: Maximum width of dashboard content
+    type: variable-text
+    default: 88%
+  -
+    id: dashboard-padding
+    title: Content Padding
+    description: Padding around dashboard content
+    type: variable-text
+    default: 40px
+  -
+    id: dashboard-space-lg
+    title: Grid Gap Size
+    description: Space between grid items
+    type: variable-text
+    default: 16px
+    
+  # ================================
+  # ANIMATION SETTINGS
+  # ================================
+  -
+    id: animation-section
+    title: Animation Settings
+    type: heading
+    level: 1
+    collapsed: true
+  -
+    id: enable-animations
+    title: Enable Animations
+    description: Toggle all dashboard animations
+    type: class-toggle
+    default: true
+  -
+    id: dashboard-transition-speed
+    title: Animation Speed
+    description: Speed of transitions and animations
+    type: variable-text
+    default: 0.3s
+  -
+    id: dashboard-animation-scale
+    title: Hover Scale Amount
+    description: Scale factor for hover effects
+    type: variable-number-slider
+    default: 1.05
+    min: 1
+    max: 1.2
+    step: 0.01
+    
+  # ================================
+  # CARD SETTINGS
+  # ================================
+  -
+    id: card-section
+    title: Card Settings
+    type: heading
+    level: 1
+    collapsed: true
+  -
+    id: dashboard-radius
+    title: Card Border Radius
+    description: Roundness of card corners
+    type: variable-text
+    default: 8px
+  -
+    id: dashboard-radius-lg
+    title: Large Border Radius
+    description: Roundness for larger elements
+    type: variable-text
+    default: 12px
+    
+  # ================================
+  # PROGRESS BAR COLORS
+  # ================================
+  -
+    id: progress-section
+    title: Progress Bar Colors
+    type: heading
+    level: 1
+    collapsed: true
+  -
+    id: progress-low-color
+    title: Low Progress Color (0-33%)
+    type: variable-themed-color
+    format: hex
+    default-light: '#ef4444'
+    default-dark: '#ef4444'
+  -
+    id: progress-medium-color
+    title: Medium Progress Color (34-66%)
+    type: variable-themed-color
+    format: hex
+    default-light: '#f59e0b'
+    default-dark: '#f59e0b'
+  -
+    id: progress-high-color
+    title: High Progress Color (67-99%)
+    type: variable-themed-color
+    format: hex
+    default-light: '#10b981'
+    default-dark: '#10b981'
+  -
+    id: progress-complete-color
+    title: Complete Progress Color (100%)
+    type: variable-themed-color
+    format: hex
+    default-light: '#8b5cf6'
+    default-dark: '#8b5cf6'
+*/

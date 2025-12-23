@@ -1,0 +1,230 @@
+/*
+==================================================
+ACADEMIC CORE CSS
+==================================================
+
+Essential styling for the Academic System.
+This is the minimum required CSS for proper
+dashboard and embed functionality.
+
+Version: 1.0
+Created: 2025-12-09
+==================================================
+*/
+
+/* ============================================
+   DASHBOARD GRID LAYOUT
+   ============================================ */
+
+/* Reset max-width for dashboard pages */
+.dashboard .markdown-preview-section,
+.dashboard .markdown-source-view {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Two-column grid on larger screens */
+@media (min-width: 800px) {
+  .dashboard .el-div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  
+  /* Full-width elements */
+  .dashboard .el-h1,
+  .dashboard .el-h2:first-of-type,
+  .dashboard .el-hr,
+  .dashboard .neon-widget-container,
+  .dashboard > .el-div > .el-pre,
+  .dashboard .block-language-dataviewjs,
+  .dashboard .block-language-dataview {
+    grid-column: span 2;
+  }
+}
+
+/* ============================================
+   CLEAN EMBEDS
+   ============================================ */
+
+/* Remove borders and padding from clean embeds */
+.internal-embed[alt*="embed-clean"],
+.markdown-embed[alt*="embed-clean"] {
+  --embed-padding: 0;
+  --nested-padding: 0;
+  --embed-border-top: none;
+  --embed-border-end: none;
+  --embed-border-bottom: none;
+  --embed-border-start: none;
+  border: none;
+  padding: 0;
+}
+
+/* Hide title in clean embeds */
+.internal-embed[alt*="embed-clean"] .markdown-embed-title,
+.markdown-embed[alt*="embed-clean"] .markdown-embed-title {
+  display: none;
+}
+
+/* Remove scrollbar gutter for flush appearance */
+.internal-embed[alt*="embed-clean"] .markdown-embed-content .markdown-preview-view {
+  scrollbar-gutter: auto;
+}
+
+/* ============================================
+   BASE TABLE IMPROVEMENTS
+   ============================================ */
+
+/* Better spacing for base tables */
+.base-table-container {
+  margin: 1em 0;
+}
+
+.base-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Readable table headers */
+.base-table th {
+  text-align: left;
+  padding: 8px 12px;
+  font-weight: 600;
+  border-bottom: 2px solid var(--background-modifier-border);
+}
+
+/* Table cell spacing */
+.base-table td {
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--background-modifier-border-hover);
+}
+
+/* Zebra striping for readability */
+.base-table tr:nth-child(even) {
+  background: var(--background-secondary);
+}
+
+/* Hover effect */
+.base-table tr:hover {
+  background: var(--background-modifier-hover);
+}
+
+/* ============================================
+   META-BIND BUTTON IMPROVEMENTS
+   ============================================ */
+
+/* Better spacing for button groups */
+.meta-bind-button {
+  margin: 4px 8px 4px 0;
+}
+
+/* Button container alignment */
+.el-p:has(.meta-bind-button) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+/* ============================================
+   CALLOUT IMPROVEMENTS
+   ============================================ */
+
+/* Quick Controls callout styling */
+.callout[data-callout="info"] {
+  background: var(--background-secondary);
+}
+
+/* Better input field visibility in callouts */
+.callout .meta-bind-input {
+  margin: 4px 0;
+  display: inline-block;
+}
+
+/* ============================================
+   HORIZONTAL RULES
+   ============================================ */
+
+/* Simple gradient dividers */
+.markdown-preview-view hr,
+.cm-line hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--background-modifier-border),
+    transparent
+  );
+  margin: 2em 0;
+  opacity: 0.7;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+/* Mobile: Single column */
+@media (max-width: 799px) {
+  .dashboard .el-div {
+    display: block;
+  }
+  
+  .dashboard .el-div > * {
+    margin-bottom: 20px;
+  }
+}
+
+/* ============================================
+   DATAVIEW OUTPUT IMPROVEMENTS
+   ============================================ */
+
+/* Better spacing for dataview tables */
+.block-language-dataview table,
+.block-language-dataviewjs table {
+  width: 100%;
+  margin: 1em 0;
+}
+
+/* Dataview table headers */
+.block-language-dataview th,
+.block-language-dataviewjs th {
+  text-align: left;
+  padding: 8px;
+  font-weight: 600;
+  border-bottom: 2px solid var(--background-modifier-border);
+}
+
+/* Dataview table cells */
+.block-language-dataview td,
+.block-language-dataviewjs td {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--background-modifier-border-hover);
+}
+
+/* ============================================
+   WIDGET CONTAINERS
+   ============================================ */
+
+/* Base widget styling */
+.neon-widget-container {
+  margin: 1em 0;
+  padding: 1em;
+  border-radius: 8px;
+  background: var(--background-secondary);
+}
+
+/* ============================================
+   PRINT & EXPORT
+   ============================================ */
+
+@media print {
+  .dashboard .el-div {
+    display: block;
+  }
+  
+  .meta-bind-button {
+    display: none;
+  }
+}

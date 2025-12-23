@@ -1,0 +1,31 @@
+/* Custom Journal Callout Styling */
+/* Usage: > [!journal] */
+
+.callout[data-callout="journal"] {
+    background-color: #f8f5e6;
+    background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png");
+    border: 1px solid #d3ccb4;
+    border-radius: 4px;
+    padding: 10px 30px; /* More padding for paper look */
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+    font-family: 'Merriweather', 'Georgia', serif;
+    color: #333;
+}
+
+/* Hide the default callout title/icon bar */
+.callout[data-callout="journal"] .callout-title {
+    display: none;
+}
+
+/* Dark Mode Overrides */
+.theme-dark .callout[data-callout="journal"] {
+    background-color: #e6e1d3;
+    color: #222;
+    filter: brightness(0.9);
+}
+
+/* Link Styling inside the journal */
+.callout[data-callout="journal"] a {
+    color: #5a4a42;
+    text-decoration: underline;
+}
