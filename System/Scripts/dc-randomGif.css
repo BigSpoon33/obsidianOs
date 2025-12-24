@@ -1,57 +1,348 @@
 /* System/Scripts/dc-randomGif.css */
 
+/* ==================== CONTAINER ==================== */
 .gif-widget-container {
     border: 1px solid var(--background-modifier-border);
     background-color: var(--background-primary);
-    border-radius: 8px;
-    padding: 10px;
+    border-radius: 12px;
+    padding: 12px;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: var(--font-ui);
 }
 
+/* ==================== HEADER ==================== */
+.gif-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 0.95em;
+}
+
+.gif-title {
+    font-weight: 600;
+    color: var(--text-normal);
+}
+
+.gif-counter {
+    font-family: var(--font-monospace);
+    color: var(--text-muted);
+    font-size: 0.9em;
+}
+
+/* ==================== DISPLAY AREA ==================== */
 .gif-display-area {
     height: 350px;
     width: 100%;
     background-color: var(--background-secondary);
-    border-radius: 6px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
     position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .gif-display-area img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
-    transition: opacity 0.3s ease;
 }
 
+/* ==================== FADE ANIMATIONS ==================== */
+.gif-display-area img.fade-in {
+    opacity: 1;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.gif-display-area img.fade-out {
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.gif-no-images {
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 0.9em;
+}
+
+/* ==================== FILENAME OVERLAY ==================== */
+.gif-filename-overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 50%, transparent 100%);
+    color: white;
+    font-size: 0.75em;
+    padding: 12px 16px 8px;
+    text-align: center;
+    font-family: var(--font-monospace);
+    pointer-events: none;
+}
+
+/* ==================== NAVIGATION ==================== */
+.gif-navigation {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.gif-navigation button {
+    flex: 1;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid var(--background-modifier-border);
+    background: var(--interactive-normal);
+    color: var(--text-normal);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.gif-navigation button:hover:not(:disabled) {
+    background: var(--interactive-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.gif-navigation button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.gif-navigation button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Play/Pause Button - Special Styling */
+.gif-navigation .btn-play-pause {
+    background: rgba(79, 172, 254, 0.1);
+    border-color: rgba(79, 172, 254, 0.3);
+    color: #4facfe;
+    font-weight: 600;
+}
+
+.gif-navigation .btn-play-pause:hover:not(:disabled) {
+    background: rgba(79, 172, 254, 0.25);
+    box-shadow: 0 0 12px rgba(79, 172, 254, 0.3);
+}
+
+/* ==================== CONTROLS ==================== */
 .gif-controls {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
-    padding-top: 5px;
+    gap: 12px;
+    padding-top: 10px;
     border-top: 1px solid var(--background-modifier-border);
     font-size: 0.85rem;
     color: var(--text-muted);
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 }
 
 .gif-control-group {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
 }
 
-.gif-control-group select, 
-.gif-control-group input[type="range"] {
+.gif-control-group label {
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.gif-control-group select {
     background: var(--background-secondary);
     border: 1px solid var(--background-modifier-border);
     border-radius: 4px;
-    padding: 2px 5px;
+    padding: 4px 8px;
+    color: var(--text-normal);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.gif-control-group select:hover {
+    border-color: var(--interactive-accent);
+}
+
+.gif-control-group select:focus {
+    outline: none;
+    border-color: var(--interactive-accent);
+    box-shadow: 0 0 0 2px rgba(79, 172, 254, 0.2);
+}
+
+/* Range Slider Styling */
+.gif-control-group input[type="range"] {
+    -webkit-appearance: none;
+    width: 120px;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    outline: none;
+    cursor: pointer;
+}
+
+.gif-control-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--interactive-accent);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+}
+
+.gif-control-group input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 8px rgba(79, 172, 254, 0.5);
+}
+
+.gif-control-group input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--interactive-accent);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+}
+
+.gif-control-group input[type="range"]::-moz-range-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 8px rgba(79, 172, 254, 0.5);
+}
+
+/* Speed Display */
+.speed-display {
+    font-family: var(--font-monospace);
+    color: var(--text-accent);
+    font-weight: 600;
+    min-width: 35px;
+    font-size: 0.9em;
+}
+
+/* Settings Button */
+.btn-settings {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--background-modifier-border);
+    background: var(--background-secondary);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.85em;
+    font-weight: 500;
+}
+
+.btn-settings:hover {
+    background: var(--interactive-hover);
+    color: var(--text-normal);
+    border-color: var(--interactive-accent);
+}
+
+.btn-settings:active {
+    transform: scale(0.95);
+}
+
+/* ==================== FOLDER EXCLUSION MENU ==================== */
+.gif-exclude-menu {
+    margin-top: 4px;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 6px;
+    max-height: 200px;
+    overflow-y: auto;
+    animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.exclude-header {
+    font-size: 0.85em;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.exclude-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 4px;
+    cursor: pointer;
+    color: var(--text-normal);
+    font-size: 0.85em;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+}
+
+.exclude-option:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-accent);
+}
+
+.exclude-option input[type="checkbox"] {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+}
+
+/* Custom Scrollbar for Exclude Menu */
+.gif-exclude-menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.gif-exclude-menu::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+}
+
+.gif-exclude-menu::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+.gif-exclude-menu::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* ==================== RESPONSIVE ADJUSTMENTS ==================== */
+@media (max-width: 600px) {
+    .gif-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .gif-control-group {
+        justify-content: space-between;
+    }
+    
+    .gif-navigation button {
+        font-size: 0.85em;
+        padding: 6px 12px;
+    }
 }

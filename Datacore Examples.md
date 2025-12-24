@@ -256,29 +256,50 @@ return () => (
 );
 ```
 
+## Random GIF/Image Widget 🎞️
+
+**Status:** ✅ WORKING (Updated 2025-12-23)
+
+**Features:**
+- 🔄 Auto-cycles through images with random timing
+- ⏸️ Play/Pause control
+- ◄► Manual navigation (Previous/Next)
+- 🎨 Smooth fade transitions
+- 📊 Image counter (shows current position)
+- ⚙️ Folder exclusion (choose which folders to show/hide)
+- 🎚️ Adjustable speed (0.5s - 10s)
+- 🖼️ Supports GIF, PNG, JPG, JPEG, WEBP
+- 📁 Filter by type (GIFs only, Static only, or All)
+
+**Usage:**
 ```datacorejsx
-// 1. Locate the script safely
-const path = "System/Scripts/dc-randomGif.jsx";
-const file = app.vault.getAbstractFileByPath(path);
+// Random GIF/Image Widget (UPDATED - WORKING)
+const scriptPath = "System/Scripts/dc-randomGif.jsx";
+const target = dc.fileLink(scriptPath);
+const result = await dc.require(target);
+const Func = result?.Func ?? null;
 
-if (!file) {
-    return () => <div>❌ File not found at "{path}"</div>;
-}
-
-// 2. Load the module
-const result = await dc.require(dc.fileLink(file.path));
-
-// 3. Verify content
-if (!result || !result.View) {
-    return () => <div>⚠️ Script loaded but "View" is missing. Please restart Obsidian to clear the cache.</div>;
-}
-
-// 4. Render
-const RemoteView = result.View;
 return function View() {
-    return <RemoteView />; 
+    if (Func) {
+        return Func();
+    }
+    return <p>Failed to render Random GIF widget</p>;
 }
 ```
+
+**Default Settings:**
+- Shows all image types
+- Cycles every 3 seconds (with 25% randomness)
+- Excludes `.obsidian` folder by default
+- Fades between images in 300ms
+
+**Tips:**
+- Click "⚙️ Folders" to exclude specific directories
+- Use the speed slider to control cycling pace
+- Pause to manually browse with Prev/Next
+- Counter shows your position (e.g., "5 / 113")
+
+---
 
 # Dynamic daytime header
 
