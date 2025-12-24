@@ -5,7 +5,7 @@ tags:
   - journal
   - datacore
 progress: 43
-night_mode: true
+night_mode: false
 type:
   - Dinner
 water-ml: .nan
