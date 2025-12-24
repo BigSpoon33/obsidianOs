@@ -19,6 +19,7 @@ schedule-friday: "[[Pull Day]]"
 schedule-saturday: "[[Cardio & Abs]]"
 schedule-sunday: "[[Push Day]]"
 schedule-monday: "[[Pull Day]]"
+widget-theme: nyan-cat
 ---
 
 
@@ -80,6 +81,16 @@ return function View() { return script.Func(); }
 
 
 
+
+---
+
+## 🎨 Widget Theme
+
+**Active Theme:** `INPUT[inlineSelect(option(nyan-cat, Nyan Cat), option(bongo-cat, Bongo Cat)):widget-theme]`
+
+*Switch between visual themes for progress bars and other widgets.*
+
+**Current Theme:** `VIEW[{widget-theme}]`
 
 ---
 

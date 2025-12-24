@@ -4,10 +4,11 @@ tags:
   - note
   - journal
   - datacore
-progress: 83
+progress: 43
 night_mode: true
 type:
   - Dinner
+water-ml: .nan
 ---
 
 # Ideas
@@ -81,6 +82,7 @@ type:
 	- [ ] agenda view - could just be an embedded base view listing all tasks
 - [ ] themes
 	- [ ] figure out the standard items that get swapped by aesthetic for eample icons of the drag bar, draggable bar background, track fill, welcome widget, buttons, text entries, journal, charts, backgrounds, transparent or boxes toggle, font used, vault pet/assistant?, banners, style settings themes for the minimal theme, all the widgets and trackers and stuff,
+	- [ ] for the first set of dynamic gif buttons go with a blob, idle blob just is blobbing, mouseoverblob is blobbing more, click makes blob get blobbed.
 	- [ ] seasonal
 	- [ ] aesthetic
 		- [ ] swamp
@@ -96,6 +98,9 @@ type:
 	- [ ] pinterest download board to vault. you can use other tools to do this and then copy them into a folder or vault root. 
 	- [ ] image switcher option to look for images based on file extension .gif, .jpg, etc or by folder /Assets/
 - [ ] possible to set values in .jsx from a Settings.md note in the vault. for example a setting for your favorite gif or image where you put the base 64 image string into the settings.md file?
+- [ ] get themes to have settings for buttons. for example set the background, idle image, and click image. mouseover image?  we need to get the theme system on that new thing where users can input a custom base64 from their vault Settings.md note
+- [ ] we need to get the theme system on that new thing where users can input a custom base64 from their vault Settings.md note
+- [ ] I got to figure out columns. and bring my old columns css and noyaml css for this vault
 
 
 Query total # pages in vault
@@ -718,7 +723,7 @@ return function View() {
 // 1. Calculate Target (Where are we sending the data?)
 const today = moment().format("YYYY-MM-DD");
 // ⚠️ IMPORTANT: Verify this matches your folder name exactly!
-const targetPath = `Daily/${today}`; 
+const targetPath = `/${today}`; 
 
 // 2. Fetch Settings (How much water?)
 const settings = dv.page("Settings");
