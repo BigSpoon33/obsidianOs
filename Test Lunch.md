@@ -3,6 +3,7 @@ categories:
   - "[[Recipes]]"
 cuisine:
 type:
+  - Breakfast
   - Lunch
 servings: 2
 calories: 700
@@ -11,7 +12,7 @@ carbs: 20
 fat: 20
 author: []
 url:
-rating: 0
+rating: 5
 created: 2025-12-23
 last-cooked:
 ---

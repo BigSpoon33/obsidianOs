@@ -4,7 +4,7 @@ tags:
   - note
   - journal
   - datacore
-progress: 57
+progress: 31
 night_mode: true
 ---
 
@@ -236,63 +236,49 @@ const Func = result?.Func ?? null;
 return function View() { return Func ? Func() : <span>Loading Frog...</span>; }
 ```
 
-```dataviewjs
-// 1. CONFIGURATION
-const today = moment().format("YYYY-MM-DD");
-const dailyPath = `Daily/${today}`; // Adjust folder if needed
-const page = dv.page(dailyPath);
-const settings = dv.page("Settings");
 
-// 2. DATA (With safe defaults if files are missing)
-const waterGoal = settings ? settings["water-goal-ml"] : 3500;
-const currentWater = page ? page["water-ml"] : 0;
-const currentEnergy = page ? page["energy"] : "-";
 
-// 3. NYAN MATH
-// Calculate percentage, capped between 0% and 100%
-const rawPercent = (currentWater / waterGoal) * 100;
-const progress = Math.min(Math.max(rawPercent, 0), 100).toFixed(1);
+```datacorejsx
+const folderPath = "System/Scripts";
+const folder = app.vault.getAbstractFileByPath(folderPath);
 
-// 4. RENDER
-if (!page) {
-    // STATE: No Daily Note Found
-    dv.paragraph(`
-    <div class="zen-tile" style="text-align: center; padding: 30px; border: 1px dashed #555;">
-        <h2 style="margin: 0; opacity: 0.7;">🌸 Path Not Set</h2>
-        <p style="color: var(--text-muted)">Waiting for <b>${today}</b>...</p>
-    </div>
-    `);
-} else {
-    // STATE: Live Dashboard
-    dv.paragraph(`
-    <div class="zen-tile">
-        <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-            <div>
-                <h2 style="margin: 0; font-size: 2em; line-height: 1.2;">Hello, Annie ⛩️</h2>
-                <div style="color: var(--text-muted); font-size: 0.9em; margin-top: 5px;">
-                   ⚡ Energy: <b>${currentEnergy}/5</b> &nbsp;|&nbsp; 💧 Target: <b>${waterGoal}ml</b>
-                </div>
-            </div>
-            <div style="text-align: right;">
-                <span style="font-size: 2.2em; font-weight: bold; color: var(--interactive-accent);">
-                    ${currentWater}<span style="font-size: 0.5em; color: var(--text-muted);">ml</span>
-                </span>
-            </div>
-        </div>
-
-        <div class="nyan-container" style="margin-top: 25px; margin-bottom: 15px;">
-            <div class="nyan-bar" style="width: ${progress}%;"></div>
-            <img 
-                class="nyan-cat" 
-                src="[https://gc-pkm.pages.dev/nyan-cat.gif](https://gc-pkm.pages.dev/nyan-cat.gif)" 
-                style="left: calc(${progress}% - 25px);" 
-            />
-        </div>
-    </div>
-    `);
+if (!folder) {
+    return () => <div>❌ Folder not found: "{folderPath}"</div>;
 }
+
+const files = folder.children.map(f => f.path);
+
+return () => (
+    <div style={{ padding: "10px", border: "1px solid var(--text-accent)" }}>
+        <h3>📂 Files found in "{folderPath}":</h3>
+        <pre>{files.join("\n")}</pre>
+    </div>
+);
 ```
 
+```datacorejsx
+// 1. Locate the script safely
+const path = "System/Scripts/dc-randomGif.jsx";
+const file = app.vault.getAbstractFileByPath(path);
+
+if (!file) {
+    return () => <div>❌ File not found at "{path}"</div>;
+}
+
+// 2. Load the module
+const result = await dc.require(dc.fileLink(file.path));
+
+// 3. Verify content
+if (!result || !result.View) {
+    return () => <div>⚠️ Script loaded but "View" is missing. Please restart Obsidian to clear the cache.</div>;
+}
+
+// 4. Render
+const RemoteView = result.View;
+return function View() {
+    return <RemoteView />; 
+}
+```
 
 # Dynamic daytime header
 

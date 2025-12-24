@@ -1,0 +1,57 @@
+/* System/Scripts/dc-randomGif.css */
+
+.gif-widget-container {
+    border: 1px solid var(--background-modifier-border);
+    background-color: var(--background-primary);
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.gif-display-area {
+    height: 350px;
+    width: 100%;
+    background-color: var(--background-secondary);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.gif-display-area img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: opacity 0.3s ease;
+}
+
+.gif-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding-top: 5px;
+    border-top: 1px solid var(--background-modifier-border);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    justify-content: center;
+    align-items: center;
+}
+
+.gif-control-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.gif-control-group select, 
+.gif-control-group input[type="range"] {
+    background: var(--background-secondary);
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    padding: 2px 5px;
+}
