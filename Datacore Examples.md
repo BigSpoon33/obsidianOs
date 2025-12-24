@@ -4,11 +4,16 @@ tags:
   - note
   - journal
   - datacore
-progress: 31
+progress: 83
 night_mode: true
+type:
+  - Dinner
 ---
 
 # Ideas
+- [ ]  Datacore architecture
+	- [ ] standardize widget elements for example draggable bars, buttons, etc
+	- [ ] create a more modular code architecture where style or theme is centralized and the .jsx and .css files pull from files so all widgets have a standardized format for example instead of coding slightly different draggable bars or buttons we can have one .jsx and one .css for a draggable bar so we are always using the same code. I don't know if you can actually call a .jsx file from another .jsx file but we can at least use the main one for reference so all the other code snippets use the same code. same idea with .css files keep the same patterns and architecture so we can always find or know where things are supposed to be. using variables that reference a themes, style, or aesthetic .css file that is the single source of truth
 - [ ] daily quote
 	- [x] quotes category
 	- [ ] add aesthetic and theming
@@ -28,6 +33,8 @@ night_mode: true
 	- [ ] https://gist.github.com/furbas16e8/61794d1cfbfd9477840c05fefa6b3551
 - [ ] meal planner
 	- [x] recipes category
+		- [ ] I need to get the recipe Breakfast, Lunch, and Dinner, frontmatter to be in "[[]]" when you click the buttons in the widget. 
+		- [ ] meal planner load doesn't update the frontmatter and the save button still dont work
 		- [ ] web clipper recipe url to recipe note
 		- [ ] recipes widget is doing that thing where it updates the frontmatter then reverts. I think we solved it by saving the ui values to the fast local memory and letting the obsidian file save happen in the background.
 	- [x] build planner similar to the exercise example
@@ -49,7 +56,7 @@ night_mode: true
 - [ ] navigation hub
 	- [x] categories
 	- [ ] periodic notes
-		- [ ] daily
+		- [x] daily
 		- [ ] weekly
 		- [ ] monthly
 	- [x] dashboards
@@ -73,6 +80,7 @@ night_mode: true
 	- [x] pomodoro
 	- [ ] agenda view - could just be an embedded base view listing all tasks
 - [ ] themes
+	- [ ] figure out the standard items that get swapped by aesthetic for eample icons of the drag bar, draggable bar background, track fill, welcome widget, buttons, text entries, journal, charts, backgrounds, transparent or boxes toggle, font used, vault pet/assistant?, banners, style settings themes for the minimal theme, all the widgets and trackers and stuff,
 	- [ ] seasonal
 	- [ ] aesthetic
 		- [ ] swamp
@@ -84,6 +92,9 @@ night_mode: true
 	- [ ] auto recipe url to recipe note
 - [ ] spaced repetition plugin
 - [ ] random image switcher sidebar
+	- [x] it works!
+	- [ ] pinterest download board to vault. you can use other tools to do this and then copy them into a folder or vault root. 
+	- [ ] image switcher option to look for images based on file extension .gif, .jpg, etc or by folder /Assets/
 - [ ] possible to set values in .jsx from a Settings.md note in the vault. for example a setting for your favorite gif or image where you put the base 64 image string into the settings.md file?
 
 
@@ -453,48 +464,6 @@ return (
 ```
 
 # Interactive Pomodoro
-
-```datacorejsx
-// 1. STATE HOOK
-// This creates a variable 'isActive' that we can toggle ON and OFF
-const [isActive, setIsActive] = dc.useState(false);
-
-// 2. RENDER
-return (
-    <div style={{
-        padding: '20px', 
-        marginTop: '20px',
-        border: '1px solid var(--background-modifier-border)', 
-        borderRadius: '8px',
-        textAlign: 'center'
-    }}>
-        <h3>🍅 Focus Timer</h3>
-        
-        <div style={{
-            fontSize: '2em', 
-            margin: '15px 0', 
-            fontFamily: 'monospace',
-            color: isActive ? 'var(--interactive-accent)' : 'var(--text-muted)'
-        }}>
-            {isActive ? "25:00" : "--:--"}
-        </div>
-
-        <button 
-            onClick={() => setIsActive(!isActive)}
-            style={{
-                backgroundColor: isActive ? 'var(--background-modifier-error)' : 'var(--interactive-accent)',
-                color: 'white',
-                border: 'none',
-                padding: '10px 20px',
-                borderRadius: '4px',
-                cursor: 'pointer'
-            }}
-        >
-            {isActive ? "Stop" : "Start Focus"}
-        </button>
-    </div>
-);
-```
 
 # Daily Quotes
 

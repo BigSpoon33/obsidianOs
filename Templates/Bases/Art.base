@@ -7,3 +7,4 @@ views:
     order:
       - file.name
       - file.path
+    image: file.file

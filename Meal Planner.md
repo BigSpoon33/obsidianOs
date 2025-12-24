@@ -8,7 +8,7 @@ goal-calories: 2500
 goal-protein: 150
 goal-carbs: 200
 goal-fat: 65
-monday-break: "[[Test Breakfast]]"
+monday-break: "[[Coconut Granola]]"
 monday-lunch: "[[Test Lunch]]"
 monday-dinner: "[[Test Dinner]]"
 tuesday-dinner: "[[Test Dinner]]"

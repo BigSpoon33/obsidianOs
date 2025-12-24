@@ -14,7 +14,7 @@ water-ml: .nan
   <h1 style="font-size: 3em; margin: 0; letter-spacing: 3px;">🏡 HOME 🏡</h1>
   <p style="color: var(--text-muted); font-size: 1.2em; margin-top: 10px;">Your Personal Knowledge Management Hub</p>
 </div>
-![[Pasted image 20251223084551.png]] ![[Attachments/Pasted image 20251223084531.png]]
+
 Frogs on a log ^
 
 ```datacorejsx

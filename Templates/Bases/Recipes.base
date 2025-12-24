@@ -16,7 +16,7 @@ properties:
   note.rating:
     displayName: Rating
 views:
-  - type: table
+  - type: cards
     name: Recipes
     order:
       - file.name

@@ -38,3 +38,11 @@ return function View() { return script.Func(); }
 1.
 
 ## 📝 Notes
+
+
+## 🛍️ Shopping List
+
+```datacorejsx
+const script = await dc.require(dc.fileLink("System/Scripts/dc-shopping-list.jsx"));
+return function View() { return script.Func(); }
+```

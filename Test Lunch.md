@@ -3,8 +3,7 @@ categories:
   - "[[Recipes]]"
 cuisine:
 type:
-  - Breakfast
-  - Lunch
+  - "[[Breakfast]]"
 servings: 2
 calories: 700
 protein: 60
