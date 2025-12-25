@@ -4,7 +4,7 @@ tags:
   - note
   - journal
   - datacore
-progress: 25
+progress: 21
 night_mode: false
 type:
   - Dinner
@@ -115,6 +115,9 @@ safety_lock: false
 - [ ] ok we need a moving gradient as part of the theme to match the color
 - [ ] get buttons to have a moving border gradient
 - [ ] we probably need a button to turn on and off "flashy"
+- [ ] what if we can turn all of the elements in the theme preview into clickable things that ask you what to set for the theme. for example you just click on the bar background and it asks for background base64 string or click ont he draggable gif and it asks for a base 64 string or if something is a color is asks for the hex or buttons to set boarder pixel size, glow size, etc and get that flash on/off button but also get a button to turn "flashy" on and off.
+- [ ] connect the vault to clippy or a kind of AI driven plugin that is able to use all of the datacore.jsx files as tool calls. now we can talk to it in real language and it's able to pull up stuff in our vault like add water, food, show me the workout plan, what show me sleep analytics, change settings.
+- [ ] bar icon size and bar animation setting, squish, wiggle, I think I wrote this own already,
 - [ ] 
 
 

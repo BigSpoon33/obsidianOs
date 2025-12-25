@@ -19,8 +19,8 @@ schedule-friday: "[[Pull Day]]"
 schedule-saturday: "[[Cardio & Abs]]"
 schedule-sunday: "[[Push Day]]"
 schedule-monday: "[[Pull Day]]"
-widget-theme: bongoCat
-color-override: makoBlue
+widget-theme: nyanCat
+color-override: ""
 sync-to-obsidian: true
 ---
 
@@ -107,10 +107,50 @@ Copy one of these names to the Color Override field:
 - `makoBlue` - Ocean blue
 - `killaBee` - Yellow/gold
 - `redHawk` - Deep red
-- `crouchingTiger` - (check JSON)
-- `hiddenDragon` - (check JSON)
-- `savageCroc` - (check JSON)
-- `whiteCrane` - (check JSON)
+- `crouchingTiger` - Orange/brown
+- `hiddenDragon` - Green
+- `savageCroc` - Green
+- `whiteCrane` - White/silver
+
+### Apply Theme Button
+After changing settings above, click this button to apply:
+
+```datacorejsx
+const { applyCurrentTheme } = await dc.require(dc.fileLink("System/Scripts/Core/dc-themeProvider.jsx"));
+
+function ApplyButton() {
+    const [applying, setApplying] = dc.useState(false);
+    
+    const handleClick = async () => {
+        setApplying(true);
+        await applyCurrentTheme();
+        setApplying(false);
+    };
+    
+    return (
+        <button 
+            onClick={handleClick}
+            disabled={applying}
+            style={{
+                padding: '12px 24px',
+                fontSize: '14px',
+                fontWeight: 'bold',
+                background: applying ? '#666' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: applying ? 'wait' : 'pointer',
+                transition: 'all 0.3s ease',
+                boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)'
+            }}
+        >
+            {applying ? "Applying..." : "🎨 Apply Theme & Sync to Obsidian"}
+        </button>
+    );
+}
+
+return <ApplyButton />;
+```
 
 ---
 

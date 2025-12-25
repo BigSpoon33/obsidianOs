@@ -14,9 +14,8 @@ water-ml: .nan
   <h1 style="font-size: 3em; margin: 0; letter-spacing: 3px;">🏡 HOME 🏡</h1>
   <p style="color: var(--text-muted); font-size: 1.2em; margin-top: 10px;">Your Personal Knowledge Management Hub</p>
 </div>
-![[System/Attachments/dittodance.gif]]![[System/Attachments/mewspin.gif]]![[System/Attachments/pikaponder.gif]]
-Frogs on a log ^
 
+---
 ```datacorejsx
 const scriptPath = "System/Scripts/Widgets/dc-greeting.jsx";  // ⬅️ replace it with your jsx file path!
 const target = dc.fileLink(scriptPath);
@@ -33,6 +32,7 @@ return function View() {
 }
 ```
 
+![[System/Attachments/gojiraglasses.jpg]]
 ```datacorejsx
 const scriptPath = "System/Scripts/Widgets/dc-randomQuote.jsx";  // ⬅️ replace it with your jsx file path!
 const target = dc.fileLink(scriptPath);
@@ -48,7 +48,7 @@ return function View() {
     return view ?? <p>Failed to render</p>;
 }
 ```
-![[System/Attachments/gojiraglasses.jpg]]
+
 ---
 
 
@@ -316,3 +316,6 @@ return function View() {
 </div>
 
 ---
+
+![[System/Attachments/dittodance.gif]]![[System/Attachments/mewspin.gif]]![[System/Attachments/pikaponder.gif]]
+Frogs on a log ^

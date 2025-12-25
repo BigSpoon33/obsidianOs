@@ -723,6 +723,81 @@ async function setColorOverride(colorOverride, syncToObsidian = true) {
     }
 }
 
+/**
+ * Apply current theme settings from Settings.md
+ * Call this after manually editing Settings.md to sync to Obsidian
+ */
+async function applyCurrentTheme() {
+    try {
+        const settingsFile = app.vault.getAbstractFileByPath("System/Settings.md");
+        if (!settingsFile) {
+            new Notice("Settings.md not found!");
+            return false;
+        }
+        
+        const cache = app.metadataCache.getFileCache(settingsFile);
+        const fm = cache?.frontmatter;
+        
+        const themeId = fm?.["widget-theme"] || "nyanCat";
+        const colorOverride = fm?.["color-override"] || "";
+        const shouldSync = fm?.["sync-to-obsidian"] !== false;
+        
+        new Notice(`Applying theme: ${themeId}${colorOverride ? ` + ${colorOverride}` : ""}...`);
+        
+        // Clear cache first
+        clearThemeCache();
+        
+        if (shouldSync) {
+            // Load theme data
+            const themeFile = app.vault.getMarkdownFiles().find(f => {
+                if (!f.path.startsWith("System/Themes/")) return false;
+                const c = app.metadataCache.getFileCache(f);
+                return c?.frontmatter?.["theme-id"] === themeId;
+            });
+            
+            let themeData = { ...DEFAULT_THEME };
+            
+            if (themeFile) {
+                const c = app.metadataCache.getFileCache(themeFile);
+                themeData = { ...DEFAULT_THEME, ...c?.frontmatter };
+            }
+            
+            // Apply color override if set
+            if (colorOverride) {
+                const overrideData = await loadColorOverride(colorOverride);
+                if (overrideData) {
+                    // Store the full JSON for sync
+                    themeData["_styleSettingsOverride"] = overrideData;
+                    // Also update accent color from the override
+                    if (overrideData["minimal-style@@ui3@@dark"]) {
+                        themeData["obsidian-accent-color"] = overrideData["minimal-style@@ui3@@dark"];
+                    }
+                } else {
+                    new Notice(`Color scheme "${colorOverride}" not found!`);
+                }
+            }
+            
+            // Sync to Obsidian
+            const results = await syncThemeToObsidian(themeData);
+            console.log("Theme sync results:", results);
+            
+            if (results.styleSettings) {
+                new Notice("Theme applied! Reloading...");
+                setTimeout(() => window.location.reload(), 500);
+            } else {
+                new Notice("Theme applied but Style Settings sync failed");
+            }
+        }
+        
+        return true;
+        
+    } catch (e) {
+        console.error("Failed to apply theme:", e);
+        new Notice("Failed to apply theme: " + e.message);
+        return false;
+    }
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // EXPORTS
 // ─────────────────────────────────────────────────────────────────────────────
@@ -736,6 +811,7 @@ return {
     // Actions
     switchTheme,
     setColorOverride,
+    applyCurrentTheme,
     clearThemeCache,
     
     // Sync functions

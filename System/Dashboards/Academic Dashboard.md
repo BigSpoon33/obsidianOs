@@ -352,7 +352,7 @@ icon: "book-plus"
 style: primary
 action:
   type: templaterCreateNote
-  templateFile: "Templates/Class Template.md"
+  templateFile: "System/Templates/Class Template.md"
   folder: ""
   fileName: "NewClass--<% tp.date.now('YYYY-MM-DD-HHmmss') %>"
   openNote: true
