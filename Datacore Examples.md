@@ -4,7 +4,7 @@ tags:
   - note
   - journal
   - datacore
-progress: 21
+progress: 33
 night_mode: false
 type:
   - Dinner
@@ -108,7 +108,7 @@ safety_lock: false
 - [ ] I got to figure out columns. and bring my old columns css and noyaml css for this vault
 - [ ]  need to clean up the System/Academic folder and get everything in place with the /System/Folder architecture
 - [ ] academic dashboard needs a complete datacore rebuild
-- [ ] draggable bar click options, squish, spin, twist, jiggle, etc. just changes the animation on the draggable bsae64 image
+- [ ] draggable bar click options, squish, spin, twist, jiggle, etc. just changes the animation using things like rotate, change size, translate, and other css tricks on the draggable bsae64 image
 - [ ] there is a disconnect between the Settings.md file and the Datacore Example theme console. oh ok so the colors do work it's just for some reason the tab color is not changing?
 - [ ] these datacore widgets should be able to run from anywhere int he vault or any note becaues they always pull the prop from the settings.md file?
 - [ ] the colors are a little bit off for sure. 
@@ -664,16 +664,188 @@ return function View() {
 }
 ```
 
+```datacorejsx
+const scriptPath = "System/Scripts/Components/dc-gloToggle.jsx";  // ⬅️ replace it with your jsx file path!
+const target = dc.fileLink(scriptPath);
+const result = await dc.require(target);
+const view = result?.renderedView ?? result?.View ?? result;  
+const Func = result?.Func ?? null;
+
+return function View() {
+    const currentFile = dc.useCurrentFile();
+    if (Func) {
+        return Func({ currentFile, scriptPath });
+    }
+    return view ?? <p>Failed to render</p>;
+}
+```
+
+```datacorejsx
+const scriptPath = "System/Scripts/Components/dc-gloBar.jsx";  // ⬅️ replace it with your jsx file path!
+const target = dc.fileLink(scriptPath);
+const result = await dc.require(target);
+const view = result?.renderedView ?? result?.View ?? result;  
+const Func = result?.Func ?? null;
+
+return function View() {
+    const currentFile = dc.useCurrentFile();
+    if (Func) {
+        return Func({ currentFile, scriptPath });
+    }
+    return view ?? <p>Failed to render</p>;
+}
+```
+
+```datacorejsx
+const scriptPath = "System/Scripts/Components/dc-gloButton.jsx";  // ⬅️ replace it with your jsx file path!
+const target = dc.fileLink(scriptPath);
+const result = await dc.require(target);
+const view = result?.renderedView ?? result?.View ?? result;  
+const Func = result?.Func ?? null;
+
+return function View() {
+    const currentFile = dc.useCurrentFile();
+    if (Func) {
+        return Func({ currentFile, scriptPath });
+    }
+    return view ?? <p>Failed to render</p>;
+}
+```
+
+
+# Templater Button throught datacore
+
+```dataviewjs
+// --- CONFIGURATION ---
+const templatePath = "System/Templates/Class Template.md"; 
+const folderPath = "Inbox"; 
+const newNoteName = "Moth Generated Note";
+const imgUrl = "[https://cdn-icons-png.flaticon.com/512/2938/2938229.png](https://cdn-icons-png.flaticon.com/512/2938/2938229.png)"; // Replace with your Moth URL
+
+// --- CREATE THE BUTTON ---
+// We create a container div using your CSS class
+const container = dv.el("div", "", { cls: "moth-toggle-container", attr: { id: "moth-trigger-btn" } });
+
+// We inject your specific HTML structure inside that container
+container.innerHTML = `
+    <div class="moth-base">
+        <img src="${imgUrl}" class="moth-img" alt="Moth">
+    </div>
+    <span class="moth-text-rainbow">Spawn Note</span>
+`;
+
+// --- ADD THE CLICK LOGIC ---
+container.onclick = async () => {
+    // 1. Visual Feedback: Toggle the 'moth-active' class for the glow
+    container.classList.toggle("moth-active");
+    
+    // 2. Access Templater API
+    const templater = app.plugins.plugins["templater-obsidian"];
+    if (!templater) {
+        new Notice("Templater plugin not found!");
+        return;
+    }
+
+    // 3. Find the Template File
+    const templateFile = app.vault.getAbstractFileByPath(templatePath);
+    if (!templateFile) {
+        new Notice(`Template not found at: ${templatePath}`);
+        container.classList.remove("moth-active"); // Turn off glow if fail
+        return;
+    }
+
+    // 4. Create the Note
+    // Syntax: create_new_note_from_template(template_file, folder, filename, open_new_note)
+    try {
+        await templater.templater.create_new_note_from_template(
+            templateFile, 
+            app.vault.getAbstractFileByPath(folderPath), 
+            newNoteName, 
+            true
+        );
+        new Notice("Moth Note Created!");
+        
+        // Optional: Turn off the glow after 1 second
+        setTimeout(() => {
+            container.classList.remove("moth-active");
+        }, 1000);
+        
+    } catch (error) {
+        new Notice("Error creating note: " + error.message);
+        console.error(error);
+    }
+};
+```
+using the props and our global button
+still can't figure out how to call the .jsx button and pass a templater command as a prop
+```dataviewjs
+// ═══════════════════════════════════════════════════════════════════════════════
+// CONFIGURATION
+// ═══════════════════════════════════════════════════════════════════════════════
+const BUTTON_LABEL = "Spawn Herb";
+const BUTTON_ICON  = "🦋";
+
+// 1. DEFINE THE COMMAND
+// To find this ID: Open Command Palette -> Hover command -> "Copy Command ID"
+const COMMAND_ID = "templater-obsidian:create-new-note-from-template"; 
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// RENDERER (The "Delivery Truck")
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// 1. Create the Container (Using Dataview's reliable dv.el)
+// We apply your "dc-glo-toggle" class so it inherits your Global Styles
+const btn = dv.el("button", "", { 
+    cls: "dc-glo-toggle dc-glass-dark dc-lift dc-pressable",
+    attr: { 
+        style: `
+            width: fit-content; 
+            margin: 10px; 
+            border: 1px solid rgba(255,255,255,0.1); 
+            cursor: pointer;
+            background: linear-gradient(135deg, #2b2b2b 0%, #1a1a1a 100%);
+        `
+    }
+});
+
+// 2. Inject the HTML Structure (Matching your React Component)
+// This ensures the Rainbow Text and Icon alignment work perfectly
+btn.innerHTML = `
+    <div class="dc-glo-button-icon" style="font-size: 24px; display: flex; align-items: center;">
+        ${BUTTON_ICON}
+    </div>
+    <span class="dc-rainbow-text" style="margin-left: 10px; font-size: 16px; font-weight: bold;">
+        ${BUTTON_LABEL}
+    </span>
+`;
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// LOGIC (The "Brains")
+// ═══════════════════════════════════════════════════════════════════════════════
+
+btn.onclick = async () => {
+    // A. Visual Feedback (Toggle Active State)
+    btn.classList.add("dc-active", "dc-glow-active");
+    
+    // B. EXECUTE THE COMMAND
+    // This is the magic line that answers your question.
+    // It runs the command exactly as if you clicked it in the palette.
+    if (app.commands.executeCommandById(COMMAND_ID)) {
+        new Notice(`🦋 Triggered: ${BUTTON_LABEL}`);
+    } else {
+        new Notice(`❌ Error: Command ID '${COMMAND_ID}' not found!`);
+    }
+
+    // C. Reset Button State
+    setTimeout(() => {
+        btn.classList.remove("dc-active", "dc-glow-active");
+    }, 1000);
+};
+```
 
 
 
-
-
-
-
-
-
-
+# Files found in x folder
 
 
 ```datacorejsx
@@ -694,7 +866,25 @@ return () => (
 );
 ```
 
-## Random GIF/Image Widget 🎞️
+```datacorejsx
+const folderPath = "System/Themes";
+const folder = app.vault.getAbstractFileByPath(folderPath);
+
+if (!folder) {
+    return () => <div>❌ Folder not found: "{folderPath}"</div>;
+}
+
+const files = folder.children.map(f => f.path);
+
+return () => (
+    <div style={{ padding: "10px", border: "1px solid var(--text-accent)" }}>
+        <h3>📂 Files found in "{folderPath}":</h3>
+        <pre>{files.join("\n")}</pre>
+    </div>
+);
+```
+
+# Random GIF/Image Widget 🎞️
 
 **Status:** ✅ WORKING (Updated 2025-12-23)
 

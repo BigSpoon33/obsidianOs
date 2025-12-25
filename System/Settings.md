@@ -19,9 +19,10 @@ schedule-friday: "[[Pull Day]]"
 schedule-saturday: "[[Cardio & Abs]]"
 schedule-sunday: "[[Push Day]]"
 schedule-monday: "[[Pull Day]]"
-widget-theme: nyanCat
-color-override: ""
+widget-theme: bongoCat
+color-override: savageCroc
 sync-to-obsidian: true
+flashy-mode: true
 ---
 
 
@@ -96,10 +97,14 @@ return function View() { return script.Func(); }
 **Sync to Obsidian:** `INPUT[toggle:sync-to-obsidian]`
 *When enabled, switching themes also updates Obsidian's accent color and Style Settings*
 
+**Flashy Mode:** `INPUT[toggle:flashy-mode]`
+*Enable rainbow text, glow effects, hover lift, and other animations*
+
 **Current Settings:**
 - Sprite Pack: `VIEW[{widget-theme}]`
 - Color Override: `VIEW[{color-override}]` *(empty = use theme default)*
 - Obsidian Sync: `VIEW[{sync-to-obsidian}]`
+- Flashy Mode: `VIEW[{flashy-mode}]`
 
 ### Available Color Schemes
 Copy one of these names to the Color Override field:

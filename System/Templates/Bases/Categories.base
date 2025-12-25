@@ -1,6 +1,7 @@
 filters:
-  and:
+  or:
     - file.tags.contains("categories")
+    - file.tags.contains("[[categories]]")
 views:
   - type: cards
     name: Table

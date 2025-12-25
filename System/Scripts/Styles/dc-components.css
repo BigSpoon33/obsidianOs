@@ -1,0 +1,436 @@
+/* ═══════════════════════════════════════════════════════════════════════════════
+   DC-COMPONENTS.CSS - Shared Global Component Styles
+   Provides reusable animations, effects, and utility classes for all dc-glo* components
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CSS VARIABLES (defaults - overridden by theme)
+   ───────────────────────────────────────────────────────────────────────────── */
+:root {
+    --dc-glow-color: rgba(255, 105, 180, 0.4);
+    --dc-glow-color-hover: rgba(255, 105, 180, 0.5);
+    --dc-glow-color-active: rgba(255, 215, 0, 0.4);
+    --dc-transition-fast: 0.15s;
+    --dc-transition-normal: 0.3s;
+    --dc-transition-slow: 0.5s;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   RAINBOW TEXT ANIMATION
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@keyframes dc-rainbow-flow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+.dc-rainbow-text {
+    background: linear-gradient(
+        90deg,
+        #ff0000,
+        #ff7f00,
+        #ffff00,
+        #00ff00,
+        #0099ff,
+        #6633ff,
+        #ff0000
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: dc-rainbow-flow 2s linear infinite;
+    text-shadow: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   SPRITE/IMAGE CLICK ANIMATIONS (for draggable bars)
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* SQUISH - Vertical squeeze effect */
+@keyframes dc-squish {
+    0% { transform: scaleY(1) scaleX(1); }
+    30% { transform: scaleY(0.7) scaleX(1.2); }
+    60% { transform: scaleY(1.15) scaleX(0.9); }
+    100% { transform: scaleY(1) scaleX(1); }
+}
+
+.dc-anim-squish {
+    animation: dc-squish var(--dc-anim-duration, 0.3s) ease-out;
+}
+
+/* SPIN - Full 360° rotation */
+@keyframes dc-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.dc-anim-spin {
+    animation: dc-spin var(--dc-anim-duration, 0.5s) ease-in-out;
+}
+
+/* TWIST - Wobble rotation back and forth */
+@keyframes dc-twist {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(-20deg); }
+    50% { transform: rotate(15deg); }
+    75% { transform: rotate(-10deg); }
+    100% { transform: rotate(0deg); }
+}
+
+.dc-anim-twist {
+    animation: dc-twist var(--dc-anim-duration, 0.4s) ease-out;
+}
+
+/* JIGGLE - Horizontal shake */
+@keyframes dc-jiggle {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(5px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(3px); }
+    100% { transform: translateX(0); }
+}
+
+.dc-anim-jiggle {
+    animation: dc-jiggle var(--dc-anim-duration, 0.35s) ease-out;
+}
+
+/* BOUNCE - Vertical bounce */
+@keyframes dc-bounce {
+    0% { transform: translateY(0); }
+    30% { transform: translateY(-12px); }
+    50% { transform: translateY(0); }
+    70% { transform: translateY(-6px); }
+    100% { transform: translateY(0); }
+}
+
+.dc-anim-bounce {
+    animation: dc-bounce var(--dc-anim-duration, 0.4s) ease-out;
+}
+
+/* PULSE - Scale pulse */
+@keyframes dc-pulse {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.25); }
+    60% { transform: scale(0.9); }
+    100% { transform: scale(1); }
+}
+
+.dc-anim-pulse {
+    animation: dc-pulse var(--dc-anim-duration, 0.35s) ease-out;
+}
+
+/* WIGGLE - Combination rotation wiggle */
+@keyframes dc-wiggle {
+    0% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(-12deg) scale(1.1); }
+    50% { transform: rotate(10deg) scale(1.05); }
+    75% { transform: rotate(-8deg) scale(1.02); }
+    100% { transform: rotate(0deg) scale(1); }
+}
+
+.dc-anim-wiggle {
+    animation: dc-wiggle var(--dc-anim-duration, 0.4s) ease-out;
+}
+
+/* FLIP - Horizontal flip */
+@keyframes dc-flip {
+    0% { transform: perspective(400px) rotateY(0deg); }
+    100% { transform: perspective(400px) rotateY(360deg); }
+}
+
+.dc-anim-flip {
+    animation: dc-flip var(--dc-anim-duration, 0.6s) ease-in-out;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   GLOW EFFECTS
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* Base glow - always visible (use --dc-glow-color CSS variable) */
+.dc-glow {
+    box-shadow: 0 0 10px 2px var(--dc-glow-color);
+}
+
+/* Glow on hover only */
+.dc-glow-hover {
+    transition: box-shadow var(--dc-transition-normal) ease;
+}
+
+.dc-glow-hover:hover {
+    box-shadow: 0 0 15px 3px var(--dc-glow-color-hover);
+}
+
+/* Active/pressed glow */
+.dc-glow-active.dc-active,
+.dc-glow-active:active {
+    box-shadow: 0 0 20px 5px var(--dc-glow-color-active);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   HOVER/CLICK EFFECTS
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* Lift on hover - subtle elevation */
+.dc-lift {
+    transition: transform var(--dc-transition-normal) ease,
+                box-shadow var(--dc-transition-normal) ease;
+}
+
+.dc-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* Pressable - click/active press effect */
+.dc-pressable {
+    transition: transform var(--dc-transition-fast) ease;
+}
+
+.dc-pressable:active {
+    transform: translateY(1px) scale(0.98);
+    box-shadow: none !important;
+}
+
+/* Combined lift + press */
+.dc-lift.dc-pressable:hover {
+    transform: translateY(-2px);
+}
+
+.dc-lift.dc-pressable:active {
+    transform: translateY(1px) scale(0.98);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   UTILITY CLASSES
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* Fix cursor for clickable elements */
+.dc-clickable {
+    cursor: pointer;
+    user-select: none;
+}
+
+.dc-clickable:disabled,
+.dc-clickable.dc-disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* Transition speed presets */
+.dc-transition-fast {
+    transition: all var(--dc-transition-fast) ease;
+}
+
+.dc-transition-normal {
+    transition: all var(--dc-transition-normal) ease;
+}
+
+.dc-transition-slow {
+    transition: all var(--dc-transition-slow) ease;
+}
+
+/* No transition (for instant changes) */
+.dc-transition-none {
+    transition: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CONTAINER EFFECTS
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* Glass morphism effect */
+.dc-glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Frosted dark glass */
+.dc-glass-dark {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   SPRITE IMAGE STATES (for toggle/bar sprites)
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* Active sprite - full color, slight glow */
+.dc-sprite-active {
+    filter: grayscale(0%) drop-shadow(0 0 5px var(--dc-glow-color-active));
+    transform: scale(1.05);
+    opacity: 1;
+    transition: all var(--dc-transition-normal) ease;
+}
+
+/* Inactive sprite - dimmed and grayscale */
+.dc-sprite-inactive {
+    filter: grayscale(100%);
+    transform: scale(0.9);
+    opacity: 0.5;
+    transition: all var(--dc-transition-normal) ease;
+}
+
+/* Hover state for sprites */
+.dc-sprite-hoverable:hover {
+    filter: grayscale(0%) brightness(1.1);
+    transform: scale(1.1);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   BUTTON BASE STYLES (shared across all dc-glo buttons)
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+.dc-glo-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.dc-glo-button:focus {
+    outline: 2px solid var(--dc-glow-color);
+    outline-offset: 2px;
+}
+
+.dc-glo-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* Button icon styling */
+.dc-glo-button-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   TOGGLE CONTAINER BASE STYLES
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+.dc-glo-toggle {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    overflow: visible;
+    transition: all var(--dc-transition-normal) ease;
+}
+
+.dc-glo-toggle:hover {
+    transform: translateY(-2px);
+}
+
+.dc-glo-toggle:active {
+    transform: translateY(1px) scale(0.98);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   PROGRESS BAR BASE STYLES
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+.dc-glo-bar-container {
+    position: relative;
+    width: 100%;
+}
+
+.dc-glo-bar-track {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: var(--dc-bar-radius, 6px);
+}
+
+.dc-glo-bar-fill {
+    height: 100%;
+    transition: width var(--dc-transition-normal) ease;
+}
+
+.dc-glo-bar-sprite {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* Draggable bar specific */
+.dc-glo-bar-draggable {
+    cursor: grab;
+}
+
+.dc-glo-bar-draggable:active {
+    cursor: grabbing;
+}
+
+.dc-glo-bar-draggable .dc-glo-bar-sprite {
+    pointer-events: auto;
+    cursor: grab;
+}
+
+.dc-glo-bar-draggable .dc-glo-bar-sprite:active {
+    cursor: grabbing;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   LOOPING ANIMATIONS (for continuous animation while held/dragging)
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* SQUISH LOOP - Continuous vertical squeeze */
+.dc-anim-squish-loop {
+    animation: dc-squish var(--dc-anim-duration, 0.3s) ease-out infinite;
+}
+
+/* SPIN LOOP - Continuous rotation */
+.dc-anim-spin-loop {
+    animation: dc-spin var(--dc-anim-duration, 0.5s) linear infinite;
+}
+
+/* TWIST LOOP - Continuous wobble */
+.dc-anim-twist-loop {
+    animation: dc-twist var(--dc-anim-duration, 0.4s) ease-out infinite;
+}
+
+/* JIGGLE LOOP - Continuous horizontal shake */
+.dc-anim-jiggle-loop {
+    animation: dc-jiggle var(--dc-anim-duration, 0.35s) ease-out infinite;
+}
+
+/* BOUNCE LOOP - Continuous vertical bounce */
+.dc-anim-bounce-loop {
+    animation: dc-bounce var(--dc-anim-duration, 0.4s) ease-out infinite;
+}
+
+/* PULSE LOOP - Continuous scale pulse */
+.dc-anim-pulse-loop {
+    animation: dc-pulse var(--dc-anim-duration, 0.35s) ease-out infinite;
+}
+
+/* WIGGLE LOOP - Continuous wiggle */
+.dc-anim-wiggle-loop {
+    animation: dc-wiggle var(--dc-anim-duration, 0.4s) ease-out infinite;
+}
+
+/* FLIP LOOP - Continuous horizontal flip */
+.dc-anim-flip-loop {
+    animation: dc-flip var(--dc-anim-duration, 0.6s) ease-in-out infinite;
+}

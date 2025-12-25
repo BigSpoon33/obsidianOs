@@ -13,6 +13,8 @@ warmup:
     info: 2-3 mins
   - link: "[[Dynamic Stretching]]"
     info: Full body
+  - link: "[[arm movement]]"
+    info: Duration
 cooldown:
   - link: "[[Chest Stretch]]"
     info: 30s hold
@@ -47,7 +49,7 @@ exercises:
     sets: 3
     reps: 15+
     weight: 40 lbs
-tags: 
+tags:
   - sworkout-plan
 ---
 
