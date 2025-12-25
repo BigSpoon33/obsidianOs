@@ -1,0 +1,63 @@
+/* --- STAGE --- */
+.art-helix-stage {
+    position: relative;
+    width: 100%;
+    height: 100px;
+    background: #111;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    box-shadow: inset 0 0 20px #000;
+}
+
+/* --- THE TRACK (Background Line) --- */
+.art-helix-track {
+    position: absolute;
+    top: 50%; left: 10%; right: 10%;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 0;
+}
+
+/* --- THE TRAVELER (Moves Left/Right) --- */
+.art-helix-traveler {
+    position: absolute;
+    left: 10%;
+    /* Moves across the track */
+    animation: helix-travel linear infinite alternate; 
+    z-index: 1;
+}
+
+@keyframes helix-travel {
+    0% { left: 15%; }
+    100% { left: 85%; }
+}
+
+/* --- THE CORE (Spins in place) --- */
+.art-helix-core {
+    width: 0; height: 0;
+    position: relative;
+    /* Spins the entire group of orbs */
+    animation: helix-spin 2s linear infinite;
+}
+
+@keyframes helix-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* --- THE ORBS --- */
+.art-helix-orb {
+    position: absolute;
+    /* Center them on the core */
+    top: -6px; left: -6px; 
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: white;
+    
+    /* "Mix Blend Mode" makes colors brighten when they overlap! */
+    mix-blend-mode: screen; 
+    
+    /* Note: Their position (transform) is set in JSX via math */
+}

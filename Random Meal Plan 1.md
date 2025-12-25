@@ -27,7 +27,7 @@ sunday-dinner: "[[Grilled Chicken with Rosemary and Bacon]]"
 # 🗓️ Random Meal Plan 1
 
 ```datacorejsx
-const script = await dc.require(dc.fileLink("System/Scripts/dc-meal-planner.jsx"));
+const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-meal-planner.jsx"));
 return function View() { return script.Func(); }
 ```
 
@@ -39,6 +39,6 @@ return function View() { return script.Func(); }
 ## 🛍️ Shopping List
 
 ```datacorejsx
-const script = await dc.require(dc.fileLink("System/Scripts/dc-shopping-list.jsx"));
+const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-shopping-list.jsx"));
 return function View() { return script.Func(); }
 ```

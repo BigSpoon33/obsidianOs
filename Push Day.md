@@ -52,7 +52,7 @@ tags:
 ---
 
 ```datacorejsx
-const script = await dc.require(dc.fileLink("System/Scripts/dc-admin-buttons.jsx"));
+const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-admin-buttons.jsx"));
 return function View() { return script.Func(); }
 ```
 
@@ -118,5 +118,5 @@ Track your performance in daily notes:
 
 ## Related
 
-- [[Categories/Exercise|Exercise Library]]
+- [[System/Categories/Exercise|Exercise Library]]
 - [[Weekly-Schedule|Weekly Schedule]]

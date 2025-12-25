@@ -86,5 +86,5 @@ Track in daily notes:
 
 ## Related
 
-- [[Categories/Exercise|Exercise Library]]
+- [[System/Categories/Exercise|Exercise Library]]
 - [[Weekly-Schedule|Weekly Schedule]]

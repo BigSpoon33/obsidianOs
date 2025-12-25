@@ -46,7 +46,7 @@ Test if we can detect image files:
 
 ```datacorejsx
 // Test File Detection
-const scriptPath = "System/Scripts/dc-test-files.jsx";
+const scriptPath = "System/Scripts/widgets/dc-test-files.jsx";
 const target = dc.fileLink(scriptPath);
 const result = await dc.require(target);
 const Func = result?.Func ?? null;
@@ -65,7 +65,7 @@ return function View() {
 
 ```datacorejsx
 // Random GIF/Image Widget
-const scriptPath = "System/Scripts/dc-randomGif.jsx";
+const scriptPath = "System/Scripts/widgets/dc-randomGif.jsx";
 const target = dc.fileLink(scriptPath);
 const result = await dc.require(target);
 const Func = result?.Func ?? null;
@@ -83,8 +83,8 @@ return function View() {
 ## Technical Details
 
 ### Files Modified
-- `System/Scripts/dc-randomGif.jsx` - Complete rewrite (123 → 267 lines)
-- `System/Scripts/dc-randomGif.css` - Enhanced styling (57 → 333 lines)
+- `System/Scripts/widgets/dc-randomGif.jsx` - Complete rewrite (123 → 267 lines)
+- `System/Scripts/styles/dc-randomGif.css` - Enhanced styling (57 → 333 lines)
 
 ### Key Fixes
 1. **Export Pattern**: Changed from `module.exports = { View }` to `return { Func: RandomGif }`

@@ -4,11 +4,15 @@ tags:
   - note
   - journal
   - datacore
-progress: 43
+progress: 25
 night_mode: false
 type:
   - Dinner
 water-ml: .nan
+status: In Progress
+particles: 95
+system_power: false
+safety_lock: false
 ---
 
 # Ideas
@@ -48,6 +52,7 @@ water-ml: .nan
 	- [x] move exercise notes into category
 	- [x] get the settings to have a week planner with either a dropdown or autocomplete of workout-plans to select one for each day. or maybe more than one?
 	- [ ] exercise tracking, completed workout as is? adjust reps, sets, weight in the daily note movement and exercise heading
+	- [ ] maybe use recurring tasknotes to schedule workout (generic) and if it's completed then the full daliy workout gets logged
 - [ ] recent notes
 	- [x] could just use the plugin in the sidebar (using sidebar and a searchbar with recent files on the homepage)
 - [ ] search bar
@@ -75,7 +80,7 @@ water-ml: .nan
 - [ ] task and project agenda
 	- [ ] TaskNotes
 		- [ ] design a recurring task system that is broader with subtasks. for example instead of tracking every workout track the whole workout plan. instead of every nighttime task just the nighttime routine. figure out how to get calendars synced both ways for phone notifications
-		- [ ] notifications! can TaskNotes provide phone notifications?
+		- [ ] notifications! can TaskNotes provide phone notifications? without calendar sync?
 	- [x] sync to a calendar would be dope
 		- [ ] calendar syncs from google to obsidian but not from obsidian to google - need to work on it
 	- [x] pomodoro
@@ -101,6 +106,9 @@ water-ml: .nan
 - [ ] get themes to have settings for buttons. for example set the background, idle image, and click image. mouseover image?  we need to get the theme system on that new thing where users can input a custom base64 from their vault Settings.md note
 - [ ] we need to get the theme system on that new thing where users can input a custom base64 from their vault Settings.md note
 - [ ] I got to figure out columns. and bring my old columns css and noyaml css for this vault
+- [ ]  need to clean up the System/Academic folder and get everything in place with the /System/Folder architecture
+- [ ] academic dashboard needs a complete datacore rebuild
+- [ ] draggable bar click options, squish, spin, twist, jiggle, etc. just changes the animation on the draggable bsae64 image
 
 
 Query total # pages in vault
@@ -164,7 +172,7 @@ return <dc.Table columns={COLUMNS} rows={pages} />;
 
 
 ```datacorejsx
-const scriptPath = "System/Scripts/dc-nyanCatProgress-draggable.jsx";  // ⬅️ replace it with your jsx file path!
+const scriptPath = "System/Scripts/widgets/dc-nyanCatProgress-draggable.jsx";  // ⬅️ replace it with your jsx file path!
 const target = dc.fileLink(scriptPath);
 const result = await dc.require(target);
 const view = result?.renderedView ?? result?.View ?? result;  
@@ -180,7 +188,7 @@ return function View() {
 ```
 
 ```datacorejsx
-const scriptPath = "System/Scripts/dc-mothToggle.jsx";  // ⬅️ replace it with your jsx file path!
+const scriptPath = "System/Scripts/widgets/dc-mothToggle.jsx";  // ⬅️ replace it with your jsx file path!
 const target = dc.fileLink(scriptPath);
 const result = await dc.require(target);
 const view = result?.renderedView ?? result?.View ?? result;  
@@ -197,7 +205,7 @@ return function View() {
 
 
 ```datacorejsx
-const scriptPath = "System/Scripts/dc-swampBar.jsx";  // ⬅️ replace it with your jsx file path!
+const scriptPath = "System/Scripts/widgets/dc-swampBar.jsx";  // ⬅️ replace it with your jsx file path!
 const target = dc.fileLink(scriptPath);
 const result = await dc.require(target);
 const view = result?.renderedView ?? result?.View ?? result;  
@@ -213,7 +221,24 @@ return function View() {
 ```
 
 ```datacorejsx
-const scriptPath = "System/Scripts/dc-moodCheck.jsx";  // ⬅️ replace it with your jsx file path!
+const scriptPath = "System/Scripts/widgets/dc-holoDropdown.jsx";  // ⬅️ replace it with your jsx file path!
+const target = dc.fileLink(scriptPath);
+const result = await dc.require(target);
+const view = result?.renderedView ?? result?.View ?? result;  
+const Func = result?.Func ?? null;
+
+return function View() {
+    const currentFile = dc.useCurrentFile();
+    if (Func) {
+        return Func({ currentFile, scriptPath });
+    }
+    return view ?? <p>Failed to render</p>;
+}
+```
+
+
+```datacorejsx
+const scriptPath = "System/Scripts/widgets/dc-artHelix.jsx";  // ⬅️ replace it with your jsx file path!
 const target = dc.fileLink(scriptPath);
 const result = await dc.require(target);
 const view = result?.renderedView ?? result?.View ?? result;  
@@ -229,7 +254,314 @@ return function View() {
 ```
 
 ```datacorejsx
-const scriptPath = "System/Scripts/dc-moodCheckEmoji.jsx";  // ⬅️ replace it with your jsx file path!
+// 1. IMPORT YOUR COMPONENT LIBRARY
+const barMod = await dc.require(dc.fileLink("System/Scripts/widgets/dc-universalBar.jsx"));
+const displayMod = await dc.require(dc.fileLink("System/Scripts/widgets/dc-particleDisplay.jsx"));
+
+// 2. EXTRACT COMPONENTS
+const { Func: UniversalBar } = barMod;
+const { ParticleDisplay } = displayMod;
+
+// 3. DEFINE DASHBOARD
+function MasterConsole() {
+    return (
+        <div className="master-console-container" style={{
+            maxWidth: '500px', margin: '0 auto', 
+            padding: '20px', border: '1px solid var(--background-modifier-border)',
+            borderRadius: '12px', background: 'var(--background-secondary)'
+        }}>
+            <h2 style={{textAlign: 'center', borderBottom: '1px solid var(--background-modifier-border)', paddingBottom: '10px'}}>
+                ENGINEERING CONSOLE
+            </h2>
+
+            {/* A. The Particle Window & Buttons */}
+            <ParticleDisplay />
+
+            <hr style={{margin: '20px 0', opacity: 0.2}}/>
+
+            {/* B. Instance 1: Controls "progress" (Chaos) */}
+            <UniversalBar 
+                targetKey="progress" 
+                label="System Chaos (Speed)" 
+            />
+
+            {/* C. Instance 2: Controls "particles" (Quantity) 
+                Notice: This slider controls the same thing as the buttons above!
+                They will stay in sync automatically because they watch the same data.
+            */}
+            <UniversalBar 
+                targetKey="particles" 
+                label="Particle Density (Fine Tune)" 
+            />
+
+        </div>
+    );
+}
+
+return <MasterConsole />;
+```
+
+```datacorejsx
+// 1. IMPORTS
+const barMod = await dc.require(dc.fileLink("System/Scripts/widgets/dc-universalBar.jsx"));
+const buttonMod = await dc.require(dc.fileLink("System/Scripts/widgets/dc-universalButton.jsx"));
+const simMod = await dc.require(dc.fileLink("System/Scripts/widgets/dc-artParticle.jsx"));
+
+// 2. EXTRACT
+const { Func: UniversalBar } = barMod;
+const { UniversalButton } = buttonMod;
+const { ParticleSim } = simMod;
+
+// 3. DASHBOARD
+function MasterConsole() {
+    return (
+        <div className="master-console" style={{
+            maxWidth: '600px', margin: '0 auto', padding: '20px', 
+            background: '#1a1a1a', borderRadius: '15px', border: '1px solid #333'
+        }}>
+            <h2 style={{textAlign:'center', color:'#888', letterSpacing:'2px', fontSize:'0.9em', borderBottom:'1px solid #333', paddingBottom:'15px'}}>
+                // SYSTEM CONTROL INTERFACE
+            </h2>
+
+            {/* A. The Visualizer */}
+            <ParticleSim />
+
+            {/* B. The Control Bars */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <UniversalBar targetKey="progress" label="Velocity (Chaos)" />
+                <UniversalBar targetKey="particles" label="Entity Count" />
+            </div>
+
+            <hr style={{ borderColor: '#333', margin: '20px 0' }} />
+
+            {/* C. The Universal Buttons */}
+            <div style={{ display: 'flex', gap: '15px' }}>
+                
+                {/* Button 1: Toggles "system_power" on THIS file */}
+                <UniversalButton 
+                    targetKey="system_power" 
+                    label="Main Power" 
+                    onLabel="ONLINE" 
+                    offLabel="OFFLINE" 
+                />
+
+                {/* Button 2: Toggles "safety_lock" on a REMOTE file (Example) 
+                    Replace "Datacore Examples.md" with any real file path in your vault!
+                */}
+                <UniversalButton 
+                    targetFile="Datacore Examples.md" 
+                    targetKey="safety_lock" 
+                    label="Safety Lock" 
+                    onLabel="LOCKED" 
+                    offLabel="UNLOCKED" 
+                />
+            </div>
+
+        </div>
+    );
+}
+
+return <MasterConsole />;
+```
+
+
+```datacorejsx
+// ============================================================================
+// PARTICLE CONTROLLER DASHBOARD
+// ============================================================================
+
+// 1. Load Theme Provider (Standard Datacore boilerplate)
+const themeProvider = await dc.require(dc.fileLink("System/Scripts/core/dc-theme-provider.jsx"));
+const { useTheme } = themeProvider;
+
+function ParticleDashboard() {
+    
+    // ============ STATE & VARS ============
+    const [particleCount, setParticleCount] = dc.useState(0);
+    const [isUpdating, setIsUpdating] = dc.useState(false);
+    
+    // Target File: "Datacore Examples.md"
+    // We try to find it specifically, otherwise fallback to current file
+    const getTargetFile = () => {
+        const file = app.vault.getAbstractFileByPath("Datacore Examples.md");
+        return file instanceof TFile ? file : app.workspace.getActiveFile();
+    };
+
+    // Load initial Particle Count
+    dc.useEffect(() => {
+        const file = getTargetFile();
+        if(file) {
+            // Read cache to get current particle count
+            const cache = app.metadataCache.getFileCache(file);
+            const count = cache?.frontmatter?.particles || 0;
+            setParticleCount(count);
+        }
+    }, []);
+
+    // Function to change particle count
+    const updateParticles = async (amount) => {
+        setIsUpdating(true);
+        const file = getTargetFile();
+        if (file) {
+            await app.fileManager.processFrontMatter(file, (fm) => {
+                const current = fm.particles || 0;
+                // Prevent going below 0, increment by amount
+                fm.particles = Math.max(0, current + amount);
+                setParticleCount(fm.particles);
+            });
+        }
+        setIsUpdating(false);
+    };
+
+    // ============================================================
+    // COMPONENT: PROGRESS BAR (Your provided code, wrapped here)
+    // ============================================================
+    const ProgressBar = () => {
+        const current = dc.useCurrentFile();
+        let initialProgress = current.value("progress"); // Controls Speed/Chaos
+        
+        // --- (Simplified version of your logic for brevity in the dash) ---
+        const [progress, setProgress] = dc.useState(initialProgress || 0);
+        const [isDragging, setIsDragging] = dc.useState(false);
+        const barRef = dc.useRef(null);
+
+        const updateSpeed = async (newVal) => {
+             const activeFile = app.workspace.getActiveFile();
+             await app.fileManager.processFrontMatter(activeFile, (fm) => {
+                fm.progress = newVal;
+             });
+        };
+
+        const handleMove = (e) => {
+            if (!barRef.current) return;
+            const rect = barRef.current.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const pct = Math.min(Math.max((x / rect.width) * 100, 0), 100);
+            setProgress(Math.round(pct));
+            if(!isDragging) updateSpeed(Math.round(pct)); // Update on click
+        };
+
+        return (
+            <div className="dash-progress-wrapper">
+                <div className="dash-label">Chaos / Speed Control</div>
+                <div 
+                    ref={barRef}
+                    className="draggable-progress-container"
+                    onMouseDown={(e) => { setIsDragging(true); handleMove(e); }}
+                    onMouseMove={(e) => { if(isDragging) handleMove(e); }}
+                    onMouseUp={() => { setIsDragging(false); updateSpeed(progress); }}
+                    onMouseLeave={() => { if(isDragging) { setIsDragging(false); updateSpeed(progress); }}}
+                >
+                    <div className="draggable-progress-fill" style={{ width: `${progress}%` }} />
+                    <div 
+                        className="draggable-nyan-cat"
+                        style={{ left: `${Math.min(progress, 95)}%` }} // Keep cat inside
+                    />
+                </div>
+                <div style={{textAlign:'center', fontSize:'0.8em', color:'var(--text-muted)'}}>
+                    {progress}% Intensity
+                </div>
+            </div>
+        );
+    };
+
+    // ============================================================
+    // RENDER: THE MAIN DASHBOARD LAYOUT
+    // ============================================================
+    return (
+        <div className="particle-dashboard-container">
+            
+            {/* 1. TOP: PARTICLE DISPLAY WINDOW */}
+            <div className="particle-window-frame">
+                {/* PLACEHOLDER: This is where your actual particle script goes.
+                   Since I don't have the particle script code, I am putting a 
+                   div here. In reality, you would paste that script block here 
+                   or embed it.
+                */}
+                <div style={{
+                    width: '100%', height: '100%', 
+                    display:'flex', alignItems:'center', justifyContent:'center',
+                    background: 'rgba(0,0,0,0.3)', color: '#fff'
+                }}>
+                    [ PARTICLE DISPLAY ]<br/>
+                    Current Particles: {particleCount}
+                </div>
+            </div>
+
+            {/* 2. MIDDLE: CONTROLS (Horizontal) */}
+            <div className="particle-controls-row">
+                
+                {/* Decrease Button */}
+                <button 
+                    className="particle-btn btn-decrease"
+                    onClick={() => updateParticles(-10)}
+                    disabled={isUpdating}
+                >
+                    <span className="btn-icon">−</span> Less Particles
+                </button>
+
+                {/* Display Value in Middle */}
+                <div className="particle-value-readout">
+                    <span style={{fontSize:'0.7em', color:'var(--text-muted)'}}>COUNT</span>
+                    <span style={{fontSize:'1.5em', fontWeight:'bold', color:'var(--text-accent)'}}>
+                        {particleCount}
+                    </span>
+                </div>
+
+                {/* Increase Button */}
+                <button 
+                    className="particle-btn btn-increase"
+                    onClick={() => updateParticles(10)}
+                    disabled={isUpdating}
+                >
+                    <span className="btn-icon">+</span> More Particles
+                </button>
+            </div>
+
+            {/* 3. BOTTOM: PROGRESS BAR (Speed/Chaos) */}
+            <ProgressBar />
+
+        </div>
+    );
+}
+
+return { ParticleDashboard };
+```
+
+multiple .jsx in one codeblock?
+```datacorejsx
+// Load the separate files
+const progressMod = await dc.require(dc.fileLink("System/Scripts/widgets/dc-nyanCatProgress-draggable.jsx"));
+const buttonsMod = await dc.require(dc.fileLink("System/Scripts/widgets/dc-mothToggle.jsx"));
+
+// 1. Extract the functions using the EXACT names they were exported with
+// Progress bar exported as "Func"
+const { Func: ProgressBar } = progressMod; 
+// Moth button exported as "MothToggle" (based on your previous code)
+const { MothToggle: ControlButtons } = buttonsMod; 
+
+function MainDashboard() {
+    return (
+        <div className="dashboard-container">
+            <h2>Particle Controller</h2>
+            
+            <div style={{display: 'flex', gap: '1rem', alignItems: 'center', marginBottom: '1rem'}}>
+                {/* Render the external components */}
+                <ControlButtons />
+            </div>
+
+            <ProgressBar />
+        </div>
+    );
+}
+
+// 2. CHANGE THIS LINE: Return the component as JSX (<... />)
+return <MainDashboard />;
+```
+
+
+```datacorejsx
+const scriptPath = "System/Scripts/widgets/dc-moodCheck.jsx";  // ⬅️ replace it with your jsx file path!
 const target = dc.fileLink(scriptPath);
 const result = await dc.require(target);
 const view = result?.renderedView ?? result?.View ?? result;  
@@ -245,12 +577,92 @@ return function View() {
 ```
 
 ```datacorejsx
-const scriptPath = "System/Scripts/dc-frogButton.jsx";
+const scriptPath = "System/Scripts/widgets/dc-moodCheckEmoji.jsx";  // ⬅️ replace it with your jsx file path!
+const target = dc.fileLink(scriptPath);
+const result = await dc.require(target);
+const view = result?.renderedView ?? result?.View ?? result;  
+const Func = result?.Func ?? null;
+
+return function View() {
+    const currentFile = dc.useCurrentFile();
+    if (Func) {
+        return Func({ currentFile, scriptPath });
+    }
+    return view ?? <p>Failed to render</p>;
+}
+```
+
+```datacorejsx
+const scriptPath = "System/Scripts/widgets/dc-frogButton.jsx";
 const target = dc.fileLink(scriptPath);
 const result = await dc.require(target);
 const Func = result?.Func ?? null;
 return function View() { return Func ? Func() : <span>Loading Frog...</span>; }
 ```
+
+
+
+# Theme Test
+
+Theme Console
+```datacorejsx
+const scriptPath = "System/Scripts/widgets/dc-theme-console.jsx";  // ⬅️ replace it with your jsx file path!
+const target = dc.fileLink(scriptPath);
+const result = await dc.require(target);
+const view = result?.renderedView ?? result?.View ?? result;  
+const Func = result?.Func ?? null;
+
+return function View() {
+    const currentFile = dc.useCurrentFile();
+    if (Func) {
+        return Func({ currentFile, scriptPath });
+    }
+    return view ?? <p>Failed to render</p>;
+}
+```
+
+Theme Preview
+```datacorejsx
+const scriptPath = "System/Scripts/widgets/dc-theme-preview.jsx";  // ⬅️ replace it with your jsx file path!
+const target = dc.fileLink(scriptPath);
+const result = await dc.require(target);
+const view = result?.renderedView ?? result?.View ?? result;  
+const Func = result?.Func ?? null;
+
+return function View() {
+    const currentFile = dc.useCurrentFile();
+    if (Func) {
+        return Func({ currentFile, scriptPath });
+    }
+    return view ?? <p>Failed to render</p>;
+}
+```
+
+```datacorejsx
+const scriptPath = "System/Scripts/widgets/dc-mothToggle.jsx";  // ⬅️ replace it with your jsx file path!
+const target = dc.fileLink(scriptPath);
+const result = await dc.require(target);
+const view = result?.renderedView ?? result?.View ?? result;  
+const Func = result?.Func ?? null;
+
+return function View() {
+    const currentFile = dc.useCurrentFile();
+    if (Func) {
+        return Func({ currentFile, scriptPath });
+    }
+    return view ?? <p>Failed to render</p>;
+}
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -290,7 +702,7 @@ return () => (
 **Usage:**
 ```datacorejsx
 // Random GIF/Image Widget (UPDATED - WORKING)
-const scriptPath = "System/Scripts/dc-randomGif.jsx";
+const scriptPath = "System/Scripts/widgets/dc-randomGif.jsx";
 const target = dc.fileLink(scriptPath);
 const result = await dc.require(target);
 const Func = result?.Func ?? null;
@@ -474,7 +886,7 @@ return (
 
 calling the function using .jsx script
 ```datacorejsx
-const scriptPath = "System/Scripts/dc-randomQuote.jsx";  // ⬅️ replace it with your jsx file path!
+const scriptPath = "System/Scripts/widgets/dc-randomQuote.jsx";  // ⬅️ replace it with your jsx file path!
 const target = dc.fileLink(scriptPath);
 const result = await dc.require(target);
 const view = result?.renderedView ?? result?.View ?? result;  

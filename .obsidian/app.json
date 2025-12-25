@@ -1,8 +1,9 @@
 {
-  "attachmentFolderPath": "Attachments",
+  "attachmentFolderPath": "System/Attachments",
   "alwaysUpdateLinks": true,
   "newFileLocation": "root",
   "propertiesInDocument": "source",
   "showLineNumber": true,
-  "readableLineLength": true
+  "readableLineLength": true,
+  "showInlineTitle": true
 }

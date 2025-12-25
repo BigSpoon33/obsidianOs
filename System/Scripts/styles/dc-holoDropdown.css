@@ -1,0 +1,116 @@
+/* --- CONTAINER --- */
+.holo-dd-wrapper {
+    position: relative;
+    width: 200px;
+    font-family: monospace;
+    user-select: none;
+    /* We don't need overflow:visible anymore because we aren't overflowing! */
+}
+
+/* --- 1. THE HEADER --- */
+.holo-dd-header {
+    position: relative;
+    background: #1a1a1a;
+    border-radius: 8px;
+    padding: 2px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+    /* Ensure header stays visually separate */
+    margin-bottom: 2px;
+}
+
+.holo-dd-header:active {
+    transform: scale(0.98);
+}
+
+.holo-border-gradient {
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+    animation: holo-spin 4s linear infinite;
+    z-index: 0;
+    opacity: 0.5;
+}
+
+@keyframes holo-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.holo-dd-content {
+    position: relative;
+    background: #2b2b2b;
+    border-radius: 6px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 1;
+}
+
+.holo-icon, .holo-icon-small {
+    width: 20px; height: 20px;
+    object-fit: contain;
+    pointer-events: none;
+}
+.holo-icon-small { width: 16px; height: 16px; margin-right: 10px; }
+
+.holo-arrow {
+    margin-left: auto;
+    font-size: 0.8em;
+    color: #666;
+    transition: transform 0.3s ease;
+}
+.holo-dd-header.active .holo-arrow {
+    transform: rotate(180deg);
+}
+
+/* --- 2. THE MENU (Accordion Style) --- */
+.holo-dd-list {
+    /* CHANGED: No longer absolute! It pushes content down. */
+    position: relative; 
+    
+    width: 100%;
+    background: #1f1f1f;
+    border: 1px solid #444;
+    border-radius: 8px;
+    overflow: hidden; /* Essential for the slide animation */
+    
+    /* ANIMATION LOGIC: Max-Height Trick */
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+    
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* OPEN STATE */
+.holo-dd-list.open {
+    /* Large enough number to fit your content */
+    max-height: 300px; 
+    opacity: 1;
+    margin-top: 8px; /* Add spacing only when open */
+    border-color: #666;
+}
+
+/* --- 3. ITEMS --- */
+.holo-dd-item {
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    color: #aaa;
+    cursor: pointer;
+    border-bottom: 1px solid #333;
+    transition: all 0.2s ease;
+}
+.holo-dd-item:last-child { border-bottom: none; }
+
+.holo-dd-item:hover {
+    background: #333;
+    color: white;
+    padding-left: 20px;
+    text-shadow: 0 0 8px var(--hover-color);
+    border-left: 3px solid var(--hover-color);
+}

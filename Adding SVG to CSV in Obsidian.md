@@ -80,3 +80,8 @@ If you want to use a custom icon (for example from [Lucide Icons](https://lucide
     - Wrap the result in: `url('data:image/svg+xml,PAST_CODE_HERE')`
         
 5. **Add to CSS:** Add it to the list as shown in step 2.
+
+
+
+
+---

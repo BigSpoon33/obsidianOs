@@ -1,0 +1,97 @@
+/* --- BUTTON CONTAINER --- */
+.moth-toggle-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    width: 220px;
+    /* 30px buffer to prevent the large glow from being clipped */
+    margin: 30px; 
+    background-color: #2b2b2b; 
+    border-radius: 12px;
+    border: 1px solid #4a5d43;
+    box-sizing: border-box;
+    cursor: pointer;
+    position: relative;
+    overflow: visible; 
+    transition: all 0.3s ease;
+
+    /*width: fit-content;*/
+    transition: all 0.3s ease;
+}
+
+.moth-toggle-container:hover {
+    /* Greenish Halo */
+    box-shadow: 0 0 15px 2px rgba(154, 237, 166, 0.4);
+    border-color: #9acd32; 
+}
+
+.moth-toggle-container:active {
+    transform: scale(0.98);
+}
+
+.moth-toggle-container.moth-active {
+    border-color: #ffd700;
+    
+    /* Gold Halo */
+    box-shadow: 0 0 20px 5px rgba(255, 215, 0, 0.3);
+}
+
+/* --- MOTH WRAPPER --- */
+.moth-base {
+    position: relative;
+    width: 50px; 
+    height: 50px;
+    flex-shrink: 0;
+    z-index: 10;
+}
+
+/* --- THE MOTH IMAGE --- */
+.moth-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    
+    /* Smoothly animate between Sleep and Awake */
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                opacity 0.5s ease, 
+                filter 0.5s ease;
+    
+    transform-origin: center center;
+}
+
+/* --- ANIMATION STATES --- */
+
+/* 1. ACTIVE (Lantern Lit): Awake & Glowing */
+.moth-active .moth-img {
+    transform: translate(0, 0) scale(1.1) rotate(0deg);
+    opacity: 1;
+    filter: grayscale(0%) drop-shadow(0 0 5px rgba(255, 215, 0, 0.6));
+}
+
+/* 2. INACTIVE (Darkness): Sleeping */
+.moth-inactive .moth-img {
+    /* Sits quietly in the center, slightly smaller */
+    transform: translate(0, 0) scale(0.85) rotate(0deg);
+    
+    /* Visible but Dim & Grey */
+    opacity: 0.5; 
+    filter: grayscale(100%); 
+}
+
+/* --- RAINBOW TEXT --- */
+.moth-text-rainbow {
+    background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    background-size: 200% auto;
+    animation: moth-rainbow-flow 2s linear infinite;
+    text-shadow: none !important;
+}
+
+@keyframes moth-rainbow-flow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}

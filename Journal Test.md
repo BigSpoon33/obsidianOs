@@ -6,7 +6,7 @@ tags:
 ---
 
 ```datacorejsx
-const script = await dc.require(dc.fileLink("System/Scripts/dc-journal-nav.jsx"));
+const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-journal-nav.jsx"));
 return function View() { return script.Func(); }
 ```
 
@@ -14,7 +14,7 @@ return function View() { return script.Func(); }
 <div className="journal-paper-container">
 
 ```datacorejsx
-const script = await dc.require(dc.fileLink("System/Scripts/dc-journal-nav.jsx"));
+const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-journal-nav.jsx"));
 return function View() { return script.Func(); }
 ```
 
@@ -29,7 +29,7 @@ Write your thoughts here...
 <div class="journal-paper-container"> 
 
 ```datacorejsx 
-const script = await dc.require(dc.fileLink("System/Scripts/dc-journal-nav.jsx")); 
+const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-journal-nav.jsx")); 
 return function View() { return script.Func(); }
 ```
 
@@ -40,6 +40,6 @@ Write your thoughts here...
 </div>
 
 ```datacorejsx 
-const script = await dc.require(dc.fileLink("System/Scripts/dc-journal-nav.jsx")); 
+const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-journal-nav.jsx")); 
 return function View() { return script.Func(); }
 ```

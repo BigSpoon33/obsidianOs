@@ -18,7 +18,7 @@ created: 2025-12-23
 # 🥘 Our Favorite Balsamic Vinaigrette
 
 ```datacorejsx
-const script = await dc.require(dc.fileLink("System/Scripts/dc-recipe-editor.jsx"));
+const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-recipe-editor.jsx"));
 return function View() { return script.Func(); }
 ```
 

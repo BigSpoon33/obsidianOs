@@ -40,7 +40,7 @@ sunday-dinner: "[[Test Dinner]]"
 # 🥘 Test Dinner
 
 ```datacorejsx
-const script = await dc.require(dc.fileLink("System/Scripts/dc-recipe-editor.jsx"));
+const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-recipe-editor.jsx"));
 return function View() { return script.Func(); }
 ```
 
