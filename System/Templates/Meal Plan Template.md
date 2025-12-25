@@ -30,7 +30,7 @@ sunday-dinner:
 # 🗓️ <% planName %>
 
 ```datacorejsx
-const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-meal-planner.jsx"));
+const script = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-mealPlanner.jsx"));
 return function View() { return script.Func(); }
 ```
 

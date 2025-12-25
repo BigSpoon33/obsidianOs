@@ -8,7 +8,7 @@ function JournalBrowser() {
     // 1. AUTO-LOAD CSS
     dc.useEffect(() => {
         const loadStyles = async () => {
-            const cssPath = "System/Scripts/styles/dc-journal.css";
+            const cssPath = "System/Scripts/Styles/dc-journal.css";
             const id = "dc-journal-styles";
             if (document.getElementById(id)) return;
             if (await app.vault.adapter.exists(cssPath)) {

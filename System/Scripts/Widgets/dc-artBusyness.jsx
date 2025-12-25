@@ -3,7 +3,7 @@
 // ============================================================================
 
 // 1. Load Theme Provider (Standard Datacore boilerplate)
-const themeProvider = await dc.require(dc.fileLink("System/Scripts/core/dc-theme-provider.jsx"));
+const themeProvider = await dc.require(dc.fileLink("System/Scripts/Core/dc-themeProvider.jsx"));
 const { useTheme } = themeProvider;
 
 function ParticleDashboard() {

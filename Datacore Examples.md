@@ -109,6 +109,13 @@ safety_lock: false
 - [ ]  need to clean up the System/Academic folder and get everything in place with the /System/Folder architecture
 - [ ] academic dashboard needs a complete datacore rebuild
 - [ ] draggable bar click options, squish, spin, twist, jiggle, etc. just changes the animation on the draggable bsae64 image
+- [ ] there is a disconnect between the Settings.md file and the Datacore Example theme console. oh ok so the colors do work it's just for some reason the tab color is not changing?
+- [ ] these datacore widgets should be able to run from anywhere int he vault or any note becaues they always pull the prop from the settings.md file?
+- [ ] the colors are a little bit off for sure. 
+- [ ] ok we need a moving gradient as part of the theme to match the color
+- [ ] get buttons to have a moving border gradient
+- [ ] we probably need a button to turn on and off "flashy"
+- [ ] 
 
 
 Query total # pages in vault
@@ -172,7 +179,7 @@ return <dc.Table columns={COLUMNS} rows={pages} />;
 
 
 ```datacorejsx
-const scriptPath = "System/Scripts/widgets/dc-nyanCatProgress-draggable.jsx";  // ⬅️ replace it with your jsx file path!
+const scriptPath = "System/Scripts/Widgets/dc-nyanCatProgressDraggable.jsx";  // ⬅️ replace it with your jsx file path!
 const target = dc.fileLink(scriptPath);
 const result = await dc.require(target);
 const view = result?.renderedView ?? result?.View ?? result;  
@@ -188,40 +195,7 @@ return function View() {
 ```
 
 ```datacorejsx
-const scriptPath = "System/Scripts/widgets/dc-mothToggle.jsx";  // ⬅️ replace it with your jsx file path!
-const target = dc.fileLink(scriptPath);
-const result = await dc.require(target);
-const view = result?.renderedView ?? result?.View ?? result;  
-const Func = result?.Func ?? null;
-
-return function View() {
-    const currentFile = dc.useCurrentFile();
-    if (Func) {
-        return Func({ currentFile, scriptPath });
-    }
-    return view ?? <p>Failed to render</p>;
-}
-```
-
-
-```datacorejsx
-const scriptPath = "System/Scripts/widgets/dc-swampBar.jsx";  // ⬅️ replace it with your jsx file path!
-const target = dc.fileLink(scriptPath);
-const result = await dc.require(target);
-const view = result?.renderedView ?? result?.View ?? result;  
-const Func = result?.Func ?? null;
-
-return function View() {
-    const currentFile = dc.useCurrentFile();
-    if (Func) {
-        return Func({ currentFile, scriptPath });
-    }
-    return view ?? <p>Failed to render</p>;
-}
-```
-
-```datacorejsx
-const scriptPath = "System/Scripts/widgets/dc-holoDropdown.jsx";  // ⬅️ replace it with your jsx file path!
+const scriptPath = "System/Scripts/Widgets/dc-mothToggle.jsx";  // ⬅️ replace it with your jsx file path!
 const target = dc.fileLink(scriptPath);
 const result = await dc.require(target);
 const view = result?.renderedView ?? result?.View ?? result;  
@@ -238,7 +212,40 @@ return function View() {
 
 
 ```datacorejsx
-const scriptPath = "System/Scripts/widgets/dc-artHelix.jsx";  // ⬅️ replace it with your jsx file path!
+const scriptPath = "System/Scripts/Widgets/dc-swampBar.jsx";  // ⬅️ replace it with your jsx file path!
+const target = dc.fileLink(scriptPath);
+const result = await dc.require(target);
+const view = result?.renderedView ?? result?.View ?? result;  
+const Func = result?.Func ?? null;
+
+return function View() {
+    const currentFile = dc.useCurrentFile();
+    if (Func) {
+        return Func({ currentFile, scriptPath });
+    }
+    return view ?? <p>Failed to render</p>;
+}
+```
+
+```datacorejsx
+const scriptPath = "System/Scripts/Widgets/dc-holoDropdown.jsx";  // ⬅️ replace it with your jsx file path!
+const target = dc.fileLink(scriptPath);
+const result = await dc.require(target);
+const view = result?.renderedView ?? result?.View ?? result;  
+const Func = result?.Func ?? null;
+
+return function View() {
+    const currentFile = dc.useCurrentFile();
+    if (Func) {
+        return Func({ currentFile, scriptPath });
+    }
+    return view ?? <p>Failed to render</p>;
+}
+```
+
+
+```datacorejsx
+const scriptPath = "System/Scripts/Widgets/dc-artHelix.jsx";  // ⬅️ replace it with your jsx file path!
 const target = dc.fileLink(scriptPath);
 const result = await dc.require(target);
 const view = result?.renderedView ?? result?.View ?? result;  
@@ -255,8 +262,8 @@ return function View() {
 
 ```datacorejsx
 // 1. IMPORT YOUR COMPONENT LIBRARY
-const barMod = await dc.require(dc.fileLink("System/Scripts/widgets/dc-universalBar.jsx"));
-const displayMod = await dc.require(dc.fileLink("System/Scripts/widgets/dc-particleDisplay.jsx"));
+const barMod = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-universalBar.jsx"));
+const displayMod = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-particleDisplay.jsx"));
 
 // 2. EXTRACT COMPONENTS
 const { Func: UniversalBar } = barMod;
@@ -303,9 +310,9 @@ return <MasterConsole />;
 
 ```datacorejsx
 // 1. IMPORTS
-const barMod = await dc.require(dc.fileLink("System/Scripts/widgets/dc-universalBar.jsx"));
-const buttonMod = await dc.require(dc.fileLink("System/Scripts/widgets/dc-universalButton.jsx"));
-const simMod = await dc.require(dc.fileLink("System/Scripts/widgets/dc-artParticle.jsx"));
+const barMod = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-universalBar.jsx"));
+const buttonMod = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-universalButton.jsx"));
+const simMod = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-artParticle.jsx"));
 
 // 2. EXTRACT
 const { Func: UniversalBar } = barMod;
@@ -371,7 +378,7 @@ return <MasterConsole />;
 // ============================================================================
 
 // 1. Load Theme Provider (Standard Datacore boilerplate)
-const themeProvider = await dc.require(dc.fileLink("System/Scripts/core/dc-theme-provider.jsx"));
+const themeProvider = await dc.require(dc.fileLink("System/Scripts/Core/dc-themeProvider.jsx"));
 const { useTheme } = themeProvider;
 
 function ParticleDashboard() {
@@ -531,8 +538,8 @@ return { ParticleDashboard };
 multiple .jsx in one codeblock?
 ```datacorejsx
 // Load the separate files
-const progressMod = await dc.require(dc.fileLink("System/Scripts/widgets/dc-nyanCatProgress-draggable.jsx"));
-const buttonsMod = await dc.require(dc.fileLink("System/Scripts/widgets/dc-mothToggle.jsx"));
+const progressMod = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-nyanCatProgressDraggable.jsx"));
+const buttonsMod = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-mothToggle.jsx"));
 
 // 1. Extract the functions using the EXACT names they were exported with
 // Progress bar exported as "Func"
@@ -561,7 +568,7 @@ return <MainDashboard />;
 
 
 ```datacorejsx
-const scriptPath = "System/Scripts/widgets/dc-moodCheck.jsx";  // ⬅️ replace it with your jsx file path!
+const scriptPath = "System/Scripts/Widgets/dc-moodCheck.jsx";  // ⬅️ replace it with your jsx file path!
 const target = dc.fileLink(scriptPath);
 const result = await dc.require(target);
 const view = result?.renderedView ?? result?.View ?? result;  
@@ -577,7 +584,7 @@ return function View() {
 ```
 
 ```datacorejsx
-const scriptPath = "System/Scripts/widgets/dc-moodCheckEmoji.jsx";  // ⬅️ replace it with your jsx file path!
+const scriptPath = "System/Scripts/Widgets/dc-moodCheckEmoji.jsx";  // ⬅️ replace it with your jsx file path!
 const target = dc.fileLink(scriptPath);
 const result = await dc.require(target);
 const view = result?.renderedView ?? result?.View ?? result;  
@@ -593,7 +600,7 @@ return function View() {
 ```
 
 ```datacorejsx
-const scriptPath = "System/Scripts/widgets/dc-frogButton.jsx";
+const scriptPath = "System/Scripts/Widgets/dc-frogButton.jsx";
 const target = dc.fileLink(scriptPath);
 const result = await dc.require(target);
 const Func = result?.Func ?? null;
@@ -606,7 +613,7 @@ return function View() { return Func ? Func() : <span>Loading Frog...</span>; }
 
 Theme Console
 ```datacorejsx
-const scriptPath = "System/Scripts/widgets/dc-theme-console.jsx";  // ⬅️ replace it with your jsx file path!
+const scriptPath = "System/Scripts/Widgets/dc-themeConsole.jsx";  // ⬅️ replace it with your jsx file path!
 const target = dc.fileLink(scriptPath);
 const result = await dc.require(target);
 const view = result?.renderedView ?? result?.View ?? result;  
@@ -623,7 +630,7 @@ return function View() {
 
 Theme Preview
 ```datacorejsx
-const scriptPath = "System/Scripts/widgets/dc-theme-preview.jsx";  // ⬅️ replace it with your jsx file path!
+const scriptPath = "System/Scripts/Widgets/dc-themePreview.jsx";  // ⬅️ replace it with your jsx file path!
 const target = dc.fileLink(scriptPath);
 const result = await dc.require(target);
 const view = result?.renderedView ?? result?.View ?? result;  
@@ -639,7 +646,7 @@ return function View() {
 ```
 
 ```datacorejsx
-const scriptPath = "System/Scripts/widgets/dc-mothToggle.jsx";  // ⬅️ replace it with your jsx file path!
+const scriptPath = "System/Scripts/Widgets/dc-mothToggle.jsx";  // ⬅️ replace it with your jsx file path!
 const target = dc.fileLink(scriptPath);
 const result = await dc.require(target);
 const view = result?.renderedView ?? result?.View ?? result;  
@@ -702,7 +709,7 @@ return () => (
 **Usage:**
 ```datacorejsx
 // Random GIF/Image Widget (UPDATED - WORKING)
-const scriptPath = "System/Scripts/widgets/dc-randomGif.jsx";
+const scriptPath = "System/Scripts/Widgets/dc-randomGif.jsx";
 const target = dc.fileLink(scriptPath);
 const result = await dc.require(target);
 const Func = result?.Func ?? null;
@@ -886,7 +893,7 @@ return (
 
 calling the function using .jsx script
 ```datacorejsx
-const scriptPath = "System/Scripts/widgets/dc-randomQuote.jsx";  // ⬅️ replace it with your jsx file path!
+const scriptPath = "System/Scripts/Widgets/dc-randomQuote.jsx";  // ⬅️ replace it with your jsx file path!
 const target = dc.fileLink(scriptPath);
 const result = await dc.require(target);
 const view = result?.renderedView ?? result?.View ?? result;  

@@ -1,7 +1,7 @@
 /* ==================================================================
     MEMORIES (React + Datacore)
     - Adapted for Annie's "Fitness OS"
-    - Loads CSS from: System/Scripts/styles/dc-memories.css
+    - Loads CSS from: System/Scripts/Styles/dc-memories.css
     - Source: Files tagged #daily
  ================================================================== */
 
@@ -228,7 +228,7 @@ function MemoriasBoard() {
     // 1. Load CSS
     dc.useEffect(() => {
         const loadStyles = async () => {
-            const cssPath = "System/Scripts/styles/dc-memories.css";
+            const cssPath = "System/Scripts/Styles/dc-memories.css";
             if (await app.vault.adapter.exists(cssPath)) {
                 const css = await app.vault.adapter.read(cssPath);
                 const id = "dc-memories-styles";

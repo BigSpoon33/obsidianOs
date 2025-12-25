@@ -40,7 +40,7 @@ sunday-dinner: "[[Cilantro-Lime Grilled Chicken]]"
 # 🥘 Make-Ahead Sweet Potato and Chorizo Breakfast Burritos
 
 ```datacorejsx
-const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-recipe-editor.jsx"));
+const script = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-recipeEditor.jsx"));
 return function View() { return script.Func(); }
 ```
 

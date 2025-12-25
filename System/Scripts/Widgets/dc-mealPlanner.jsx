@@ -126,7 +126,7 @@ function MealPlanner() {
         fmContent += "---\n";
 
         const codeBlock = "```datacorejsx\n" +
-            'const script = await dc.require(dc.fileLink("System/Scripts/dc-meal-planner.jsx"));\n' +
+            'const script = await dc.require(dc.fileLink("System/Scripts/dc-mealPlanner.jsx"));\n' +
             "return function View() { return script.Func(); }\n" +
             "```";
 

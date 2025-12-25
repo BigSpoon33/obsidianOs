@@ -5,7 +5,7 @@
 # ═══════════════════════════════════════════════════════════════════════════════
 
 # === THEME METADATA ===
-theme-id: bongo-cat
+theme-id: bongoCat
 theme-name: "Bongo Cat"
 theme-description: "The adorable musical cat playing bongos - cozy and playful vibes"
 theme-author: "System"

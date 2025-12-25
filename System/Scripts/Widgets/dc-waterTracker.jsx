@@ -37,7 +37,7 @@ function WaterTracker() {
     // 2. AUTO-LOAD CSS
     dc.useEffect(() => {
         const loadStyles = async () => {
-            const cssPath = "System/Scripts/styles/dc-water-tracker.css";
+            const cssPath = "System/Scripts/Styles/dc-waterTracker.css";
             const id = "dc-water-styles";
             if (document.getElementById(id)) return;
             if (await app.vault.adapter.exists(cssPath)) {

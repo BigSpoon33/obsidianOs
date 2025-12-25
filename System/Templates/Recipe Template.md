@@ -25,7 +25,7 @@ last-cooked:
 # 🥘 <% recipeName %>
 
 ```datacorejsx
-const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-recipe-editor.jsx"));
+const script = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-recipeEditor.jsx"));
 return function View() { return script.Func(); }
 ```
 
@@ -43,6 +43,6 @@ return function View() { return script.Func(); }
 ## 🛍️ Shopping List
 
 ```datacorejsx
-const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-shopping-list.jsx"));
+const script = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-shoppingList.jsx"));
 return function View() { return script.Func(); }
 ```

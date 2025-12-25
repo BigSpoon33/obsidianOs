@@ -30,7 +30,7 @@ const initialVal = current.value("night_mode") || false;
     dc.useEffect(() => {
         const styleId = "dc-moth-toggle-css";
         if (!document.getElementById(styleId)) {
-            app.vault.adapter.read("System/Scripts/styles/dc-mothToggle.css").then(css => {
+            app.vault.adapter.read("System/Scripts/Styles/dc-mothToggle.css").then(css => {
                 const style = document.createElement("style");
                 style.id = styleId;
                 style.textContent = css;

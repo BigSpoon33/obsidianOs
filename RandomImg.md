@@ -6,7 +6,7 @@ tags:
 ---
 ```datacorejsx
 // Random GIF/Image Widget (UPDATED - WORKING)
-const scriptPath = "System/Scripts/widgets/dc-randomGif.jsx";
+const scriptPath = "System/Scripts/Widgets/dc-randomGif.jsx";
 const target = dc.fileLink(scriptPath);
 const result = await dc.require(target);
 const Func = result?.Func ?? null;

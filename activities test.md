@@ -5,13 +5,13 @@ tags:
   - journal
 ---
 ```datacorejsx
-const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-activities.jsx"));
+const script = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-activities.jsx"));
 return function View() { return script.Func(); }
 ```
 
 
 
 ```datacorejsx
-const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-memories.jsx"));
+const script = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-memories.jsx"));
 return function View() { return script.Func(); }
 ```

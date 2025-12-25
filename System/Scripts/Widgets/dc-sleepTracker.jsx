@@ -17,7 +17,7 @@ function SleepTracker() {
     // 2. AUTO-LOAD CSS
     dc.useEffect(() => {
         const loadStyles = async () => {
-            const cssPath = "System/Scripts/styles/dc-sleep-tracker.css";
+            const cssPath = "System/Scripts/Styles/dc-sleepTracker.css";
             const id = "dc-sleep-styles";
             if (document.getElementById(id)) return;
             if (await app.vault.adapter.exists(cssPath)) {

@@ -8,7 +8,7 @@ function HelixArt() {
     dc.useEffect(() => {
         const styleId = "dc-art-helix-css";
         if (!document.getElementById(styleId)) {
-            app.vault.adapter.read("System/Scripts/styles/dc-artHelix.css").then(css => {
+            app.vault.adapter.read("System/Scripts/Styles/dc-artHelix.css").then(css => {
                 const style = document.createElement("style");
                 style.id = styleId;
                 style.textContent = css;

@@ -18,7 +18,7 @@ created: 2025-12-23
 # 🥘 Instant Pot Crispy Chicken Carnitas
 
 ```datacorejsx
-const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-recipe-editor.jsx"));
+const script = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-recipeEditor.jsx"));
 return function View() { return script.Func(); }
 ```
 

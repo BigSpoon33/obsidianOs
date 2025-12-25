@@ -162,7 +162,7 @@ function AnalyticsBoard() {
     dc.useEffect(() => {
         const id = "dc-analytics-css";
         if(!document.getElementById(id)) {
-            app.vault.adapter.read("System/Scripts/styles/dc-activities.css").then(css => {
+            app.vault.adapter.read("System/Scripts/Styles/dc-activities.css").then(css => {
                 const s = document.createElement("style");
                 s.id = id;
                 s.textContent = css;

@@ -18,7 +18,7 @@ water-ml: .nan
 Frogs on a log ^
 
 ```datacorejsx
-const scriptPath = "System/Scripts/widgets/dc-greeting.jsx";  // ⬅️ replace it with your jsx file path!
+const scriptPath = "System/Scripts/Widgets/dc-greeting.jsx";  // ⬅️ replace it with your jsx file path!
 const target = dc.fileLink(scriptPath);
 const result = await dc.require(target);
 const view = result?.renderedView ?? result?.View ?? result;  
@@ -34,7 +34,7 @@ return function View() {
 ```
 
 ```datacorejsx
-const scriptPath = "System/Scripts/widgets/dc-randomQuote.jsx";  // ⬅️ replace it with your jsx file path!
+const scriptPath = "System/Scripts/Widgets/dc-randomQuote.jsx";  // ⬅️ replace it with your jsx file path!
 const target = dc.fileLink(scriptPath);
 const result = await dc.require(target);
 const view = result?.renderedView ?? result?.View ?? result;  

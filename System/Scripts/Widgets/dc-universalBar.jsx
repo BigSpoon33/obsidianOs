@@ -2,7 +2,7 @@
 // UNIVERSAL DRAGGABLE BAR
 // Accepts props: targetKey (string), label (string), theme (object)
 // ============================================================================
-const themeProvider = await dc.require(dc.fileLink("System/Scripts/core/dc-theme-provider.jsx"));
+const themeProvider = await dc.require(dc.fileLink("System/Scripts/Core/dc-themeProvider.jsx"));
 const { useTheme } = themeProvider;
 
 function Func({ targetKey = "progress", label = "Control" }) {

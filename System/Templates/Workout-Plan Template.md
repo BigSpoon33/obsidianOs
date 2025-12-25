@@ -23,7 +23,7 @@ created: ${tp.date.now("YYYY-MM-DD")}
 ---
 
 \`\`\`datacorejsx
-const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-admin-buttons.jsx"));
+const script = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-adminButtons.jsx"));
 return function View() { return script.Func(); }
 \`\`\`
 

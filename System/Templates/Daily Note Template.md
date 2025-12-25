@@ -63,7 +63,7 @@ emotions:
 ## 🌅 Morning Check-In
 
 ```datacorejsx
-const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-sleep-tracker.jsx"));
+const script = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-sleepTracker.jsx"));
 return function View() { return script.Func(); }
 ```
 
@@ -101,7 +101,7 @@ if (mealPlan && mealPlan.meals) {
 
 ```datacorejsx
 // Make sure styles are loaded (if not managed globally)
-const css = await app.vault.adapter.read("System/Scripts/styles/dc-today-menu.css");
+const css = await app.vault.adapter.read("System/Scripts/Styles/dc-todayMenu.css");
 if (!document.getElementById("dc-today-styles")) {
     const style = document.createElement("style");
     style.id = "dc-today-styles";
@@ -109,12 +109,12 @@ if (!document.getElementById("dc-today-styles")) {
     document.head.appendChild(style);
 }
 
-const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-today-menu.jsx"));
+const script = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-todayMenu.jsx"));
 return function View() { return script.Func(); }
 ```
 
 ```datacorejsx
-const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-water-tracker.jsx"));
+const script = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-waterTracker.jsx"));
 return function View() { return script.Func(); }
 ```
 
@@ -124,7 +124,7 @@ return function View() { return script.Func(); }
 
 
 ```datacorejsx
-const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-workout-today.jsx"));
+const script = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-workoutToday.jsx"));
 return function View() {
     return script.Func();
 }
@@ -146,7 +146,7 @@ some kind of exercise tracking to update the frontmatter
 ### 📔 Daily Entries 
 
 ```datacorejsx
-const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-journal-nav.jsx"));
+const script = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-journalNav.jsx"));
 return function View() { return script.Func(); }
 ```
 A good old Journal Entry
@@ -202,7 +202,7 @@ dv.paragraph(`
 ### 🧠 Emotion Log
 
 ```datacorejsx
-const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-mood-tracker.jsx"));
+const script = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-moodTracker.jsx"));
 return function View() { return script.Func(); }
 ```
 
@@ -225,7 +225,7 @@ return function View() { return script.Func(); }
 *What could I improve tomorrow?*
 
 ```datacorejsx
-const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-routine-tracker.jsx"));
+const script = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-routineTracker.jsx"));
 return function View() { return script.Func(); }
 ```
 

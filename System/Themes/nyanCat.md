@@ -5,7 +5,7 @@
 # ═══════════════════════════════════════════════════════════════════════════════
 
 # === THEME METADATA ===
-theme-id: nyan-cat
+theme-id: nyanCat
 theme-name: "Nyan Cat"
 theme-description: "Rainbow poptart cat flying through space - the classic internet meme aesthetic"
 theme-author: "System"
@@ -24,9 +24,36 @@ color-text: "#ffffff"
 color-text-muted: "#aaaacc"
 
 # === TYPOGRAPHY ===
-font-ui: "Inter, sans-serif"
-font-body: "Georgia, serif"
+font-interface: ""
+font-text: ""
 font-mono: "Fira Code, monospace"
+
+# === GLOW EFFECTS ===
+glow-enabled: true
+glow-intensity: "15px"
+glow-spread: "2px"
+
+# === TRANSITIONS ===
+transition-duration: "0.3s"
+transition-easing: "ease"
+
+# === BORDERS ===
+border-radius-small: "6px"
+border-radius-medium: "12px"
+border-radius-large: "16px"
+
+# === LABELS (shown on toggles) ===
+label-active: "Rainbow Mode!"
+label-inactive: "Space Mode"
+label-active-sub: "Nyan nyan nyan~"
+label-inactive-sub: "The stars await..."
+
+# === HR/DIVIDER (from extra-extras) ===
+hr-color: "#ff69b4"
+hr-svg: "url('data:image/svg+xml,%3Csvg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"%3E%3Cpolygon points=\"13 2 3 14 12 14 11 22 21 10 12 10 13 2\"/%3E%3C/svg%3E')"
+
+# === OBSIDIAN SYNC ===
+obsidian-accent-color: "#ff69b4"
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # COMPONENT: DRAGGABLE PROGRESS BAR
@@ -119,10 +146,31 @@ mascot-position: "bottom-right"
 mascot-size: "64px"
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# MINIMAL THEME INTEGRATION
+# STYLE SETTINGS SYNC
+# These values will be synced to Style Settings when theme is applied
 # ═══════════════════════════════════════════════════════════════════════════════
-minimal-color-scheme: "minimal-gruvbox-dark"
-minimal-accent-color: "#ff69b4"
+style-settings:
+  "minimal-style@@ui1@@dark": "#1a1a2e"
+  "minimal-style@@ui2@@dark": "#2a2a4e"
+  "minimal-style@@ui3@@dark": "#ff69b4"
+  "minimal-style@@ax1@@dark": "#0a0a2e"
+  "minimal-style@@ax3@@dark": "#ffff00"
+  "minimal-style@@h1-color@@dark": "#ff0000"
+  "minimal-style@@h2-color@@dark": "#ff9900"
+  "minimal-style@@h3-color@@dark": "#ffff00"
+  "minimal-style@@h4-color@@dark": "#33ff00"
+  "minimal-style@@h5-color@@dark": "#0099ff"
+  "minimal-style@@h6-color@@dark": "#6633ff"
+  "minimal-style@@icon-color@@dark": "#ff69b4"
+  "minimal-style@@line-number-color@@dark": "#ff69b4"
+  "extra-extras@@extras-hr-color@@dark": "#ff69b4"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# MINIMAL SETTINGS (optional overrides)
+# ═══════════════════════════════════════════════════════════════════════════════
+minimal-settings:
+  colorfulHeadings: true
+  colorfulActiveStates: true
 ---
 
 # Nyan Cat Theme

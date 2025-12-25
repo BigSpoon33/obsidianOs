@@ -17,7 +17,7 @@ function HoloDropdown() {
     dc.useEffect(() => {
         const styleId = "dc-holo-dropdown-css";
         if (!document.getElementById(styleId)) {
-            app.vault.adapter.read("System/Scripts/styles/dc-holoDropdown.css").then(css => {
+            app.vault.adapter.read("System/Scripts/Styles/dc-holoDropdown.css").then(css => {
                 const style = document.createElement("style");
                 style.id = styleId;
                 style.textContent = css;

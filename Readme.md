@@ -58,17 +58,17 @@ This vault combines the elegant **Kepano base system** (categories, templates, `
 ### 🎨 Interactive Widgets (Datacore JSX)
 All widgets are located in `System/Scripts/` as `.jsx` + `.css` pairs:
 
-- `dc-water-tracker.jsx` - Hydration tracking with draggable slider
-- `dc-sleep-tracker.jsx` - Sleep quality and duration input
-- `dc-mood-tracker.jsx` - Emotion selection and mood rating
-- `dc-meal-planner.jsx` - Weekly meal planning interface
-- `dc-shopping-list.jsx` - Auto-generated shopping list from recipes
+- `dc-waterTracker.jsx` - Hydration tracking with draggable slider
+- `dc-sleepTracker.jsx` - Sleep quality and duration input
+- `dc-moodTracker.jsx` - Emotion selection and mood rating
+- `dc-mealPlanner.jsx` - Weekly meal planning interface
+- `dc-shoppingList.jsx` - Auto-generated shopping list from recipes
 - `dc-activities.jsx` - Activity analytics dashboard with heat maps
 - `dc-memories.jsx` - Visual memory/journal timeline
 - `dc-greeting.jsx` - Dynamic time-based greeting
 - `dc-randomQuote.jsx` - Daily inspirational quotes
-- `dc-workout-today.jsx` - Today's workout from weekly schedule
-- `dc-journal-nav.jsx` - Journal entry navigation
+- `dc-workoutToday.jsx` - Today's workout from weekly schedule
+- `dc-journalNav.jsx` - Journal entry navigation
 - And more! (35+ widget files)
 
 ---
@@ -237,7 +237,7 @@ Features:
 - **Auto-calculated Totals**: Daily and weekly macro summaries
 - **Shopping List**: Auto-generated from all recipes in the week
 
-Uses `dc-meal-planner.jsx` widget for interactive planning.
+Uses `dc-mealPlanner.jsx` widget for interactive planning.
 
 ### 5. **Categories/** - Content Organization
 
@@ -285,7 +285,7 @@ Standard widget invocation pattern:
 
 ````markdown
 ```datacorejsx
-const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-widget-name.jsx"));
+const script = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-widget-name.jsx"));
 return function View() { return script.Func(); }
 ```
 ````
@@ -293,20 +293,20 @@ return function View() { return script.Func(); }
 ### Available Widgets
 
 **Health Tracking:**
-- `dc-water-tracker.jsx` - Draggable water intake slider
-- `dc-sleep-tracker.jsx` - Sleep time and quality input
-- `dc-mood-tracker.jsx` - Emotion selection grid
-- `dc-routine-tracker.jsx` - Evening routine checklist
+- `dc-waterTracker.jsx` - Draggable water intake slider
+- `dc-sleepTracker.jsx` - Sleep time and quality input
+- `dc-moodTracker.jsx` - Emotion selection grid
+- `dc-routineTracker.jsx` - Evening routine checklist
 
 **Nutrition:**
-- `dc-meal-planner.jsx` - Weekly meal grid editor
-- `dc-shopping-list.jsx` - Auto-generated grocery list
-- `dc-today-menu.jsx` - Today's meals from plan
-- `dc-recipe-editor.jsx` - Recipe metadata editor
+- `dc-mealPlanner.jsx` - Weekly meal grid editor
+- `dc-shoppingList.jsx` - Auto-generated grocery list
+- `dc-todayMenu.jsx` - Today's meals from plan
+- `dc-recipeEditor.jsx` - Recipe metadata editor
 
 **Exercise:**
-- `dc-workout-today.jsx` - Today's scheduled workout
-- `dc-weekly-workout.jsx` - Week schedule editor
+- `dc-workoutToday.jsx` - Today's scheduled workout
+- `dc-weeklyWorkout.jsx` - Week schedule editor
 
 **Analytics:**
 - `dc-activities.jsx` - Activity dashboard with charts
@@ -316,12 +316,12 @@ return function View() { return script.Func(); }
 - `dc-greeting.jsx` - Dynamic time-based greeting
 - `dc-randomQuote.jsx` - Daily quote from quotes category
 - `dc-randomGif.jsx` - Random aesthetic GIF display
-- `dc-nyanCatProgress-draggable.jsx` - Nyan cat progress bar
+- `dc-nyanCatProgressDraggable.jsx` - Nyan cat progress bar
 - `dc-frogButton.jsx` - Fun ribbit button (plays audio)
-- `dc-journal-nav.jsx` - Journal entry navigation
+- `dc-journalNav.jsx` - Journal entry navigation
 
 **Admin:**
-- `dc-admin-buttons.jsx` - Vault management shortcuts
+- `dc-adminButtons.jsx` - Vault management shortcuts
 
 ### Creating Custom Widgets
 
@@ -383,10 +383,10 @@ kepano-obsidian/
 │
 ├── System/                          # Custom scripts & styles
 │   └── Scripts/
-│       ├── dc-water-tracker.jsx    # Hydration widget
-│       ├── dc-water-tracker.css
-│       ├── dc-meal-planner.jsx     # Meal planner widget
-│       ├── dc-meal-planner.css
+│       ├── dc-waterTracker.jsx    # Hydration widget
+│       ├── dc-waterTracker.css
+│       ├── dc-mealPlanner.jsx     # Meal planner widget
+│       ├── dc-mealPlanner.css
 │       └── [35+ more widgets]
 │
 ├── References/                      # Reference notes
@@ -484,7 +484,7 @@ image: [[cover-image.png]]  # optional
 
 ### Modifying Widgets
 
-1. **Locate widget**: `System/Scripts/widgets/dc-widget-name.jsx`
+1. **Locate widget**: `System/Scripts/Widgets/dc-widget-name.jsx`
 2. **Edit JSX/CSS**: Modify component logic or styling
 3. **Test**: Use `Datacore Examples.md` to test changes
 4. **Reload**: `Cmd/Ctrl + R` to refresh Obsidian
@@ -492,8 +492,8 @@ image: [[cover-image.png]]  # optional
 ### Custom CSS Themes
 
 CSS files in `System/Scripts/`:
-- `goblincore-style.css` - Aesthetic theme
-- `journal-theme.css` - Journal-specific styling
+- `dc-goblincore.css` - Aesthetic theme
+- `dc-journalTheme.css` - Journal-specific styling
 - Custom snippet files in `.obsidian/snippets/`
 
 Apply via frontmatter:

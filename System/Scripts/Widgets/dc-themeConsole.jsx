@@ -4,12 +4,12 @@
 // 
 // Usage in notes:
 //   ```datacore
-//   await dc.require(dc.fileLink("System/Scripts/widgets/dc-theme-console.jsx"))
+//   await dc.require(dc.fileLink("System/Scripts/Widgets/dc-themeConsole.jsx"))
 //   ```
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const { useTheme, useAvailableThemes, switchTheme, clearThemeCache } = await dc.require(
-    dc.fileLink("System/Scripts/core/dc-theme-provider.jsx")
+    dc.fileLink("System/Scripts/Core/dc-themeProvider.jsx")
 );
 
 function ThemeConsole() {

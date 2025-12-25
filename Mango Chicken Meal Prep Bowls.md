@@ -20,7 +20,7 @@ last-cooked:
 # 🥘 Mango Chicken Meal Prep Bowls
 
 ```datacorejsx
-const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-recipe-editor.jsx"));
+const script = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-recipeEditor.jsx"));
 return function View() { return script.Func(); }
 ```
 

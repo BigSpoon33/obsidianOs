@@ -368,7 +368,7 @@ return (
 
         <div className="nyan-container" style={{marginTop: '20px'}}>
             <div className="nyan-bar" style={{ width: `${progress}%` }}></div>
-            <img className="nyan-cat" src="https://gc-pkm.pages.dev/nyan-cat.gif" style={{ left: `calc(${progress}% - 25px)` }} />
+            <img className="nyanCat" src="https://gc-pkm.pages.dev/nyan-cat.gif" style={{ left: `calc(${progress}% - 25px)` }} />
         </div>
 
         {/* CONDITIONALLY RENDER SETTINGS INTERFACE */}

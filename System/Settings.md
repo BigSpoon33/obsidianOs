@@ -19,7 +19,9 @@ schedule-friday: "[[Pull Day]]"
 schedule-saturday: "[[Cardio & Abs]]"
 schedule-sunday: "[[Push Day]]"
 schedule-monday: "[[Pull Day]]"
-widget-theme: bongo-cat
+widget-theme: bongoCat
+color-override: makoBlue
+sync-to-obsidian: true
 ---
 
 
@@ -75,7 +77,7 @@ Adjust the values below to customize your daily note templates.
 Select a plan for each day. Leave empty for **Rest Days**.
 
 ```datacorejsx
-const script = await dc.require(dc.fileLink("System/Scripts/widgets/dc-weekly-workout.jsx"));
+const script = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-weeklyWorkout.jsx"));
 return function View() { return script.Func(); }
 ```
 
@@ -86,11 +88,29 @@ return function View() { return script.Func(); }
 
 ## 🎨 Widget Theme
 
-**Active Theme:** `INPUT[inlineSelect(option(nyan-cat, Nyan Cat), option(bongo-cat, Bongo Cat)):widget-theme]`
+**Sprite Pack:** `INPUT[inlineSelect(option(nyanCat, Nyan Cat), option(bongoCat, Bongo Cat)):widget-theme]`
 
-*Switch between visual themes for progress bars and other widgets.*
+**Color Override:** `INPUT[text:color-override]`
+*Leave empty to use theme's colors, or enter a color scheme name (e.g., violetViper, makoBlue, killaBee)*
 
-**Current Theme:** `VIEW[{widget-theme}]`
+**Sync to Obsidian:** `INPUT[toggle:sync-to-obsidian]`
+*When enabled, switching themes also updates Obsidian's accent color and Style Settings*
+
+**Current Settings:**
+- Sprite Pack: `VIEW[{widget-theme}]`
+- Color Override: `VIEW[{color-override}]` *(empty = use theme default)*
+- Obsidian Sync: `VIEW[{sync-to-obsidian}]`
+
+### Available Color Schemes
+Copy one of these names to the Color Override field:
+- `violetViper` - Purple/magenta gradient
+- `makoBlue` - Ocean blue
+- `killaBee` - Yellow/gold
+- `redHawk` - Deep red
+- `crouchingTiger` - (check JSON)
+- `hiddenDragon` - (check JSON)
+- `savageCroc` - (check JSON)
+- `whiteCrane` - (check JSON)
 
 ---
 

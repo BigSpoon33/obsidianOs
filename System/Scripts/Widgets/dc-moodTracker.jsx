@@ -35,7 +35,7 @@ function MoodTracker() {
     // 3. AUTO-LOAD CSS
     dc.useEffect(() => {
         const loadStyles = async () => {
-            const cssPath = "System/Scripts/styles/dc-mood-tracker.css";
+            const cssPath = "System/Scripts/Styles/dc-moodTracker.css";
             const id = "dc-mood-styles";
             if (document.getElementById(id)) return;
             if (await app.vault.adapter.exists(cssPath)) {

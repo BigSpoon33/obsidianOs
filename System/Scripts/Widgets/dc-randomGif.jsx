@@ -14,7 +14,7 @@ function RandomGif() {
     // ==================== CSS LOADING ====================
     dc.useEffect(() => {
         const loadStyles = async () => {
-            const cssPath = "System/Scripts/styles/dc-randomGif.css";
+            const cssPath = "System/Scripts/Styles/dc-randomGif.css";
             const id = "dc-randomGif-css";
             if (document.getElementById(id)) return;
             if (await app.vault.adapter.exists(cssPath)) {
