@@ -116,8 +116,17 @@ function BackgroundPicker({
     const textColor = theme["color-text"] || "#ffffff";
     const textMuted = theme["color-text-muted"] || "#888";
     
-    // Sync state when value prop changes
+    // Track if user is manually changing type (to prevent auto-detection override)
+    const userChangedTypeRef = dc.useRef(false);
+    
+    // Sync state when value prop changes (but not if user just changed type)
     dc.useEffect(() => {
+        // Skip if user just manually changed the type
+        if (userChangedTypeRef.current) {
+            userChangedTypeRef.current = false;
+            return;
+        }
+        
         const type = detectBackgroundType(value);
         setBgType(type);
         
@@ -136,28 +145,33 @@ function BackgroundPicker({
             case "color": return colorValue;
             case "gradient": return gradientValue;
             case "image": 
+                if (!imageValue) return "";
                 if (imageValue.startsWith("data:image")) {
                     return `url("${imageValue}")`;
                 }
-                return imageValue.startsWith("url(") ? imageValue : `url("${imageValue}")`;
+                return imageValue.startsWith("url(") ? imageValue : (imageValue ? `url("${imageValue}")` : "");
             default: return colorValue;
         }
     };
     
     // Handle type change
     const handleTypeChange = (newType) => {
+        // Mark that user is manually changing type
+        userChangedTypeRef.current = true;
         setBgType(newType);
         
-        // Emit the appropriate value
+        // Only emit onChange if the value for that type is non-empty
+        // This prevents empty values from triggering type re-detection
         switch (newType) {
             case "color":
-                onChange?.(colorValue);
+                if (colorValue) onChange?.(colorValue);
                 break;
             case "gradient":
-                onChange?.(gradientValue);
+                if (gradientValue) onChange?.(gradientValue);
                 break;
             case "image":
-                onChange?.(imageValue);
+                // Don't emit empty image value - let user upload/paste first
+                if (imageValue) onChange?.(imageValue);
                 break;
         }
     };
