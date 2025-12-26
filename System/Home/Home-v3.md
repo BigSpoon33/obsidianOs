@@ -15,7 +15,18 @@ water-ml:
   <p style="color: var(--text-muted); font-size: 1.2em; margin-top: 10px;">Your Personal Knowledge Management Hub</p>
 </div>
 add a few quick links here like create daily note if not made
+```datacorejsx
+const { GloButton } = await dc.require(
+    dc.fileLink("System/Scripts/Components/dc-gloButton.jsx")
+);
 
+<GloButton 
+    label="Click Me" 
+    icon="🎉" 
+    rainbow={true}
+    onClick={() => new Notice('Clicked!')} 
+/>
+```
 ---
 ```datacorejsx
 const scriptPath = "System/Scripts/Widgets/dc-greeting.jsx";  // ⬅️ replace it with your jsx file path!

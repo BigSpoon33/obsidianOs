@@ -19,12 +19,12 @@ schedule-friday: "[[Push Day]]"
 schedule-saturday: "[[Push Day]]"
 schedule-sunday: "[[Push Day]]"
 schedule-monday: "[[Push Day]]"
-widget-theme: bongoCat
-color-override: redHawk
+widget-theme: nyanCat
+color-override: savageCroc
 sync-to-obsidian: true
 flashy-mode: true
 schedule-thursday: "[[Push Day]]"
-__preview_toggle_on: true
+__preview_toggle_on: false
 __preview_toggle_off: false
 ---
 

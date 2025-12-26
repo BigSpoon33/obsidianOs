@@ -56,6 +56,9 @@ const { ColorPicker } = await dc.require(
 const { GradientBuilder } = await dc.require(
     dc.fileLink("System/Scripts/Components/dc-gradientBuilder.jsx")
 );
+const { BackgroundPicker } = await dc.require(
+    dc.fileLink("System/Scripts/Components/dc-backgroundPicker.jsx")
+);
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CONSTANTS
@@ -112,8 +115,8 @@ const PROPERTY_SECTIONS = [
             { key: "bar-sprite-width", label: "Sprite Width", type: "number", min: 10, max: 200, unit: "px" },
             { key: "bar-sprite-height", label: "Sprite Height", type: "number", min: 10, max: 200, unit: "px" },
             { key: "bar-sprite-click-animation", label: "Click Animation", type: "select", options: ANIMATION_OPTIONS },
-            { key: "bar-fill-gradient", label: "Fill Gradient", type: "gradient" },
-            { key: "bar-track-bg", label: "Track Background", type: "gradient" },
+            { key: "bar-fill-gradient", label: "Fill Background", type: "background" },
+            { key: "bar-track-bg", label: "Track Background", type: "background" },
             { key: "bar-height", label: "Bar Height", type: "text", placeholder: "14px" },
             { key: "bar-border-radius", label: "Border Radius", type: "text", placeholder: "6px" },
         ]
@@ -127,8 +130,9 @@ const PROPERTY_SECTIONS = [
             { key: "toggle-sprite-width", label: "Sprite Width", type: "number", min: 10, max: 200, unit: "px" },
             { key: "toggle-sprite-height", label: "Sprite Height", type: "number", min: 10, max: 200, unit: "px" },
             { key: "toggle-sprite-click-animation", label: "Click Animation", type: "select", options: ANIMATION_OPTIONS },
-            { key: "toggle-idle-bg", label: "Idle Background", type: "gradient" },
-            { key: "toggle-active-bg", label: "Active Background", type: "gradient" },
+            { key: "toggle-idle-bg", label: "Idle Background", type: "background" },
+            { key: "toggle-hover-bg", label: "Hover Background", type: "background" },
+            { key: "toggle-active-bg", label: "Active Background", type: "background" },
             { key: "label-active", label: "Active Label", type: "text", placeholder: "ON" },
             { key: "label-inactive", label: "Inactive Label", type: "text", placeholder: "OFF" },
         ]
@@ -138,11 +142,13 @@ const PROPERTY_SECTIONS = [
         title: "Buttons",
         icon: "🔲",
         properties: [
-            { key: "button-idle-bg", label: "Idle Background", type: "gradient" },
-            { key: "button-hover-bg", label: "Hover Background", type: "gradient" },
-            { key: "button-active-bg", label: "Active Background", type: "gradient" },
+            { key: "button-idle-bg", label: "Idle Background", type: "background" },
+            { key: "button-hover-bg", label: "Hover Background", type: "background" },
+            { key: "button-active-bg", label: "Active Background", type: "background" },
             { key: "button-text-color", label: "Text Color", type: "color" },
             { key: "button-sprite", label: "Sprite (Base64/URL)", type: "image" },
+            { key: "button-sprite-width", label: "Sprite Width", type: "number", min: 10, max: 200, unit: "px" },
+            { key: "button-sprite-height", label: "Sprite Height", type: "number", min: 10, max: 200, unit: "px" },
             { key: "button-sprite-click-animation", label: "Click Animation", type: "select", options: ANIMATION_OPTIONS },
         ]
     },
@@ -151,7 +157,7 @@ const PROPERTY_SECTIONS = [
         title: "Inputs & Select",
         icon: "📝",
         properties: [
-            { key: "input-bg", label: "Input Background", type: "text", placeholder: "rgba(255,255,255,0.05)" },
+            { key: "input-bg", label: "Input Background", type: "background" },
             { key: "input-border", label: "Input Border", type: "text", placeholder: "1px solid rgba(255,105,180,0.3)" },
             { key: "input-border-focus", label: "Focus Border", type: "text", placeholder: "1px solid #ff69b4" },
             { key: "input-border-radius", label: "Border Radius", type: "text", placeholder: "6px" },
@@ -162,7 +168,7 @@ const PROPERTY_SECTIONS = [
         title: "Cards",
         icon: "🃏",
         properties: [
-            { key: "card-bg-color", label: "Background Color", type: "color" },
+            { key: "card-bg-color", label: "Background", type: "background" },
             { key: "card-border", label: "Border", type: "text", placeholder: "1px solid rgba(124,58,237,0.3)" },
             { key: "card-border-radius", label: "Border Radius", type: "text", placeholder: "12px" },
             { key: "card-shadow", label: "Shadow", type: "text", placeholder: "0 4px 15px rgba(0,0,0,0.2)" },
@@ -611,6 +617,15 @@ function PropertyField({
                         previewHeight={40}
                     />
                 );
+            
+            case "background":
+                return (
+                    <BackgroundPicker
+                        value={value || ""}
+                        onChange={onChange}
+                        previewHeight={40}
+                    />
+                );
                 
             case "image":
                 return (
@@ -838,6 +853,7 @@ function ThemePreviewMini({ theme, barValue, onBarChange }) {
                     onLabel={theme["label-active"] || "ON"}
                     offLabel={theme["label-inactive"] || "OFF"}
                     idleBg={theme["toggle-idle-bg"]}
+                    hoverBg={theme["toggle-hover-bg"]}
                     activeBg={theme["toggle-active-bg"]}
                     spriteAnimation={theme["toggle-sprite-click-animation"]}
                 />
