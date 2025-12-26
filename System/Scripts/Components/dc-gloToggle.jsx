@@ -259,24 +259,30 @@ function GloToggle({
     // Rainbow text logic
     const showRainbow = effectsEnabled && rainbow && (isActive || isHovered);
     
-    // Sprite styling
+    // Sprite styling - NO grayscale filter to allow GIF animation
     const spriteStyle = {
         width: `${spWidth}px`,
         height: `${spHeight}px`,
         objectFit: "contain",
-        transition: `all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)`,
+        transition: `transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease`,
         transformOrigin: "center center",
+        pointerEvents: "none", // Prevent cursor change on sprite
     };
     
     // Active vs inactive sprite transforms
+    // NOTE: We don't use grayscale filter because it stops GIF animation
+    // Instead we use opacity and scale to differentiate states
     if (isActive) {
         spriteStyle.transform = "scale(1.1)";
         spriteStyle.opacity = 1;
-        spriteStyle.filter = `grayscale(0%) drop-shadow(0 0 5px ${glowColorActive})`;
+        // Only add drop-shadow, no grayscale
+        if (effectsEnabled && glow) {
+            spriteStyle.filter = `drop-shadow(0 0 8px ${glowColorActive})`;
+        }
     } else {
         spriteStyle.transform = "scale(0.85)";
-        spriteStyle.opacity = 0.5;
-        spriteStyle.filter = "grayscale(100%)";
+        spriteStyle.opacity = 0.6;
+        // No filter at all - allows GIF to play but appears dimmer via opacity
     }
     
     // ─────────────────────────────────────────────────────────────────────────
@@ -300,12 +306,15 @@ function GloToggle({
                 margin: "15px", // Buffer for glow
                 boxSizing: "border-box",
                 
-                // Background
+                // Background - tiled for image backgrounds
                 background: currentBg,
-                backgroundSize: isImageBg ? "auto" : undefined,
-                backgroundRepeat: isImageBg ? "repeat" : undefined,
-                backgroundPosition: isImageBg ? "center" : undefined,
-                
+                /*backgroundSize: isImageBg ? "cover" : undefined,
+                backgroundRepeat: isImageBg ? "no repeat" : undefined,
+                backgroundPosition: isImageBg ? "center center" : undefined,*/
+                backgroundSize: "auto",
+                backgroundRepeat: "repeat",
+                backgroundPosition: "center",
+
                 // Border
                 borderRadius: containerRadius,
                 border: `1px solid ${isActive ? borderColorActive : borderColorIdle}`,
@@ -320,7 +329,7 @@ function GloToggle({
                 transform,
                 boxShadow,
                 transition: `all ${transitionSpeed} ease, transform ${transitionFast} ease`,
-                
+
                 // User overrides
                 ...style,
             }}

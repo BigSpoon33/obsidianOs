@@ -7,8 +7,8 @@ cssclasses:
 demo_toggle: false
 night_mode: false
 feature_enabled: false
-progress_value: 35
-water_intake: 2900
+progress_value: 37
+water_intake: 2200
 ---
 
 # Component Test Dashboard
@@ -391,11 +391,591 @@ const { GloBar } = await dc.require(
 
 ---
 
-## Render the Component Directly
-
-You can also render the built-in demo:
+## dc-gloSelect Demo
 
 ```datacorejsx
-const script = await dc.require(dc.fileLink("System/Scripts/Components/dc-gloButton.jsx"));
+const { GloSelect } = await dc.require(dc.fileLink("System/Scripts/Components/dc-gloSelect.jsx"));
+
+return (
+    <div style={{display: 'flex', flexDirection: 'column', gap: '1.5rem', padding: '1rem', maxWidth: '350px'}}>
+        
+        {/* Basic select with icons */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>Basic Select</h4>
+            <GloSelect 
+                label="Meal Category"
+                options={[
+                    { value: "breakfast", label: "Breakfast", icon: "🍳" },
+                    { value: "lunch", label: "Lunch", icon: "🥗" },
+                    { value: "dinner", label: "Dinner", icon: "🍝" },
+                    { value: "snack", label: "Snack", icon: "🍿" },
+                ]}
+                placeholder="Choose a meal..."
+                onChange={(v) => new Notice('Selected: ' + v)}
+            />
+        </div>
+        
+        {/* Searchable */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>Searchable</h4>
+            <GloSelect 
+                label="Search Fruits"
+                options={["Apple", "Banana", "Cherry", "Date", "Elderberry", "Fig", "Grape", "Honeydew"]}
+                searchable={true}
+                placeholder="Type to search..."
+            />
+        </div>
+        
+        {/* Multiple selection */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>Multiple Selection</h4>
+            <GloSelect 
+                label="Workout Types"
+                options={[
+                    { value: "strength", label: "Strength", icon: "💪" },
+                    { value: "cardio", label: "Cardio", icon: "🏃" },
+                    { value: "flexibility", label: "Flexibility", icon: "🧘" },
+                    { value: "balance", label: "Balance", icon: "⚖️" },
+                ]}
+                multiple={true}
+                placeholder="Select types..."
+            />
+        </div>
+        
+        {/* Sizes */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>Sizes</h4>
+            <div style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
+                <GloSelect options={["Small option"]} size="small" placeholder="Small" />
+                <GloSelect options={["Medium option"]} size="medium" placeholder="Medium" />
+                <GloSelect options={["Large option"]} size="large" placeholder="Large" />
+            </div>
+        </div>
+        
+    </div>
+);
+```
+
+---
+
+## dc-gloCard Demo
+
+```datacorejsx
+const { GloCard } = await dc.require(dc.fileLink("System/Scripts/Components/dc-gloCard.jsx"));
+const { GloButton } = await dc.require(dc.fileLink("System/Scripts/Components/dc-gloButton.jsx"));
+
+return (
+    <div style={{display: 'flex', flexDirection: 'column', gap: '1.5rem', padding: '1rem', maxWidth: '400px'}}>
+        
+        {/* Basic card */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>Basic Card</h4>
+            <GloCard 
+                title="Project Update"
+                subtitle="Last updated today"
+                icon="📋"
+            >
+                <p style={{margin: 0}}>This is the card body. Cards are great for grouping related content together.</p>
+            </GloCard>
+        </div>
+        
+        {/* With footer and actions */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>With Footer & Actions</h4>
+            <GloCard 
+                title="Task Card"
+                icon="✅"
+                actions={<GloButton label="Edit" size="small" variant="ghost" onClick={() => {}} />}
+                footer={<span>Due: Tomorrow</span>}
+            >
+                <p style={{margin: 0}}>Complete the component library.</p>
+            </GloCard>
+        </div>
+        
+        {/* Collapsible */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>Collapsible</h4>
+            <GloCard 
+                title="Click to Collapse"
+                icon="📁"
+                collapsible={true}
+            >
+                <p style={{margin: 0}}>This content can be collapsed by clicking the header!</p>
+            </GloCard>
+        </div>
+        
+        {/* Variants */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>Variants</h4>
+            <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
+                <GloCard variant="default" title="Default" size="small">
+                    <span>Standard card</span>
+                </GloCard>
+                <GloCard variant="glass" title="Glass" size="small" glow={true}>
+                    <span>Glass morphism effect</span>
+                </GloCard>
+                <GloCard variant="elevated" title="Elevated" size="small">
+                    <span>Elevated shadow</span>
+                </GloCard>
+                <GloCard variant="outlined" title="Outlined" size="small">
+                    <span>Border only</span>
+                </GloCard>
+            </div>
+        </div>
+        
+    </div>
+);
+```
+
+---
+
+## dc-gloTabs Demo
+
+```datacorejsx
+const { GloTabs } = await dc.require(dc.fileLink("System/Scripts/Components/dc-gloTabs.jsx"));
+
+return (
+    <div style={{display: 'flex', flexDirection: 'column', gap: '2rem', padding: '1rem', maxWidth: '500px'}}>
+        
+        {/* Underline (default) */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>Underline Tabs</h4>
+            <GloTabs 
+                tabs={[
+                    { id: "today", label: "Today", icon: "📅", content: <p>Today's tasks and events appear here.</p> },
+                    { id: "week", label: "This Week", icon: "📆", content: <p>Weekly overview with all scheduled items.</p> },
+                    { id: "month", label: "Month", icon: "🗓️", content: <p>Monthly summary and statistics.</p> },
+                ]}
+            />
+        </div>
+        
+        {/* Pills */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>Pills Tabs</h4>
+            <GloTabs 
+                variant="pills"
+                tabs={[
+                    { id: "all", label: "All", content: <p>All items displayed here.</p> },
+                    { id: "active", label: "Active", content: <p>Active items only.</p> },
+                    { id: "completed", label: "Completed", content: <p>Completed items.</p> },
+                ]}
+            />
+        </div>
+        
+        {/* Boxed */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>Boxed Tabs</h4>
+            <GloTabs 
+                variant="boxed"
+                tabs={[
+                    { id: "overview", label: "Overview", icon: "📊" },
+                    { id: "details", label: "Details", icon: "📝" },
+                    { id: "settings", label: "Settings", icon: "⚙️", disabled: true },
+                ]}
+                renderContent={false}
+            />
+        </div>
+        
+        {/* Stretch alignment */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>Stretched Pills</h4>
+            <GloTabs 
+                variant="pills"
+                align="stretch"
+                size="small"
+                tabs={[
+                    { id: "1", label: "Tab One" },
+                    { id: "2", label: "Tab Two" },
+                    { id: "3", label: "Tab Three" },
+                ]}
+                renderContent={false}
+            />
+        </div>
+        
+    </div>
+);
+```
+
+---
+
+## dc-gloBadge Demo
+
+```datacorejsx
+const { GloBadge, GloBadgeGroup } = await dc.require(dc.fileLink("System/Scripts/Components/dc-gloBadge.jsx"));
+
+return (
+    <div style={{display: 'flex', flexDirection: 'column', gap: '1.5rem', padding: '1rem', maxWidth: '450px'}}>
+        
+        {/* Status badges */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>Status Badges</h4>
+            <GloBadgeGroup>
+                <GloBadge status="success">Complete</GloBadge>
+                <GloBadge status="warning">Pending</GloBadge>
+                <GloBadge status="error">Overdue</GloBadge>
+                <GloBadge status="info">New</GloBadge>
+                <GloBadge status="neutral">Draft</GloBadge>
+            </GloBadgeGroup>
+        </div>
+        
+        {/* Variants */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>Variants</h4>
+            <GloBadgeGroup>
+                <GloBadge variant="filled">Filled</GloBadge>
+                <GloBadge variant="soft">Soft</GloBadge>
+                <GloBadge variant="outlined">Outlined</GloBadge>
+                <GloBadge variant="dot">With Dot</GloBadge>
+            </GloBadgeGroup>
+        </div>
+        
+        {/* With icons */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>With Icons</h4>
+            <GloBadgeGroup>
+                <GloBadge icon="🏷️" variant="soft">Tag</GloBadge>
+                <GloBadge icon="⭐" status="warning" variant="soft">Featured</GloBadge>
+                <GloBadge icon="🔥" color="#ff4500" variant="soft">Hot</GloBadge>
+            </GloBadgeGroup>
+        </div>
+        
+        {/* Removable */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>Removable Tags</h4>
+            <GloBadgeGroup>
+                <GloBadge removable onRemove={() => new Notice('Remove 1')}>Breakfast</GloBadge>
+                <GloBadge removable onRemove={() => new Notice('Remove 2')} status="info">Lunch</GloBadge>
+                <GloBadge removable onRemove={() => new Notice('Remove 3')} color="#9333ea">Dinner</GloBadge>
+            </GloBadgeGroup>
+        </div>
+        
+        {/* Effects */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>Effects</h4>
+            <GloBadgeGroup>
+                <GloBadge glow={true}>Glow</GloBadge>
+                <GloBadge pulse={true} status="error">Pulse</GloBadge>
+                <GloBadge glow={true} status="success" variant="soft">Success Glow</GloBadge>
+            </GloBadgeGroup>
+        </div>
+        
+        {/* Sizes */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>Sizes</h4>
+            <GloBadgeGroup>
+                <GloBadge size="small" variant="soft">Small</GloBadge>
+                <GloBadge size="medium" variant="soft">Medium</GloBadge>
+                <GloBadge size="large" variant="soft">Large</GloBadge>
+            </GloBadgeGroup>
+        </div>
+        
+    </div>
+);
+```
+
+---
+
+## dc-gloInput Demo
+
+```datacorejsx
+const { GloInput } = await dc.require(dc.fileLink("System/Scripts/Components/dc-gloInput.jsx"));
+
+return (
+    <div style={{display: 'flex', flexDirection: 'column', gap: '1.5rem', padding: '1rem', maxWidth: '350px'}}>
+        
+        {/* Basic inputs */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>Basic Inputs</h4>
+            <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
+                <GloInput 
+                    label="Name"
+                    placeholder="Enter your name..."
+                    helperText="Your display name"
+                />
+                <GloInput 
+                    label="Search"
+                    placeholder="Search notes..."
+                    iconLeft="🔍"
+                    clearable={true}
+                />
+            </div>
+        </div>
+        
+        {/* Validation */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>With Validation</h4>
+            <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
+                <GloInput 
+                    label="Email"
+                    type="email"
+                    placeholder="you@example.com"
+                    required={true}
+                    iconLeft="✉️"
+                />
+                <GloInput 
+                    label="Quantity"
+                    type="number"
+                    placeholder="0"
+                    min={0}
+                    max={100}
+                    helperText="Enter a number between 0-100"
+                />
+            </div>
+        </div>
+        
+        {/* Textarea */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>Textarea</h4>
+            <GloInput 
+                label="Notes"
+                type="textarea"
+                placeholder="Write your notes here..."
+                rows={4}
+            />
+        </div>
+        
+        {/* Variants */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>Variants</h4>
+            <div style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
+                <GloInput variant="default" placeholder="Default variant" />
+                <GloInput variant="filled" placeholder="Filled variant" />
+                <GloInput variant="ghost" placeholder="Ghost variant" />
+            </div>
+        </div>
+        
+        {/* Sizes */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>Sizes</h4>
+            <div style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
+                <GloInput size="small" placeholder="Small input" />
+                <GloInput size="medium" placeholder="Medium input" />
+                <GloInput size="large" placeholder="Large input" />
+            </div>
+        </div>
+        
+    </div>
+);
+```
+
+---
+
+## Quick Reference - New Components
+
+### GloSelect
+
+```javascript
+const { GloSelect } = await dc.require(
+    dc.fileLink("System/Scripts/Components/dc-gloSelect.jsx")
+);
+
+<GloSelect 
+    label="Category"
+    options={[
+        { value: "a", label: "Option A", icon: "🅰️" },
+        { value: "b", label: "Option B", icon: "🅱️" },
+    ]}
+    searchable={true}
+    multiple={false}
+    onChange={(value) => console.log(value)}
+/>
+```
+
+### GloCard
+
+```javascript
+const { GloCard } = await dc.require(
+    dc.fileLink("System/Scripts/Components/dc-gloCard.jsx")
+);
+
+<GloCard 
+    title="My Card"
+    subtitle="Description"
+    icon="📦"
+    variant="glass"
+    collapsible={true}
+    footer={<span>Footer text</span>}
+>
+    Card content here
+</GloCard>
+```
+
+### GloTabs
+
+```javascript
+const { GloTabs } = await dc.require(
+    dc.fileLink("System/Scripts/Components/dc-gloTabs.jsx")
+);
+
+<GloTabs 
+    variant="pills"
+    tabs={[
+        { id: "tab1", label: "Tab 1", icon: "📋", content: <p>Content 1</p> },
+        { id: "tab2", label: "Tab 2", icon: "📊", content: <p>Content 2</p> },
+    ]}
+/>
+```
+
+### GloBadge
+
+```javascript
+const { GloBadge, GloBadgeGroup } = await dc.require(
+    dc.fileLink("System/Scripts/Components/dc-gloBadge.jsx")
+);
+
+<GloBadgeGroup>
+    <GloBadge status="success" icon="✓">Done</GloBadge>
+    <GloBadge status="warning" variant="soft">Pending</GloBadge>
+    <GloBadge removable onRemove={() => {}}>Tag</GloBadge>
+</GloBadgeGroup>
+```
+
+### GloInput
+
+```javascript
+const { GloInput } = await dc.require(
+    dc.fileLink("System/Scripts/Components/dc-gloInput.jsx")
+);
+
+<GloInput 
+    label="Email"
+    type="email"
+    placeholder="Enter email..."
+    required={true}
+    iconLeft="✉️"
+    clearable={true}
+    onChange={(value) => console.log(value)}
+/>
+```
+
+---
+
+## Gradient Utilities Demo
+
+```datacorejsx
+const { GloBar } = await dc.require(dc.fileLink("System/Scripts/Components/dc-gloBar.jsx"));
+const { 
+    getPreset, 
+    createLinear, 
+    createStripes, 
+    createFromPalette,
+    createSimple,
+    GRADIENT_PRESETS 
+} = await dc.require(dc.fileLink("System/Scripts/Core/dc-gradientUtils.jsx"));
+
+return (
+    <div style={{display: 'flex', flexDirection: 'column', gap: '2rem', padding: '1rem', maxWidth: '500px'}}>
+        
+        {/* Preset gradients */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>Preset Gradients (getPreset)</h4>
+            <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
+                {["rainbow", "sunset", "ocean", "neonPink", "cyberpunk", "fire", "forest", "synthwave"].map(name => (
+                    <div key={name} style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+                        <div style={{
+                            width: '150px',
+                            height: '20px',
+                            background: getPreset(name),
+                            borderRadius: '4px',
+                        }} />
+                        <span style={{fontSize: '12px', color: '#aaa', fontFamily: 'monospace'}}>{name}</span>
+                    </div>
+                ))}
+            </div>
+        </div>
+        
+        {/* Created with helpers */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>Created with Helper Functions</h4>
+            <div style={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
+                <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+                    <div style={{
+                        width: '150px',
+                        height: '20px',
+                        background: createSimple("#ff69b4", "#6633ff"),
+                        borderRadius: '4px',
+                    }} />
+                    <span style={{fontSize: '11px', color: '#666', fontFamily: 'monospace'}}>createSimple("#ff69b4", "#6633ff")</span>
+                </div>
+                <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+                    <div style={{
+                        width: '150px',
+                        height: '20px',
+                        background: createLinear(["#ff0000", "#00ff00", "#0000ff"], { hard: true }),
+                        borderRadius: '4px',
+                    }} />
+                    <span style={{fontSize: '11px', color: '#666', fontFamily: 'monospace'}}>createLinear([...], {`{hard: true}`})</span>
+                </div>
+                <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+                    <div style={{
+                        width: '150px',
+                        height: '20px',
+                        background: createStripes(["#ff69b4", "#1a1a2e"], { stripeWidth: 8, direction: "diagonal" }),
+                        borderRadius: '4px',
+                    }} />
+                    <span style={{fontSize: '11px', color: '#666', fontFamily: 'monospace'}}>createStripes([...], {`{stripeWidth: 8}`})</span>
+                </div>
+                <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+                    <div style={{
+                        width: '150px',
+                        height: '20px',
+                        background: createFromPalette("sunset"),
+                        borderRadius: '4px',
+                    }} />
+                    <span style={{fontSize: '11px', color: '#666', fontFamily: 'monospace'}}>createFromPalette("sunset")</span>
+                </div>
+            </div>
+        </div>
+        
+        {/* Progress bars with custom gradients */}
+        <div>
+            <h4 style={{margin: '0 0 0.5rem 0', color: '#888'}}>GloBar with Custom Gradients</h4>
+            <div style={{display: 'flex', flexDirection: 'column', gap: '16px'}}>
+                <GloBar 
+                    value={75}
+                    label="Preset: Ocean"
+                    fillGradient={getPreset("ocean")}
+                    showSprite={false}
+                />
+                <GloBar 
+                    value={60}
+                    label="Custom: Pink to Purple"
+                    fillGradient={createSimple("#ff69b4", "#6633ff")}
+                    showSprite={false}
+                />
+                <GloBar 
+                    value={85}
+                    label="Hard Rainbow"
+                    fillGradient={createFromPalette("rainbow", { hard: true, direction: "horizontal" })}
+                    showSprite={false}
+                />
+                <GloBar 
+                    value={50}
+                    label="Fire Gradient"
+                    fillGradient={getPreset("fire")}
+                    showSprite={false}
+                />
+            </div>
+        </div>
+        
+    </div>
+);
+```
+
+---
+
+## Render Component Demos Directly
+
+You can render the built-in demos for each component:
+
+```datacorejsx
+// Choose any component to see its demo
+const script = await dc.require(dc.fileLink("System/Scripts/Components/dc-gloSelect.jsx"));
+return script.renderedView;
+```
+
+```datacorejsx
+// See all gradient presets
+const script = await dc.require(dc.fileLink("System/Scripts/Core/dc-gradientUtils.jsx"));
 return script.renderedView;
 ```

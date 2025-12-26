@@ -13,16 +13,17 @@ exercise-goal-minutes: 30
 exercise-goal-days: 5
 weight-goal: 75
 weight-unit: kg
-schedule-tuesday: "[[Pull Day]]"
+schedule-tuesday: "[[Push Day]]"
 schedule-wednesday: "[[Push Day]]"
-schedule-friday: "[[Pull Day]]"
-schedule-saturday: "[[Cardio & Abs]]"
+schedule-friday: "[[Push Day]]"
+schedule-saturday: "[[Push Day]]"
 schedule-sunday: "[[Push Day]]"
-schedule-monday: "[[Pull Day]]"
-widget-theme: bongoCat
+schedule-monday: "[[Push Day]]"
+widget-theme: nyanCat
 color-override: savageCroc
 sync-to-obsidian: true
 flashy-mode: true
+schedule-thursday: "[[Push Day]]"
 ---
 
 

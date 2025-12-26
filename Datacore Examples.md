@@ -4,15 +4,16 @@ tags:
   - note
   - journal
   - datacore
-progress: 33
+progress: 64
 night_mode: false
 type:
   - Dinner
 water-ml: .nan
-status: In Progress
+status: To Do
 particles: 95
 system_power: false
 safety_lock: false
+demo_toggle: false
 ---
 
 # Ideas
@@ -118,7 +119,7 @@ safety_lock: false
 - [ ] what if we can turn all of the elements in the theme preview into clickable things that ask you what to set for the theme. for example you just click on the bar background and it asks for background base64 string or click ont he draggable gif and it asks for a base 64 string or if something is a color is asks for the hex or buttons to set boarder pixel size, glow size, etc and get that flash on/off button but also get a button to turn "flashy" on and off.
 - [ ] connect the vault to clippy or a kind of AI driven plugin that is able to use all of the datacore.jsx files as tool calls. now we can talk to it in real language and it's able to pull up stuff in our vault like add water, food, show me the workout plan, what show me sleep analytics, change settings.
 - [ ] bar icon size and bar animation setting, squish, wiggle, I think I wrote this own already,
-- [ ] 
+- [ ] testing recent notes
 
 
 Query total # pages in vault

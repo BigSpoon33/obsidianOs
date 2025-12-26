@@ -5,15 +5,16 @@ cssclasses:
   - img-grid
 banner: "System/Attachments/Kimetsu No Yaiba Art GIF by Luigi Salas - Motion Designer.gif"
 banner_x: 0.5
-banner_y: 0.644
+banner_y: 0.61
 edit_mode: true
-water-ml: .nan
+water-ml:
 ---
 
 <div style="text-align: center; padding: 30px 0 20px 0;">
   <h1 style="font-size: 3em; margin: 0; letter-spacing: 3px;">🏡 HOME 🏡</h1>
   <p style="color: var(--text-muted); font-size: 1.2em; margin-top: 10px;">Your Personal Knowledge Management Hub</p>
 </div>
+add a few quick links here like create daily note if not made
 
 ---
 ```datacorejsx

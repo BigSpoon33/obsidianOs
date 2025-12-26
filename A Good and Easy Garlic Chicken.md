@@ -3,8 +3,8 @@ categories:
   - "[[Recipes]]"
 cuisine:
 type:
-  - Dinner
   - Lunch
+  - Dinner
 servings: "4"
 calories: 214 kcal
 protein: 28 g

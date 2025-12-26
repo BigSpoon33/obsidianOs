@@ -5,5 +5,9 @@
   "propertiesInDocument": "source",
   "showLineNumber": true,
   "readableLineLength": true,
-  "showInlineTitle": true
+  "showInlineTitle": true,
+  "showUnsupportedFiles": true,
+  "livePreview": true,
+  "newFileFolderPath": "/",
+  "userIgnoreFilters": null
 }

@@ -6,21 +6,63 @@
 const { useTheme } = await dc.require(dc.fileLink("System/Scripts/Core/dc-themeProvider.jsx"));
 
 // ─────────────────────────────────────────────────────────────────────────────
+// HELPER: Wrap a value in url() if it's an image data/path
+// ─────────────────────────────────────────────────────────────────────────────
+function wrapImageUrl(value) {
+    if (!value) return value;
+    // Already wrapped in url()
+    if (value.startsWith("url(")) return value;
+    // Base64 image - wrap in url()
+    if (value.startsWith("data:image")) return `url("${value}")`;
+    // Could be a file path/URL - wrap in url()
+    if (value.match(/\.(png|jpg|jpeg|gif|svg|webp)$/i)) return `url("${value}")`;
+    // Return as-is (gradients, colors, etc.)
+    return value;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // HELPER: Resolve background with fallback chain
 // Priority: base64 → gradient → solid color → theme gradient → theme solid
+// Automatically wraps base64/image URLs in url() for CSS compatibility
 // ─────────────────────────────────────────────────────────────────────────────
 function resolveBackground(value, themeGradient, themeSolid) {
-    if (!value) return themeGradient || themeSolid;
-    // Base64 image
-    if (value.startsWith("data:image")) return `url(${value})`;
-    // CSS gradient
-    if (value.startsWith("linear-gradient") || value.startsWith("radial-gradient")) return value;
-    // URL to image
+    // If no explicit value, use theme fallbacks (also need to wrap them)
+    if (!value) {
+        const fallback = themeGradient || themeSolid;
+        return wrapImageUrl(fallback);
+    }
+    
+    // Base64 image - wrap in url()
+    if (value.startsWith("data:image")) return `url("${value}")`;
+    
+    // CSS gradient - return as-is
+    if (value.startsWith("linear-gradient") || 
+        value.startsWith("radial-gradient") || 
+        value.startsWith("conic-gradient") ||
+        value.startsWith("repeating-linear-gradient") ||
+        value.startsWith("repeating-radial-gradient")) {
+        return value;
+    }
+    
+    // Already wrapped URL - return as-is
     if (value.startsWith("url(")) return value;
-    // Solid color (hex, rgb, hsl)
-    if (value.startsWith("#") || value.startsWith("rgb") || value.startsWith("hsl")) return value;
-    // Fallback to theme
-    return themeGradient || themeSolid;
+    
+    // Solid color (hex, rgb, hsl, named colors) - return as-is
+    if (value.startsWith("#") || 
+        value.startsWith("rgb") || 
+        value.startsWith("hsl") ||
+        /^[a-z]+$/i.test(value)) { // named colors like "red", "blue"
+        return value;
+    }
+    
+    // Image file path - wrap in url()
+    if (value.match(/\.(png|jpg|jpeg|gif|svg|webp)$/i)) {
+        return `url("${value}")`;
+    }
+    
+    // Fallback to theme (with wrapping)
+    const fallback = themeGradient || themeSolid;
+    return wrapImageUrl(fallback);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

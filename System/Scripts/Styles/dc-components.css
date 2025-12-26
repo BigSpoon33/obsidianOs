@@ -434,3 +434,271 @@
 .dc-anim-flip-loop {
     animation: dc-flip var(--dc-anim-duration, 0.6s) ease-in-out infinite;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   SELECT/DROPDOWN BASE STYLES
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+.dc-glo-select {
+    position: relative;
+    font-family: inherit;
+}
+
+.dc-glo-select [role="combobox"] {
+    transition: all 0.2s ease;
+}
+
+.dc-glo-select [role="combobox"]:hover:not([aria-disabled="true"]) {
+    filter: brightness(1.05);
+}
+
+.dc-glo-select [role="combobox"]:focus-visible {
+    outline: 2px solid var(--dc-glow-color, rgba(255, 105, 180, 0.5));
+    outline-offset: 2px;
+}
+
+/* Dropdown animation */
+.dc-glo-select [role="listbox"] {
+    animation: dc-dropdown-appear 0.15s ease-out;
+}
+
+@keyframes dc-dropdown-appear {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Custom scrollbar for dropdown */
+.dc-glo-select [role="listbox"] > div {
+    scrollbar-width: thin;
+    scrollbar-color: var(--dc-glow-color, rgba(255, 105, 180, 0.5)) transparent;
+}
+
+.dc-glo-select [role="listbox"] > div::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dc-glo-select [role="listbox"] > div::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.dc-glo-select [role="listbox"] > div::-webkit-scrollbar-thumb {
+    background: var(--dc-glow-color, rgba(255, 105, 180, 0.5));
+    border-radius: 3px;
+}
+
+/* Option hover effect */
+.dc-glo-select [role="option"]:hover:not([aria-disabled="true"]) {
+    filter: brightness(1.1);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CARD BASE STYLES
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+.dc-glo-card {
+    position: relative;
+    font-family: inherit;
+}
+
+.dc-glo-card-header {
+    transition: background 0.2s ease;
+}
+
+.dc-glo-card-header:hover {
+    background: rgba(255,255,255,0.02);
+}
+
+.dc-glo-card-body {
+    line-height: 1.5;
+}
+
+.dc-glo-card-body p {
+    margin: 0 0 1em 0;
+}
+
+.dc-glo-card-body p:last-child {
+    margin-bottom: 0;
+}
+
+/* Card with clickable behavior */
+.dc-glo-card[style*="cursor: pointer"]:active {
+    transform: scale(0.99) !important;
+}
+
+/* Collapse animation */
+.dc-glo-card-body,
+.dc-glo-card-footer {
+    animation: dc-card-expand 0.2s ease-out;
+}
+
+@keyframes dc-card-expand {
+    from {
+        opacity: 0;
+        max-height: 0;
+    }
+    to {
+        opacity: 1;
+        max-height: 1000px;
+    }
+}
+
+/* Card image overlay for better text readability */
+.dc-glo-card-image + .dc-glo-card-header,
+.dc-glo-card-image + div > .dc-glo-card-header {
+    position: relative;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   TABS BASE STYLES
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+.dc-glo-tabs {
+    position: relative;
+    font-family: inherit;
+}
+
+.dc-glo-tabs-bar {
+    position: relative;
+}
+
+.dc-glo-tabs-bar button {
+    font-family: inherit;
+}
+
+.dc-glo-tabs-bar button:hover:not([aria-disabled="true"]) {
+    filter: brightness(1.1);
+}
+
+.dc-glo-tabs-bar button:focus-visible {
+    outline: 2px solid var(--dc-glow-color, rgba(255, 105, 180, 0.5));
+    outline-offset: 2px;
+}
+
+/* Tab content fade animation */
+@keyframes dc-tab-fade {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dc-glo-tabs-content {
+    animation: dc-tab-fade 0.2s ease;
+}
+
+/* Indicator glow pulse */
+.dc-glo-tabs-indicator {
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   BADGE/CHIP BASE STYLES
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+.dc-glo-badge {
+    font-family: inherit;
+}
+
+.dc-glo-badge[style*="cursor: pointer"]:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+.dc-glo-badge[style*="cursor: pointer"]:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* Pulse animation for notifications */
+.dc-pulse-anim {
+    animation: dc-badge-pulse 2s ease-in-out infinite;
+}
+
+@keyframes dc-badge-pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+}
+
+/* Badge group */
+.dc-glo-badge-group {
+    line-height: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   INPUT BASE STYLES
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+.dc-glo-input {
+    font-family: inherit;
+}
+
+.dc-glo-input input,
+.dc-glo-input textarea {
+    font-family: inherit;
+}
+
+.dc-glo-input input::placeholder,
+.dc-glo-input textarea::placeholder {
+    color: var(--dc-muted-color, #888);
+    opacity: 0.7;
+}
+
+.dc-glo-input input:disabled,
+.dc-glo-input textarea:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.dc-glo-input input:read-only,
+.dc-glo-input textarea:read-only {
+    cursor: default;
+}
+
+/* Remove default browser styling */
+.dc-glo-input input[type="number"]::-webkit-outer-spin-button,
+.dc-glo-input input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.dc-glo-input input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.dc-glo-input input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+}
+
+/* Custom textarea scrollbar */
+.dc-glo-input textarea {
+    scrollbar-width: thin;
+    scrollbar-color: var(--dc-glow-color, rgba(255, 105, 180, 0.5)) transparent;
+}
+
+.dc-glo-input textarea::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dc-glo-input textarea::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.dc-glo-input textarea::-webkit-scrollbar-thumb {
+    background: var(--dc-glow-color, rgba(255, 105, 180, 0.5));
+    border-radius: 3px;
+}
