@@ -799,20 +799,209 @@ async function applyCurrentTheme() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// THEME OVERRIDE SYSTEM
+// Allows temporarily overriding the theme for preview purposes
+// Uses a module-level variable approach since dc.React.createContext is not available
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Module-level override storage (simpler than React Context for Datacore)
+let themeOverrideStack = [];
+
+/**
+ * Set a theme override (push onto stack)
+ * @param {object} theme - The theme object to use
+ * @returns {function} - Cleanup function to remove the override
+ */
+function setThemeOverride(theme) {
+    const processedTheme = theme ? deriveGlowColors({ ...DEFAULT_THEME, ...theme }) : null;
+    themeOverrideStack.push(processedTheme);
+    
+    // Return cleanup function
+    return () => {
+        const index = themeOverrideStack.indexOf(processedTheme);
+        if (index > -1) {
+            themeOverrideStack.splice(index, 1);
+        }
+    };
+}
+
+/**
+ * Get current theme override (top of stack)
+ */
+function getThemeOverride() {
+    return themeOverrideStack.length > 0 ? themeOverrideStack[themeOverrideStack.length - 1] : null;
+}
+
+/**
+ * Clear all theme overrides
+ */
+function clearThemeOverrides() {
+    themeOverrideStack = [];
+}
+
+/**
+ * Provider component that sets a theme override for its children
+ * Note: Due to Datacore limitations, this uses module-level state
+ * @param {object} theme - The theme object to use (from loadThemeFromPath)
+ * @param {React.ReactNode} children - Child components
+ */
+function ThemeOverrideProvider({ theme, children }) {
+    dc.useEffect(() => {
+        const cleanup = setThemeOverride(theme);
+        return cleanup;
+    }, [theme]);
+    
+    return children;
+}
+
+/**
+ * Hook to get the current theme, respecting overrides
+ * Use this instead of useTheme() in components that need override support
+ */
+function useThemeWithOverride() {
+    const override = getThemeOverride();
+    const { theme, isLoading, themeName, colorOverrideName } = useTheme();
+    
+    // If we have an override, use it; otherwise use the global theme
+    if (override) {
+        return { 
+            theme: override, 
+            isLoading: false, 
+            themeName: override["theme-id"] || "preview",
+            colorOverrideName: "",
+            isOverride: true 
+        };
+    }
+    
+    return { theme, isLoading, themeName, colorOverrideName, isOverride: false };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// THEME LOADING UTILITIES
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Load a theme's frontmatter from a file path
+ * Useful for preview/editor purposes
+ * @param {string} path - Path to the theme file (e.g., "System/Themes/nyanCat.md")
+ * @returns {Promise<object>} - The theme data with defaults applied
+ */
+async function loadThemeFromPath(path) {
+    try {
+        const file = app.vault.getAbstractFileByPath(path);
+        if (!file) {
+            console.warn(`Theme file not found: ${path}`);
+            return { ...DEFAULT_THEME };
+        }
+        
+        const cache = app.metadataCache.getFileCache(file);
+        const fm = cache?.frontmatter || {};
+        
+        // Merge with defaults and derive colors
+        let themeData = { ...DEFAULT_THEME, ...fm };
+        
+        // If theme has style-settings embedded, map them
+        if (fm["style-settings"] && typeof fm["style-settings"] === "object") {
+            const mapped = mapStyleSettingsToWidgetProps(fm["style-settings"]);
+            themeData = { ...themeData, ...mapped };
+        }
+        
+        // Derive glow colors
+        themeData = deriveGlowColors(themeData);
+        
+        return themeData;
+    } catch (e) {
+        console.error(`Failed to load theme from ${path}:`, e);
+        return { ...DEFAULT_THEME };
+    }
+}
+
+/**
+ * Load a theme by its ID
+ * @param {string} themeId - The theme-id to find and load
+ * @returns {Promise<object>} - The theme data with defaults applied
+ */
+async function loadThemeById(themeId) {
+    try {
+        // Find the theme file by ID
+        const themeFile = app.vault.getMarkdownFiles().find(f => {
+            if (!f.path.startsWith("System/Themes/")) return false;
+            const cache = app.metadataCache.getFileCache(f);
+            return cache?.frontmatter?.["theme-id"] === themeId;
+        });
+        
+        if (!themeFile) {
+            console.warn(`Theme not found with ID: ${themeId}`);
+            return { ...DEFAULT_THEME };
+        }
+        
+        return await loadThemeFromPath(themeFile.path);
+    } catch (e) {
+        console.error(`Failed to load theme by ID ${themeId}:`, e);
+        return { ...DEFAULT_THEME };
+    }
+}
+
+/**
+ * Get theme metadata (id, name, description, path) without loading full theme
+ * @param {string} path - Path to the theme file
+ * @returns {object|null} - Theme metadata or null
+ */
+function getThemeMetadata(path) {
+    try {
+        const file = app.vault.getAbstractFileByPath(path);
+        if (!file) return null;
+        
+        const cache = app.metadataCache.getFileCache(file);
+        const fm = cache?.frontmatter;
+        
+        if (!fm?.["theme-id"]) return null;
+        
+        return {
+            id: fm["theme-id"],
+            name: fm["theme-name"] || fm["theme-id"],
+            description: fm["theme-description"] || "",
+            path: path,
+            hasSprite: !!(fm["bar-sprite"] || fm["toggle-sprite"]),
+            version: fm["theme-version"] || "1.0",
+            author: fm["theme-author"] || ""
+        };
+    } catch (e) {
+        console.warn(`Failed to get metadata for ${path}:`, e);
+        return null;
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // EXPORTS
 // ─────────────────────────────────────────────────────────────────────────────
 
 return { 
     // Hooks
     useTheme, 
+    useThemeWithOverride,
     useAvailableThemes,
     useAvailableColorSchemes,
+    
+    // Components
+    ThemeOverrideProvider,
+    
+    // Theme override utilities
+    setThemeOverride,
+    getThemeOverride,
+    clearThemeOverrides,
     
     // Actions
     switchTheme,
     setColorOverride,
     applyCurrentTheme,
     clearThemeCache,
+    
+    // Theme loading utilities
+    loadThemeFromPath,
+    loadThemeById,
+    getThemeMetadata,
+    loadColorOverride,
     
     // Sync functions
     syncThemeToObsidian,
@@ -824,6 +1013,7 @@ return {
     hexToRgba,
     isLightColor,
     mapStyleSettingsToWidgetProps,
+    deriveGlowColors,
     
     // Constants
     DEFAULT_THEME,

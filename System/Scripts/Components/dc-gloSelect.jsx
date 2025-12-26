@@ -57,6 +57,11 @@ function GloSelect({
     className = "",               // Additional CSS classes
     disabled = false,             // Disable the select
     flashy = null,                // Override flashy mode
+    
+    // Theme overrides (for preview purposes)
+    bgOverride = null,            // Override background
+    borderOverride = null,        // Override border
+    accentColorOverride = null,   // Override accent/primary color
 }) {
     const { theme, isLoading } = useTheme();
     const globalFlashyMode = useFlashyMode();
@@ -187,13 +192,13 @@ function GloSelect({
     // ─────────────────────────────────────────────────────────────────────────
     const effectsEnabled = flashy !== null ? flashy : globalFlashyMode;
     
-    // Colors
-    const bgColor = theme["select-bg"] || theme["input-bg"] || "rgba(255,255,255,0.05)";
-    const borderColor = theme["select-border"] || theme["input-border"] || "1px solid rgba(255,105,180,0.3)";
+    // Colors (with override support)
+    const bgColor = bgOverride || theme["select-bg"] || theme["input-bg"] || "rgba(255,255,255,0.05)";
+    const borderColor = borderOverride || theme["select-border"] || theme["input-border"] || "1px solid rgba(255,105,180,0.3)";
     const borderFocus = theme["select-border-focus"] || theme["input-border-focus"] || "1px solid #ff69b4";
     const textColor = theme["color-text"] || "#ffffff";
     const mutedColor = theme["color-text-muted"] || "#888";
-    const primaryColor = theme["color-primary"] || "#ff69b4";
+    const primaryColor = accentColorOverride || theme["color-primary"] || "#ff69b4";
     const surfaceColor = theme["color-surface"] || "#2a2a4e";
     
     // Sizing

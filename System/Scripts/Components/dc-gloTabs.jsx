@@ -50,6 +50,10 @@ function GloTabs({
     contentStyle = {},            // Additional content styles
     className = "",               // Additional CSS classes
     flashy = null,                // Override flashy mode
+    
+    // Theme overrides (for preview purposes)
+    accentColorOverride = null,   // Override accent/primary color
+    surfaceColorOverride = null,  // Override surface color
 }) {
     const { theme, isLoading } = useTheme();
     const globalFlashyMode = useFlashyMode();
@@ -141,11 +145,11 @@ function GloTabs({
     // ─────────────────────────────────────────────────────────────────────────
     const effectsEnabled = flashy !== null ? flashy : globalFlashyMode;
     
-    // Colors
-    const primaryColor = theme["color-primary"] || "#ff69b4";
+    // Colors (with override support)
+    const primaryColor = accentColorOverride || theme["color-primary"] || "#ff69b4";
     const textColor = theme["color-text"] || "#ffffff";
     const mutedColor = theme["color-text-muted"] || "#888";
-    const surfaceColor = theme["color-surface"] || "#2a2a4e";
+    const surfaceColor = surfaceColorOverride || theme["color-surface"] || "#2a2a4e";
     const bgColor = theme["tabs-bg"] || "transparent";
     
     // Sizing

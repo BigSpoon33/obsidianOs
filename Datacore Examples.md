@@ -120,6 +120,7 @@ demo_toggle: false
 - [ ] connect the vault to clippy or a kind of AI driven plugin that is able to use all of the datacore.jsx files as tool calls. now we can talk to it in real language and it's able to pull up stuff in our vault like add water, food, show me the workout plan, what show me sleep analytics, change settings.
 - [ ] bar icon size and bar animation setting, squish, wiggle, I think I wrote this own already,
 - [ ] testing recent notes
+- [ ] oops I forgot to mention changing icons to be emoji or base64
 
 
 Query total # pages in vault

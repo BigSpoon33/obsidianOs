@@ -4,7 +4,7 @@
   "newFileLocation": "root",
   "propertiesInDocument": "source",
   "showLineNumber": true,
-  "readableLineLength": true,
+  "readableLineLength": false,
   "showInlineTitle": true,
   "showUnsupportedFiles": true,
   "livePreview": true,

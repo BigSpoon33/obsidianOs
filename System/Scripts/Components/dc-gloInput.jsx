@@ -71,6 +71,12 @@ function GloInput({
     inputStyle = {},              // Additional input styles
     className = "",               // Additional CSS classes
     flashy = null,                // Override flashy mode
+    
+    // Theme overrides (for preview purposes)
+    bgOverride = null,            // Override input background
+    borderOverride = null,        // Override border
+    borderFocusOverride = null,   // Override focus border
+    accentColorOverride = null,   // Override accent/primary color
 }) {
     const { theme, isLoading } = useTheme();
     const globalFlashyMode = useFlashyMode();
@@ -149,14 +155,14 @@ function GloInput({
     // ─────────────────────────────────────────────────────────────────────────
     const effectsEnabled = flashy !== null ? flashy : globalFlashyMode;
     
-    // Colors
-    const inputBg = theme["input-bg"] || "rgba(255,255,255,0.05)";
-    const inputBorder = theme["input-border"] || "1px solid rgba(255,105,180,0.3)";
-    const inputBorderFocus = theme["input-border-focus"] || "1px solid #ff69b4";
+    // Colors (with override support)
+    const inputBg = bgOverride || theme["input-bg"] || "rgba(255,255,255,0.05)";
+    const inputBorder = borderOverride || theme["input-border"] || "1px solid rgba(255,105,180,0.3)";
+    const inputBorderFocus = borderFocusOverride || theme["input-border-focus"] || "1px solid #ff69b4";
     const inputRadius = theme["input-border-radius"] || "6px";
     const textColor = theme["input-text-color"] || theme["color-text"] || "#ffffff";
     const mutedColor = theme["color-text-muted"] || "#888";
-    const primaryColor = theme["color-primary"] || "#ff69b4";
+    const primaryColor = accentColorOverride || theme["color-primary"] || "#ff69b4";
     const errorColor = theme["color-error"] || "#ff0000";
     const surfaceColor = theme["color-surface"] || "#2a2a4e";
     
