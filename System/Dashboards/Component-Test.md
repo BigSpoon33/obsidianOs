@@ -2,6 +2,7 @@
 tags:
   - test
   - components
+  - dashboard
 cssclasses:
   - dashboard
 demo_toggle: false

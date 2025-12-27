@@ -5,12 +5,65 @@ tags:
 cssclasses:
   - dashboard
 username: Anniex
-water-goal-ml: 3500
-water-bottle-size: 750
-sleep-goal-hours: 8
-sleep-ideal-bedtime: 22:30
-exercise-goal-minutes: 30
-exercise-goal-days: 5
+activities:
+  - id: water
+    label: Water
+    field: water-ml
+    type: value
+    goal: 3500
+    unit: ml
+    color: "#0984E3"
+    icon: 💧
+    increment: 750
+  - id: sleep
+    label: Sleep
+    field: sleep-hours
+    type: value
+    goal: 8
+    unit: hrs
+    color: "#00B894"
+    icon: 😴
+  - id: energy
+    label: Energy
+    field: energy
+    type: rating
+    max: 5
+    color: "#FDCB6E"
+    icon: ⚡
+  - id: calories
+    label: Calories
+    field: consumed-calories
+    type: value
+    goal: 2000
+    unit: kcal
+    color: "#FF7675"
+    icon: 🔥
+    managed: true
+  - id: exercise
+    label: Exercise
+    field: exercise-minutes
+    type: value
+    goal: 30
+    unit: min
+    color: "#E17055"
+    icon: 🏃
+  - id: test
+    label: Test
+    field: test-activity
+    type: value
+    goal: 1
+    unit: "1"
+    color: "#6C5CE7"
+    icon: 📊
+    increment: 1
+    managed: false
+  - id: coffee
+    label: Coffee
+    field: coffee
+    type: count
+    color: "#FF7675"
+    icon: 📊
+    managed: false
 weight-goal: 75
 weight-unit: kg
 schedule-tuesday: "[[Push Day]]"
@@ -26,67 +79,46 @@ flashy-mode: true
 schedule-thursday: "[[Push Day]]"
 __preview_toggle_on: false
 __preview_toggle_off: false
+__editor_preview_toggle: false
 ---
 
 
 # ⚙️ Settings
 
-This note controls your health tracking goals and preferences.  
-Adjust the values below to customize your daily note templates.
+This note controls your tracking activities, goals, and preferences.
 
 ---
 
-## 💧 Water Tracking
+## 📊 Activity Manager
 
-**Daily Goal:** `INPUT[number:water-goal-ml]` ml  
-*Recommended: 2500-4000ml per day*
+Manage your tracked activities below. Add, edit, or remove activities that appear in your daily notes and dashboard.
 
-**Bottle Size:** `INPUT[number:water-bottle-size]` ml  
-*This determines the "Add Bottle" button increment*
+```datacorejsx
+const scriptPath = "System/Scripts/Widgets/dc-activityManager.jsx";
+const target = dc.fileLink(scriptPath);
+const result = await dc.require(target);
+const view = result?.renderedView ?? result?.View ?? result;  
+const Func = result?.Func ?? null;
 
-**Current Settings:**
-- Goal: `VIEW[{water-goal-ml}]` ml/day
-- Bottle: `VIEW[{water-bottle-size}]` ml
-
----
-
-## 😴 Sleep Settings
-
-**Goal Hours:** `INPUT[number:sleep-goal-hours]` hours  
-*Recommended: 7-9 hours per night*
-
-**Ideal Bedtime:** `INPUT[time:sleep-ideal-bedtime]`  
-*Use for nighttime routine reminders*
-
-**Current Settings:**
-- Target: `VIEW[{sleep-goal-hours}]` hours/night
-- Bedtime: `VIEW[{sleep-ideal-bedtime}]`
+return function View() {
+    const currentFile = dc.useCurrentFile();
+    if (Func) {
+        return Func({ currentFile, scriptPath });
+    }
+    return view ?? <p>Failed to render Activity Manager</p>;
+}
+```
 
 ---
-
-## 💪 Exercise Settings
-
-**Daily Goal:** `INPUT[number:exercise-goal-minutes]` minutes  
-*Recommended: 30+ minutes of activity*
-
-**Weekly Goal:** `INPUT[number:exercise-goal-days]` days/week  
-*Recommended: 5+ days of exercise*
-
-**Current Settings:**
-- Daily: `VIEW[{exercise-goal-minutes}]` minutes
-- Weekly: `VIEW[{exercise-goal-days}]` days
 
 ## 📅 Weekly Schedule
 
-Select a plan for each day. Leave empty for **Rest Days**.
+Select a workout plan for each day. Leave empty for **Rest Days**.
 
 ```datacorejsx
 const script = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-weeklyWorkout.jsx"));
 return function View() { return script.Func(); }
 ```
-
-
-
 
 ---
 
@@ -160,6 +192,9 @@ function ApplyButton() {
 return <ApplyButton />;
 ```
 
+> [!tip] Theme Studio
+> For a full theme editing experience, visit the [[System/Dashboards/Theme-Dashboard|Theme Studio]].
+
 ---
 
 ## ⚖️ Weight Settings
@@ -172,28 +207,11 @@ return <ApplyButton />;
 
 ---
 
-## 📊 How Settings Work
-
-These values are automatically referenced in your daily note templates:
-
-- **Water slider max value** = water-goal-ml × 1.5
-- **Quick add buttons** use water-bottle-size as increment
-- **Progress bars** calculate based on goals
-- **Nighttime routine** uses sleep-goal-hours for alarm reminder
-
-### To Update Settings:
-
-1. Use the MetaBind input fields above (Live Preview mode)
-2. Or edit the frontmatter YAML directly
-3. Changes apply to all future daily notes
-
----
-
 ## 🔗 Related
 
 - [[System/Templates/Daily Note Template|Daily Note Template]]
-- [[System/Dashboards/Tracker-Showcase|Tracker Showcase]]
-- [[Examples/Dashboards/Health-Dashboard-Fast|Health Dashboard]]
+- [[System/Dashboards/Theme-Dashboard|Theme Studio]]
+- [[System/Home/Home-v3|Homepage]]
 
 ---
 

@@ -1,10 +1,20 @@
 ---
+tags: dashboard
 cssclasses:
   - dashboard
   - wide
 ---
 
 # Theme Editor
+
+> [!warning] Deprecated
+> This standalone Theme Editor has been integrated into the **Theme Studio**.
+> 
+> **Please use [[Theme-Dashboard|Theme Studio]]** for the best experience.
+> 
+> The Theme Studio combines both the Dashboard and Editor with seamless navigation between modes.
+
+---
 
 ```datacorejsx
 const scriptPath = "System/Scripts/Widgets/dc-themeEditor.jsx";
@@ -32,4 +42,4 @@ return function View() {
 
 > [!info] Theme Files
 > Themes are saved to `System/Themes/` as markdown files with YAML frontmatter.
-> After creating a theme, you can apply it from the [[Theme-Dashboard]].
+> After creating a theme, you can apply it from the [[Theme-Dashboard|Theme Studio]].

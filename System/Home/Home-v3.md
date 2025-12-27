@@ -7,7 +7,6 @@ banner: "System/Attachments/Kimetsu No Yaiba Art GIF by Luigi Salas - Motion Des
 banner_x: 0.5
 banner_y: 0.61
 edit_mode: true
-water-ml:
 ---
 
 <div style="text-align: center; padding: 30px 0 20px 0;">
@@ -249,7 +248,7 @@ const recent = dv.pages()
 
 dv.list(recent.file.link);
 ```
-
+recently active is already a part of the search widget. should we make the search widget exclusively search and add some features to it or keep recent separate or just make one super widget?
 ```datacorejsx
 return function View() {
     // Query all pages

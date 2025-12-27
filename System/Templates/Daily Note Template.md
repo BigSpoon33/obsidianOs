@@ -4,7 +4,7 @@ modification date: <%+ tp.file.last_modified_date("dddd Do MMMM YYYY HH:mm:ss") 
 tags:
   - daily
   - journal
-banner: Attachments/Art Animation GIF by makio135.gif
+banner: "Attachments/Art Animation GIF by makio135.gif"
 cssclasses:
   - dashboard
   - journal-theme
@@ -16,18 +16,18 @@ sleep-quality:
 sleep-hours:
 weight:
 mood:
-energy:
-water-ml:
+energy: 5
+water-ml: 1500
 exercise:
 exercise-minutes:
-breakfast: "[[Test Breakfast]]"
-lunch: "[[Test Lunch]]"
-dinner: "[[Test Dinner]]"
+breakfast: "[[Make-Ahead Freezer Breakfast Burritos]]"
+lunch: "[[Simple Mexican Quinoa]]"
+dinner: "[[Baked Salmon Fillets Dijon]]"
 snacks: []
-consumed-calories: 1800
-consumed-protein: 170
-consumed-carbs: 60
-consumed-fat: 30
+consumed-calories: 0
+consumed-protein: 0
+consumed-carbs: 0
+consumed-fat: 0
 diet-quality:
 meditation: false
 meditation-minutes:
@@ -42,7 +42,7 @@ planned: false
 creative: false
 highlight:
 challenge:
-health-score: 😔 1.0/5
+health-score: 😐 2.0/5
 sleep-bedtime: 23:15
 sleep-wakeup: 06:45
 night-score: 0
@@ -50,6 +50,7 @@ night-checked: 0
 night-total: 5
 mood-evening: 4
 emotions:
+test-activity: 1
 ---
 
 >[!important]   <% tp.file.title %>
@@ -69,7 +70,25 @@ return function View() { return script.Func(); }
 
 ---
 
-## 📊 Today's Overview
+## 📊 Activity Tracking
+
+```datacorejsx
+const scriptPath = "System/Scripts/Widgets/dc-activityLogger.jsx";
+const target = dc.fileLink(scriptPath);
+const result = await dc.require(target);
+const Func = result?.Func ?? null;
+
+return function View() {
+    if (Func) {
+        return Func();
+    }
+    return <p>Failed to load Activity Logger</p>;
+}
+```
+
+---
+
+## 📋 Today's Overview
 
 ![[tasks-default.base#Today]]
 

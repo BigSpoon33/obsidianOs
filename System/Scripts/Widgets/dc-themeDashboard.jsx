@@ -64,7 +64,11 @@ const { GloTabs } = await dc.require(
 // MAIN COMPONENT: ThemeDashboard
 // ═══════════════════════════════════════════════════════════════════════════════
 
-function ThemeDashboard() {
+function ThemeDashboard({
+    // Optional callback when user wants to edit a theme
+    // Called with themeId when clicking "Edit" button on a theme card
+    onEditTheme = null,
+}) {
     // Global state
     const { theme: activeTheme, isLoading: themeLoading, themeName: activeThemeName, colorOverrideName } = useTheme();
     const { themes, isLoading: themesLoading } = useAvailableThemes();
@@ -250,6 +254,26 @@ function ThemeDashboard() {
                                                 {t.description || "Sprite pack"}
                                             </span>
                                         </div>
+                                        
+                                        {/* Edit button - only show if onEditTheme callback provided */}
+                                        {onEditTheme && (
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation(); // Don't trigger card selection
+                                                    onEditTheme(t.id);
+                                                }}
+                                                style={{
+                                                    ...styles.editButton,
+                                                    background: `${primaryColor}22`,
+                                                    color: primaryColor,
+                                                    border: `1px solid ${primaryColor}44`,
+                                                }}
+                                                title={`Edit ${t.name}`}
+                                            >
+                                                Edit
+                                            </button>
+                                        )}
+                                        
                                         {isSelected && (
                                             <div style={{
                                                 ...styles.selectedBadge,
@@ -996,6 +1020,18 @@ const styles = {
         color: '#fff',
         textTransform: 'uppercase',
         letterSpacing: '0.3px',
+    },
+    editButton: {
+        position: 'absolute',
+        bottom: '8px',
+        right: '8px',
+        fontSize: '10px',
+        fontWeight: '600',
+        padding: '4px 10px',
+        borderRadius: '6px',
+        cursor: 'pointer',
+        transition: 'all 0.2s ease',
+        zIndex: 5,
     },
     schemeGrid: {
         display: 'grid',
