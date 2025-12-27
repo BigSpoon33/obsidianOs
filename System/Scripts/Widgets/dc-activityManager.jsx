@@ -43,6 +43,10 @@ const { GloBadge } = await dc.require(
     dc.fileLink("System/Scripts/Components/dc-gloBadge.jsx")
 );
 
+const { GloToggle } = await dc.require(
+    dc.fileLink("System/Scripts/Components/dc-gloToggle.jsx")
+);
+
 // ─────────────────────────────────────────────────────────────────────────────
 // CONSTANTS
 // ─────────────────────────────────────────────────────────────────────────────
@@ -73,6 +77,7 @@ const DEFAULT_ACTIVITY = {
     increment: null,
     max: null,
     managed: false,
+    hidden: false,
 };
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -178,6 +183,17 @@ function ActivityManager() {
         if (!confirmed) return;
         
         const updated = activities.filter(a => a.id !== activityId);
+        await saveActivities(updated);
+    };
+    
+    // Toggle visibility (show/hide activity in logger)
+    const handleToggleVisibility = async (activityId) => {
+        const updated = activities.map(a => {
+            if (a.id === activityId) {
+                return { ...a, hidden: !a.hidden };
+            }
+            return a;
+        });
         await saveActivities(updated);
     };
     
@@ -314,6 +330,7 @@ function ActivityManager() {
                         onCancelEdit={handleCancelEdit}
                         onSaveEdit={handleSaveEdit}
                         onDelete={() => handleDelete(activity.id)}
+                        onToggleVisibility={() => handleToggleVisibility(activity.id)}
                         onUpdateEditData={setEditingData}
                         theme={theme}
                         primary={primary}
@@ -396,6 +413,7 @@ function ActivityCard({
     onCancelEdit,
     onSaveEdit,
     onDelete,
+    onToggleVisibility,
     onUpdateEditData,
     theme,
     primary,
@@ -404,6 +422,12 @@ function ActivityCard({
     showBackgrounds = true,
 }) {
     const activityColor = activity.color || primary;
+    const isHidden = activity.hidden || false;
+    
+    // Button theme settings
+    const buttonIdleBg = theme?.["button-idle-bg"] || null;
+    const buttonHoverBg = theme?.["button-hover-bg"] || null;
+    const buttonActiveBg = theme?.["button-active-bg"] || null;
     
     if (isEditing) {
         return (
@@ -448,6 +472,7 @@ function ActivityCard({
             ...styles.activityCard,
             background: showBackgrounds ? surface : "transparent",
             borderLeft: `4px solid ${activityColor}`,
+            opacity: isHidden ? 0.5 : 1,
         }}>
             <div style={styles.cardHeader}>
                 <div style={styles.cardTitle}>
@@ -466,6 +491,11 @@ function ActivityCard({
                     {activity.managed && (
                         <GloBadge variant="outlined" size="small" color={textMuted}>
                             managed
+                        </GloBadge>
+                    )}
+                    {isHidden && (
+                        <GloBadge variant="outlined" size="small" color="#ef4444">
+                            hidden
                         </GloBadge>
                     )}
                 </div>
@@ -501,20 +531,39 @@ function ActivityCard({
                 )}
             </div>
             
-            <div style={styles.cardActions}>
-                <GloButton
-                    label="Edit"
-                    variant="ghost"
-                    size="small"
-                    onClick={onEdit}
-                />
-                <GloButton
-                    label="Delete"
-                    variant="ghost"
-                    size="small"
-                    onClick={onDelete}
-                    style={{ color: "#ef4444" }}
-                />
+            <div style={styles.cardActionsRow}>
+                <div style={styles.visibilityToggle}>
+                    <span style={{ fontSize: 11, color: textMuted, marginRight: 8 }}>
+                        {isHidden ? "Hidden" : "Visible"}
+                    </span>
+                    <GloButton
+                        label={isHidden ? "👁️‍🗨️ Show" : "🙈 Hide"}
+                        size="small"
+                        onClick={onToggleVisibility}
+                        bg={buttonIdleBg}
+                        hoverBg={buttonHoverBg}
+                        activeBg={buttonActiveBg}
+                        style={{ 
+                            fontSize: 11,
+                            padding: "4px 10px",
+                        }}
+                    />
+                </div>
+                <div style={styles.cardActions}>
+                    <GloButton
+                        label="Edit"
+                        variant="ghost"
+                        size="small"
+                        onClick={onEdit}
+                    />
+                    <GloButton
+                        label="Delete"
+                        variant="ghost"
+                        size="small"
+                        onClick={onDelete}
+                        style={{ color: "#ef4444" }}
+                    />
+                </div>
             </div>
         </div>
     );
@@ -845,6 +894,15 @@ const styles = {
         gap: 16,
         marginBottom: 12,
         flexWrap: "wrap",
+    },
+    cardActionsRow: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
+    visibilityToggle: {
+        display: "flex",
+        alignItems: "center",
     },
     cardActions: {
         display: "flex",

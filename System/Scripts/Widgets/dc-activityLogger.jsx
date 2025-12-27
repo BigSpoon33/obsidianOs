@@ -297,24 +297,26 @@ function ActivityLogger() {
                 </h3>
             </div>
             
-            {/* Activity List */}
+            {/* Activity List - filter out hidden activities */}
             <div style={styles.activityList}>
-                {activities.map((activity) => (
-                    <ActivityRow
-                        key={activity.id}
-                        activity={activity}
-                        value={values[activity.id]}
-                        onChange={(val) => updateValue(activity, val)}
-                        onQuickAdd={() => handleQuickAdd(activity)}
-                        onQuickSubtract={() => handleQuickSubtract(activity)}
-                        theme={theme}
-                        primary={primary}
-                        textMuted={textMuted}
-                        success={success}
-                        surface={surface}
-                        showBackgrounds={showBackgrounds}
-                    />
-                ))}
+                {activities
+                    .filter(activity => !activity.hidden)
+                    .map((activity) => (
+                        <ActivityRow
+                            key={activity.id}
+                            activity={activity}
+                            value={values[activity.id]}
+                            onChange={(val) => updateValue(activity, val)}
+                            onQuickAdd={() => handleQuickAdd(activity)}
+                            onQuickSubtract={() => handleQuickSubtract(activity)}
+                            theme={theme}
+                            primary={primary}
+                            textMuted={textMuted}
+                            success={success}
+                            surface={surface}
+                            showBackgrounds={showBackgrounds}
+                        />
+                    ))}
             </div>
         </div>
     );
@@ -390,18 +392,35 @@ function ActivityRow({
         const toggleHoverBg = theme["toggle-hover-bg"] || null;
         const toggleActiveBg = theme["toggle-active-bg"] || null;
         
-        // Managed activities are read-only
+        // Button sprite settings
+        const buttonSprite = theme["button-sprite"] || theme["bar-sprite"] || null;
+        const buttonSpriteWidth = theme["button-sprite-width"] || theme["bar-sprite-width"] || 34;
+        const buttonSpriteHeight = theme["button-sprite-height"] || theme["bar-sprite-height"] || 21;
+        const buttonIdleBg = theme["button-idle-bg"] || null;
+        const buttonHoverBg = theme["button-hover-bg"] || null;
+        const buttonActiveBg = theme["button-active-bg"] || null;
+        const buttonClickAnimation = theme["button-sprite-click-animation"] || "bounce";
+        
+        // Managed activities are read-only but still show sprite
+        // Use activity.max for ratings, activity.goal for values
         if (activity.managed) {
+            const managedMax = activity.type === "rating" 
+                ? (activity.max || 5) 
+                : (activity.goal || 100);
+            
             return (
                 <div style={styles.managedValue}>
                     <GloBar
                         value={currentValue}
-                        max={activity.goal || 100}
+                        max={managedMax}
                         draggable={false}
-                        showSprite={false}
+                        showSprite={true}
+                        sprite={barSprite}
+                        spriteWidth={barSpriteWidth}
+                        spriteHeight={barSpriteHeight}
                         fillGradient={`linear-gradient(90deg, ${activityColor}, ${activityColor}aa)`}
                         trackBg={barTrackBg}
-                        height="12px"
+                        height={barHeight}
                         borderRadius={barBorderRadius}
                     />
                     <GloBadge variant="outlined" size="small" color={textMuted}>
@@ -435,26 +454,28 @@ function ActivityRow({
                                 <GloButton
                                     label={`-${activity.increment}`}
                                     size="small"
-                                    variant="ghost"
                                     onClick={onQuickSubtract}
-                                    style={{ 
-                                        fontSize: 11, 
-                                        padding: "4px 8px",
-                                        color: activityColor,
-                                        border: `1px solid ${activityColor}44`,
-                                    }}
+                                    showSprite={!!buttonSprite}
+                                    sprite={buttonSprite}
+                                    spriteWidth={buttonSpriteWidth}
+                                    spriteHeight={buttonSpriteHeight}
+                                    spriteAnimation={buttonClickAnimation}
+                                    bg={buttonIdleBg}
+                                    hoverBg={buttonHoverBg}
+                                    activeBg={buttonActiveBg}
                                 />
                                 <GloButton
                                     label={`+${activity.increment}`}
                                     size="small"
-                                    variant="ghost"
                                     onClick={onQuickAdd}
-                                    style={{ 
-                                        fontSize: 11, 
-                                        padding: "4px 8px",
-                                        color: activityColor,
-                                        border: `1px solid ${activityColor}44`,
-                                    }}
+                                    showSprite={!!buttonSprite}
+                                    sprite={buttonSprite}
+                                    spriteWidth={buttonSpriteWidth}
+                                    spriteHeight={buttonSpriteHeight}
+                                    spriteAnimation={buttonClickAnimation}
+                                    bg={buttonIdleBg}
+                                    hoverBg={buttonHoverBg}
+                                    activeBg={buttonActiveBg}
                                 />
                             </div>
                         )}
@@ -540,52 +561,52 @@ function ActivityRow({
         }
     };
     
-    // Determine row background
-    const rowBackground = showBackgrounds
-        ? (goalReached ? `linear-gradient(90deg, ${success}11, transparent)` : "rgba(255,255,255,0.02)")
-        : (goalReached ? `linear-gradient(90deg, ${success}11, transparent)` : "transparent");
+    // Determine row background - no gradient for completed
+    const rowBackground = showBackgrounds ? "rgba(255,255,255,0.02)" : "transparent";
     
     return (
         <div style={{
             ...styles.activityRow,
-            borderLeft: `4px solid ${activityColor}`,
+            borderLeft: `4px solid ${goalReached ? success : activityColor}`,
             background: rowBackground,
         }}>
-            {/* Left: Icon and Label */}
-            <div style={styles.rowHeader}>
+            {/* Single row layout: Icon, Label, Input, Status */}
+            <div style={styles.rowContent}>
+                {/* Left: Icon and Label */}
                 <div style={styles.rowLabel}>
                     <IconPreview icon={activity.icon} size={22} />
-                    <div>
+                    <div style={styles.labelText}>
                         <div style={{ fontSize: 14, fontWeight: 600 }}>
                             {activity.label}
                         </div>
-                        <div style={{ fontSize: 12, color: textMuted }}>
+                        <div style={{ fontSize: 11, color: textMuted }}>
                             {formatValue()}
                         </div>
                     </div>
                 </div>
                 
-                {/* Progress/Status Badge */}
+                {/* Middle: Input Area (flex grow) */}
+                <div style={styles.rowInput}>
+                    {renderInput()}
+                </div>
+                
+                {/* Right: Progress/Status Badge */}
                 <div style={styles.rowStatus}>
                     {goalReached ? (
                         <GloBadge variant="filled" color={success} size="small">
-                            ✓ Complete
+                            ✓
                         </GloBadge>
                     ) : activity.goal && (
                         <span style={{ 
-                            fontSize: 12, 
+                            fontSize: 11, 
                             color: activityColor,
                             fontWeight: 600,
+                            whiteSpace: "nowrap",
                         }}>
                             {Math.round(progress)}%
                         </span>
                     )}
                 </div>
-            </div>
-            
-            {/* Input Area */}
-            <div style={styles.rowInput}>
-                {renderInput()}
             </div>
         </div>
     );
@@ -630,32 +651,42 @@ const styles = {
         gap: 16,
     },
     activityRow: {
-        padding: 16,
+        padding: "12px 16px",
         borderRadius: 10,
         background: "rgba(255,255,255,0.02)",
     },
-    rowHeader: {
+    rowContent: {
         display: "flex",
-        justifyContent: "space-between",
-        alignItems: "flex-start",
-        marginBottom: 12,
+        alignItems: "center",
+        gap: 12,
     },
     rowLabel: {
         display: "flex",
         alignItems: "center",
-        gap: 12,
+        gap: 10,
+        minWidth: 120,
+        flexShrink: 0,
+    },
+    labelText: {
+        display: "flex",
+        flexDirection: "column",
+        gap: 1,
     },
     rowStatus: {
         display: "flex",
         alignItems: "center",
+        flexShrink: 0,
+        minWidth: 40,
+        justifyContent: "flex-end",
     },
     rowInput: {
-        // Container for input
+        flex: 1,
+        minWidth: 0,
     },
     valueInput: {
         display: "flex",
         alignItems: "center",
-        gap: 12,
+        gap: 8,
     },
     quickButtons: {
         display: "flex",
@@ -663,12 +694,13 @@ const styles = {
     },
     ratingInput: {
         display: "flex",
-        flexDirection: "column",
+        alignItems: "center",
         gap: 8,
     },
     ratingStars: {
         display: "flex",
-        gap: 4,
+        gap: 2,
+        flexShrink: 0,
     },
     booleanInput: {
         display: "flex",

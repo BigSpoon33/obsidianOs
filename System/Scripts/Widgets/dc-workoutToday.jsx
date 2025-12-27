@@ -2,26 +2,102 @@
 // TODAY'S WORKOUT WIDGET
 // Displays today's scheduled workout from Settings.md
 // Includes workout-completed toggle to track daily completion
+// Syncs exercise-minutes with workout duration on completion
+// Full theme integration with Glo components
 // ═══════════════════════════════════════════════════════════════════════════════
+
+// ─────────────────────────────────────────────────────────────────────────────
+// IMPORTS
+// ─────────────────────────────────────────────────────────────────────────────
+
+const { useTheme } = await dc.require(
+    dc.fileLink("System/Scripts/Core/dc-themeProvider.jsx")
+);
 
 const { GloToggle } = await dc.require(
     dc.fileLink("System/Scripts/Components/dc-gloToggle.jsx")
 );
 
+const { GloBadge } = await dc.require(
+    dc.fileLink("System/Scripts/Components/dc-gloBadge.jsx")
+);
+
+const { GloButton, useComponentCSS } = await dc.require(
+    dc.fileLink("System/Scripts/Components/dc-gloButton.jsx")
+);
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// MAIN COMPONENT
+// ═══════════════════════════════════════════════════════════════════════════════
+
 function WorkoutWidget() {
-    // 1. GET SETTINGS & CURRENT FILE
+    // ─────────────────────────────────────────────────────────────────────────
+    // THEME & SETUP
+    // ─────────────────────────────────────────────────────────────────────────
+    
+    const { theme, isLoading: themeLoading, settings } = useTheme();
+    const showBackgrounds = settings?.widgetBackgrounds !== false;
+    
+    // Load CSS
+    useComponentCSS();
+    
+    // ─────────────────────────────────────────────────────────────────────────
+    // THEME COLORS
+    // ─────────────────────────────────────────────────────────────────────────
+    
+    const primary = theme?.["color-primary"] || "#7c3aed";
+    const accent = theme?.["color-accent"] || "#f59e0b";
+    const surface = theme?.["color-surface"] || "#2a2a3e";
+    const text = theme?.["color-text"] || "#ffffff";
+    const textMuted = theme?.["color-text-muted"] || "#a0a0b0";
+    const success = theme?.["color-success"] || "#10b981";
+    const warning = theme?.["color-warning"] || "#f59e0b";
+    const info = theme?.["color-info"] || "#3b82f6";
+    
+    // ─────────────────────────────────────────────────────────────────────────
+    // DATA FETCHING
+    // ─────────────────────────────────────────────────────────────────────────
+    
     const currentFile = dc.useCurrentFile();
     const pages = dc.useQuery("@page");
-    if (!pages) return <div style={{opacity: 0.5}}>⏳ Loading...</div>;
+    
+    if (themeLoading || !pages) {
+        return (
+            <div style={{ 
+                padding: 20, 
+                textAlign: "center", 
+                color: textMuted,
+                opacity: 0.7 
+            }}>
+                Loading...
+            </div>
+        );
+    }
 
     const settingsNote = pages.find(p => 
         (p.tags && (p.tags.has("#settings") || p.tags.has("settings"))) || 
         p.$path.endsWith("System/Settings.md")
     );
 
-    if (!settingsNote) return <div style={{opacity: 0.5}}>⚠️ System/Settings.md not found</div>;
+    if (!settingsNote) {
+        return (
+            <div style={{
+                padding: 16,
+                background: showBackgrounds ? surface : "transparent",
+                borderRadius: 12,
+                border: showBackgrounds ? `1px solid ${primary}33` : "none",
+                color: textMuted,
+                textAlign: "center",
+            }}>
+                System/Settings.md not found
+            </div>
+        );
+    }
 
-    // STATE: Track workout completion (read from frontmatter for styling)
+    // ─────────────────────────────────────────────────────────────────────────
+    // STATE
+    // ─────────────────────────────────────────────────────────────────────────
+    
     const fm = currentFile?.frontmatter || {};
     const [isCompleted, setIsCompleted] = dc.useState(fm["workout-completed"] || false);
     
@@ -31,142 +107,270 @@ function WorkoutWidget() {
         setIsCompleted(val);
     }, [fm["workout-completed"]]);
 
-    // 2. DETERMINE TODAY'S SCHEDULE
+    // ─────────────────────────────────────────────────────────────────────────
+    // DETERMINE TODAY'S SCHEDULE
+    // ─────────────────────────────────────────────────────────────────────────
+    
     const dayName = moment().format('dddd').toLowerCase();
+    const dayNameCapitalized = dayName.charAt(0).toUpperCase() + dayName.slice(1);
     const scheduleKey = `schedule-${dayName}`;
     const workoutLink = settingsNote.value(scheduleKey);
 
-    // 3. HANDLE REST DAYS
+    // ─────────────────────────────────────────────────────────────────────────
+    // REST DAY DISPLAY
+    // ─────────────────────────────────────────────────────────────────────────
+    
     if (!workoutLink) {
         return (
             <div style={{
-                padding: '20px',
-                borderRadius: '12px',
-                background: 'var(--background-secondary)',
-                textAlign: 'center',
-                color: 'var(--text-muted)',
-                border: '1px dashed var(--background-modifier-border)'
+                padding: 20,
+                borderRadius: 12,
+                background: showBackgrounds ? surface : "transparent",
+                border: showBackgrounds ? `1px dashed ${textMuted}44` : "none",
+                textAlign: "center",
+                color: text,
             }}>
-                <div style={{fontSize: '2em', marginBottom: '5px'}}>🧘</div>
-                <b>Rest Day</b>
-                <div style={{fontSize: '0.8em'}}>No workout scheduled for {dayName}.</div>
+                <div style={{ fontSize: 40, marginBottom: 8 }}>🧘</div>
+                <div style={{ fontSize: 16, fontWeight: 600, color: primary, marginBottom: 4 }}>
+                    Rest Day
+                </div>
+                <div style={{ fontSize: 12, color: textMuted }}>
+                    No workout scheduled for {dayNameCapitalized}
+                </div>
+                <GloBadge variant="soft" color={info} size="small" style={{ marginTop: 12 }}>
+                    Recovery & Relaxation
+                </GloBadge>
             </div>
         );
     }
 
-    // 4. FETCH PLAN
+    // ─────────────────────────────────────────────────────────────────────────
+    // FETCH WORKOUT PLAN
+    // ─────────────────────────────────────────────────────────────────────────
+    
     const workoutPath = workoutLink.path ? workoutLink.path : workoutLink.toString();
     const workoutPage = pages.find(p => p.$path === workoutPath || p.$path.endsWith(workoutPath));
 
-    if (!workoutPage) return <div>⚠️ Plan not found: {workoutPath}</div>;
+    if (!workoutPage) {
+        return (
+            <div style={{
+                padding: 16,
+                background: showBackgrounds ? surface : "transparent",
+                borderRadius: 12,
+                border: showBackgrounds ? `1px solid ${primary}33` : "none",
+                color: textMuted,
+            }}>
+                Plan not found: {workoutPath}
+            </div>
+        );
+    }
 
-    // 5. EXTRACT DATA
+    // ─────────────────────────────────────────────────────────────────────────
+    // EXTRACT WORKOUT DATA
+    // ─────────────────────────────────────────────────────────────────────────
+    
     const focus = workoutPage.value("focus") || "Fitness";
-    const duration = workoutPage.value("duration") || "??";
+    const duration = workoutPage.value("duration") || 0;
     const exercises = workoutPage.value("exercises") || [];
     const warmup = workoutPage.value("warmup") || [];
     const cooldown = workoutPage.value("cooldown") || [];
 
-    // --- HELPER: Renders a simple list (Warmup/Cooldown) ---
-    const renderSimpleList = (items, color, title) => (
-        <div style={{marginBottom: '15px', padding: '10px', background: `rgba(${color}, 0.08)`, borderRadius: '8px'}}>
+    // ─────────────────────────────────────────────────────────────────────────
+    // COMPLETION HANDLER WITH EXERCISE-MINUTES SYNC
+    // ─────────────────────────────────────────────────────────────────────────
+    
+    const handleCompletionChange = async (completed) => {
+        setIsCompleted(completed);
+        
+        // Update exercise-minutes based on completion
+        const file = app.workspace.getActiveFile();
+        if (file) {
+            await app.fileManager.processFrontMatter(file, (fileFm) => {
+                fileFm["exercise-minutes"] = completed ? (Number(duration) || 0) : 0;
+            });
+        }
+        
+        if (completed) {
+            new Notice(`Workout complete! ${duration} min logged 💪`);
+        } else {
+            new Notice("Workout marked incomplete");
+        }
+    };
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // HELPER: Render Exercise List (Warmup/Cooldown/Main)
+    // ─────────────────────────────────────────────────────────────────────────
+    
+    const renderSimpleList = (items, color, title, icon) => (
+        <div style={{
+            marginBottom: 12,
+            padding: 10,
+            background: showBackgrounds ? `${color}11` : "transparent",
+            borderRadius: 8,
+            borderLeft: `3px solid ${color}`,
+        }}>
             <div style={{
-                fontSize: '0.8em', 
-                fontWeight: 'bold', 
-                color: `rgb(${color})`, 
-                marginBottom: '6px', 
-                textTransform: 'uppercase', 
-                letterSpacing: '0.5px'
+                fontSize: 11,
+                fontWeight: 700,
+                color: color,
+                marginBottom: 6,
+                textTransform: "uppercase",
+                letterSpacing: "0.5px",
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
             }}>
-                {title}
+                <span>{icon}</span>
+                <span>{title}</span>
             </div>
             {items.map((item, i) => {
-                // Smart Parse
                 const isObject = item && typeof item === 'object' && !item.path;
                 const rawLink = isObject ? item.link : item;
                 const name = rawLink?.fileName ? rawLink.fileName() : rawLink?.toString() || "Unknown";
                 const path = rawLink?.path || null;
-                const info = isObject ? item.info : null;
+                const itemInfo = isObject ? item.info : null;
 
                 return (
-                    <div key={i} style={{fontSize: '0.85em', opacity: 0.85, marginBottom: '4px', paddingLeft: '4px', display: 'flex', gap: '6px'}}>
-                        <span style={{opacity: 0.5}}>•</span>
+                    <div key={i} style={{
+                        fontSize: 12,
+                        opacity: 0.9,
+                        marginBottom: 3,
+                        paddingLeft: 4,
+                        display: "flex",
+                        gap: 6,
+                        alignItems: "center",
+                    }}>
+                        <span style={{ opacity: 0.4, fontSize: 10 }}>•</span>
                         {path ? (
-                            <a href={path} className="internal-link" style={{textDecoration: 'none', color: 'var(--text-normal)'}}>
+                            <a href={path} className="internal-link" style={{
+                                textDecoration: "none",
+                                color: text,
+                            }}>
                                 {name}
                             </a>
                         ) : (
                             <span>{name}</span>
                         )}
-                        {info && <span style={{opacity: 0.6}}>— {info}</span>}
+                        {itemInfo && (
+                            <span style={{ color: textMuted, fontSize: 11 }}>— {itemInfo}</span>
+                        )}
                     </div>
                 );
             })}
         </div>
     );
 
-    // 6. RENDER
+    // ─────────────────────────────────────────────────────────────────────────
+    // RENDER
+    // ─────────────────────────────────────────────────────────────────────────
+    
     return (
         <div style={{
-            padding: '20px',
-            borderRadius: '12px',
-            background: isCompleted 
-                ? 'linear-gradient(135deg, var(--background-secondary), rgba(16, 185, 129, 0.1))' 
-                : 'var(--background-secondary)',
-            borderLeft: isCompleted 
-                ? '4px solid #10b981' 
-                : '4px solid var(--text-accent)',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-            transition: 'all 0.3s ease'
+            padding: 16,
+            borderRadius: 12,
+            background: showBackgrounds ? surface : "transparent",
+            borderLeft: `4px solid ${isCompleted ? success : primary}`,
+            border: showBackgrounds ? `1px solid ${isCompleted ? success : primary}33` : "none",
+            borderLeftWidth: 4,
+            color: text,
+            transition: "all 0.3s ease",
         }}>
-            {/* HEADER */}
-            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px'}}>
-                <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-                    <span style={{fontSize: '1.8em'}}>{isCompleted ? '✅' : '🏋️'}</span>
+            {/* Header */}
+            <div style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-start",
+                marginBottom: 14,
+                gap: 12,
+            }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, flex: 1 }}>
+                    <span style={{ fontSize: 28 }}>{isCompleted ? "✅" : "🏋️"}</span>
                     <div>
-                        <h3 style={{margin: 0, fontSize: '1.1em'}}>{workoutPage.$name}</h3>
-                        <span style={{fontSize: '0.8em', opacity: 0.7, textTransform: 'uppercase', letterSpacing: '1px'}}>
-                            {dayName} • {duration} min
-                        </span>
+                        <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600 }}>
+                            {workoutPage.$name}
+                        </h3>
+                        <div style={{ 
+                            fontSize: 11, 
+                            color: textMuted, 
+                            textTransform: "uppercase", 
+                            letterSpacing: "0.5px",
+                            marginTop: 2,
+                        }}>
+                            {dayNameCapitalized} • {duration} min
+                        </div>
                     </div>
                 </div>
-                <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
-                    {/* Workout Completion Toggle - Themed */}
+                <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
                     <GloToggle
                         targetKey="workout-completed"
                         onLabel="Done!"
                         offLabel="Mark Done"
                         onSub="Workout complete"
                         offSub="Tap to complete"
-                        width="160px"
-                        padding="10px 14px"
-                        onChange={(val) => {
-                            setIsCompleted(val);
-                            new Notice(val ? "Workout marked complete! 💪" : "Workout marked incomplete");
-                        }}
+                        width="150px"
+                        padding="8px 12px"
+                        onChange={handleCompletionChange}
                     />
-                    <a href={workoutPage.$path} className="internal-link" style={{textDecoration: 'none', fontSize: '1.5em'}}>↗️</a>
+                    <a 
+                        href={workoutPage.$path} 
+                        className="internal-link" 
+                        style={{ 
+                            textDecoration: "none", 
+                            fontSize: 20,
+                            opacity: 0.7,
+                            transition: "opacity 0.2s ease",
+                        }}
+                        title="Open workout plan"
+                    >
+                        ↗️
+                    </a>
                 </div>
             </div>
 
-            {/* FOCUS */}
+            {/* Focus */}
             <div style={{
-                fontSize: '0.9em', 
-                marginBottom: '15px', 
-                padding: '8px', 
-                background: 'var(--background-primary)', 
-                borderRadius: '6px', 
-                opacity: 0.9
+                fontSize: 13,
+                marginBottom: 12,
+                padding: "8px 10px",
+                background: showBackgrounds ? `${primary}11` : "transparent",
+                borderRadius: 6,
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
             }}>
-                🎯 <b>Focus:</b> {focus}
+                <span>🎯</span>
+                <span style={{ color: textMuted }}>Focus:</span>
+                <strong style={{ color: primary }}>{focus}</strong>
             </div>
 
-            {/* WARM UP (Orange RGB: 255, 165, 0) */}
-            {warmup.length > 0 && renderSimpleList(warmup, "255, 165, 0", "🔥 Warm Up")}
+            {/* Warm Up - Uses warning/orange color */}
+            {warmup.length > 0 && renderSimpleList(warmup, warning, "Warm Up", "🔥")}
 
-            {/* MAIN EXERCISES */}
+            {/* Main Exercises - Uses primary color */}
             {exercises.length > 0 && (
-                <div style={{display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '15px'}}>
+                <div style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 6,
+                    marginBottom: 12,
+                }}>
+                    <div style={{
+                        fontSize: 11,
+                        fontWeight: 700,
+                        color: primary,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.5px",
+                        marginBottom: 4,
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 6,
+                    }}>
+                        <span>💪</span>
+                        <span>Exercises</span>
+                        <GloBadge variant="soft" color={primary} size="small">
+                            {exercises.length}
+                        </GloBadge>
+                    </div>
                     {exercises.map((ex, i) => {
                         const isObject = ex && typeof ex === 'object' && !ex.path;
                         const rawLink = isObject ? ex.link : ex;
@@ -178,29 +382,63 @@ function WorkoutWidget() {
 
                         return (
                             <div key={i} style={{
-                                display: 'flex', 
-                                flexDirection: 'column',
-                                gap: '4px',
-                                padding: '8px 10px',
-                                background: 'rgba(255,255,255,0.03)',
-                                borderRadius: '6px',
-                                borderLeft: '2px solid var(--background-modifier-border)'
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: 3,
+                                padding: "8px 10px",
+                                background: showBackgrounds ? `${text}05` : "transparent",
+                                borderRadius: 6,
+                                borderLeft: `2px solid ${primary}44`,
                             }}>
-                                <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-                                    <span style={{opacity: 0.5, fontSize: '0.8em', width: '15px'}}>{i + 1}.</span>
+                                <div style={{ 
+                                    display: "flex", 
+                                    alignItems: "center", 
+                                    gap: 8 
+                                }}>
+                                    <span style={{ 
+                                        opacity: 0.4, 
+                                        fontSize: 11, 
+                                        width: 16,
+                                        textAlign: "right",
+                                    }}>
+                                        {i + 1}.
+                                    </span>
                                     {path ? (
-                                        <a href={path} className="internal-link" style={{fontWeight: 'bold', color: 'var(--text-normal)', textDecoration: 'none'}}>
+                                        <a href={path} className="internal-link" style={{
+                                            fontWeight: 600,
+                                            color: text,
+                                            textDecoration: "none",
+                                            fontSize: 13,
+                                        }}>
                                             {name}
                                         </a>
                                     ) : (
-                                        <span style={{fontWeight: 'bold'}}>{name}</span>
+                                        <span style={{ fontWeight: 600, fontSize: 13 }}>{name}</span>
                                     )}
                                 </div>
                                 {(sets || reps || weight) && (
-                                    <div style={{display: 'flex', gap: '12px', fontSize: '0.8em', color: 'var(--text-muted)', marginLeft: '23px'}}>
-                                        {sets && <span title="Sets">🔢 <b>{sets}</b> sets</span>}
-                                        {reps && <span title="Reps">🔁 <b>{reps}</b> reps</span>}
-                                        {weight && <span title="Weight">⚖️ {weight}</span>}
+                                    <div style={{
+                                        display: "flex",
+                                        gap: 12,
+                                        fontSize: 11,
+                                        color: textMuted,
+                                        marginLeft: 24,
+                                    }}>
+                                        {sets && (
+                                            <span title="Sets">
+                                                🔢 <strong style={{ color: accent }}>{sets}</strong> sets
+                                            </span>
+                                        )}
+                                        {reps && (
+                                            <span title="Reps">
+                                                🔁 <strong style={{ color: accent }}>{reps}</strong> reps
+                                            </span>
+                                        )}
+                                        {weight && (
+                                            <span title="Weight">
+                                                ⚖️ {weight}
+                                            </span>
+                                        )}
                                     </div>
                                 )}
                             </div>
@@ -209,10 +447,34 @@ function WorkoutWidget() {
                 </div>
             )}
 
-            {/* COOL DOWN (Blue RGB: 100, 149, 237) */}
-            {cooldown.length > 0 && renderSimpleList(cooldown, "100, 149, 237", "❄️ Cool Down")}
+            {/* Cool Down - Uses info/blue color */}
+            {cooldown.length > 0 && renderSimpleList(cooldown, info, "Cool Down", "❄️")}
+
+            {/* Completion Status Footer */}
+            {isCompleted && (
+                <div style={{
+                    marginTop: 12,
+                    padding: "8px 12px",
+                    background: `${success}15`,
+                    borderRadius: 6,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 8,
+                    fontSize: 12,
+                    color: success,
+                    fontWeight: 600,
+                }}>
+                    <span>✓</span>
+                    <span>Completed! {duration} minutes logged.</span>
+                </div>
+            )}
         </div>
     );
 }
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// EXPORT
+// ═══════════════════════════════════════════════════════════════════════════════
 
 return { Func: WorkoutWidget };

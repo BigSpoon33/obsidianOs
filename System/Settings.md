@@ -17,16 +17,18 @@ activities:
     increment: 800
     managed: false
     goalManagedBy:
+    hidden: false
   - id: sleep
     label: Sleep
     field: sleep-hours
     type: value
-    goal: 8
+    goal: 7
     unit: hrs
     color: "#00B894"
     icon: 😴
-    managed: false
+    managed: true
     goalManagedBy:
+    hidden: false
   - id: energy
     label: Energy
     field: energy
@@ -34,8 +36,9 @@ activities:
     max: 5
     color: "#FDCB6E"
     icon: ⚡
-    managed: false
+    managed: true
     goalManagedBy:
+    hidden: false
   - id: mood
     label: Mood
     field: mood
@@ -43,7 +46,7 @@ activities:
     max: 5
     color: "#A29BFE"
     icon: 😊
-    managed: false
+    managed: true
     goalManagedBy:
   - id: sleep-quality
     label: Sleep Quality
@@ -52,13 +55,13 @@ activities:
     max: 5
     color: "#74B9FF"
     icon: 💤
-    managed: false
+    managed: true
     goalManagedBy:
   - id: calories
     label: Calories
     field: consumed-calories
     type: value
-    goal: 300
+    goal: 3002
     unit: kcal
     color: "#4FACFE"
     icon: 🔥
@@ -124,6 +127,7 @@ activities:
     icon: ☕
     increment: 1
     managed: false
+    hidden: false
 weight-goal: 75
 weight-unit: kg
 schedule-tuesday: "[[Push Day]]"
@@ -141,6 +145,14 @@ schedule-thursday: "[[Push Day]]"
 __preview_toggle_on: false
 __preview_toggle_off: false
 __editor_preview_toggle: false
+breakfast: "[[Make-Ahead Rhubarb Yogurt Parfaits]]"
+lunch: "[[Mango Chicken Meal Prep Bowls]]"
+dinner: "[[Roast Beef Horseradish Roll-Ups]]"
+snacks: []
+consumed-calories: 0
+consumed-protein: 0
+consumed-carbs: 0
+consumed-fat: 0
 ---
 
 
