@@ -18,11 +18,11 @@ demo_toggle: false
 
 # Ideas
 - [ ]  Datacore architecture
-	- [ ] standardize widget elements for example draggable bars, buttons, etc
-	- [ ] create a more modular code architecture where style or theme is centralized and the .jsx and .css files pull from files so all widgets have a standardized format for example instead of coding slightly different draggable bars or buttons we can have one .jsx and one .css for a draggable bar so we are always using the same code. I don't know if you can actually call a .jsx file from another .jsx file but we can at least use the main one for reference so all the other code snippets use the same code. same idea with .css files keep the same patterns and architecture so we can always find or know where things are supposed to be. using variables that reference a themes, style, or aesthetic .css file that is the single source of truth
+	- [x] standardize widget elements for example draggable bars, buttons, etc
+	- [x] create a more modular code architecture where style or theme is centralized and the .jsx and .css files pull from files so all widgets have a standardized format for example instead of coding slightly different draggable bars or buttons we can have one .jsx and one .css for a draggable bar so we are always using the same code. I don't know if you can actually call a .jsx file from another .jsx file but we can at least use the main one for reference so all the other code snippets use the same code. same idea with .css files keep the same patterns and architecture so we can always find or know where things are supposed to be. using variables that reference a themes, style, or aesthetic .css file that is the single source of truth
 - [ ] daily quote
 	- [x] quotes category
-	- [ ] add aesthetic and theming
+	- [x] add aesthetic and theming
 - [ ] welcome note with daytime logic
 	- [x] welcome note works
 	- [ ] I like the transparent view and include seconds similar to https://www.reddit.com/r/ObsidianMD/comments/1prfitg/my_homepage_and_vault_structure/
@@ -41,7 +41,7 @@ demo_toggle: false
 	- [x] recipes category
 		- [ ] I need to get the recipe Breakfast, Lunch, and Dinner, frontmatter to be in "[[]]" when you click the buttons in the widget. 
 		- [ ] meal planner load doesn't update the frontmatter and the save button still dont work
-		- [ ] web clipper recipe url to recipe note
+		- [x] web clipper recipe url to recipe note
 		- [ ] recipes widget is doing that thing where it updates the frontmatter then reverts. I think we solved it by saving the ui values to the fast local memory and letting the obsidian file save happen in the background.
 	- [x] build planner similar to the exercise example
 	- [x] meal prep planner weekly
@@ -87,8 +87,8 @@ demo_toggle: false
 	- [x] pomodoro
 	- [ ] agenda view - could just be an embedded base view listing all tasks
 - [ ] themes
-	- [ ] figure out the standard items that get swapped by aesthetic for eample icons of the drag bar, draggable bar background, track fill, welcome widget, buttons, text entries, journal, charts, backgrounds, transparent or boxes toggle, font used, vault pet/assistant?, banners, style settings themes for the minimal theme, all the widgets and trackers and stuff,
-	- [ ] for the first set of dynamic gif buttons go with a blob, idle blob just is blobbing, mouseoverblob is blobbing more, click makes blob get blobbed.
+	- [x] figure out the standard items that get swapped by aesthetic for eample icons of the drag bar, draggable bar background, track fill, welcome widget, buttons, text entries, journal, charts, backgrounds, transparent or boxes toggle, font used, vault pet/assistant?, banners, style settings themes for the minimal theme, all the widgets and trackers and stuff,
+	- [x] for the first set of dynamic gif buttons go with a blob, idle blob just is blobbing, mouseoverblob is blobbing more, click makes blob get blobbed.
 	- [ ] seasonal
 	- [ ] aesthetic
 		- [ ] swamp
@@ -97,30 +97,31 @@ demo_toggle: false
 	- [ ] get tons of transparent gifs placed into the note - a fly buzzing around, frogs hopping, running water, growing vines, flowers, etc. waving grass, campfires, flickering lantern, trees in the wind, breathing lizard, grazing cow, rolling waves, those cool spiraling ink blob kind of animations, 
 	- [ ] figure out columns
 - [ ] web clippings
-	- [ ] auto recipe url to recipe note
+	- [x] auto recipe url to recipe note
 - [ ] spaced repetition plugin
 - [ ] random image switcher sidebar
 	- [x] it works!
 	- [ ] pinterest download board to vault. you can use other tools to do this and then copy them into a folder or vault root. 
-	- [ ] image switcher option to look for images based on file extension .gif, .jpg, etc or by folder /Assets/
-- [ ] possible to set values in .jsx from a Settings.md note in the vault. for example a setting for your favorite gif or image where you put the base 64 image string into the settings.md file?
-- [ ] get themes to have settings for buttons. for example set the background, idle image, and click image. mouseover image?  we need to get the theme system on that new thing where users can input a custom base64 from their vault Settings.md note
-- [ ] we need to get the theme system on that new thing where users can input a custom base64 from their vault Settings.md note
+	- [x] image switcher option to look for images based on file extension .gif, .jpg, etc or by folder /Assets/
+- [x] possible to set values in .jsx from a Settings.md note in the vault. for example a setting for your favorite gif or image where you put the base 64 image string into the settings.md file?
+- [x] get themes to have settings for buttons. for example set the background, idle image, and click image. mouseover image?  we need to get the theme system on that new thing where users can input a custom base64 from their vault Settings.md note
+- [x] we need to get the theme system on that new thing where users can input a custom base64 from their vault Settings.md note
 - [ ] I got to figure out columns. and bring my old columns css and noyaml css for this vault
 - [ ]  need to clean up the System/Academic folder and get everything in place with the /System/Folder architecture
 - [ ] academic dashboard needs a complete datacore rebuild
-- [ ] draggable bar click options, squish, spin, twist, jiggle, etc. just changes the animation using things like rotate, change size, translate, and other css tricks on the draggable bsae64 image
-- [ ] there is a disconnect between the Settings.md file and the Datacore Example theme console. oh ok so the colors do work it's just for some reason the tab color is not changing?
-- [ ] these datacore widgets should be able to run from anywhere int he vault or any note becaues they always pull the prop from the settings.md file?
-- [ ] the colors are a little bit off for sure. 
+- [x] draggable bar click options, squish, spin, twist, jiggle, etc. just changes the animation using things like rotate, change size, translate, and other css tricks on the draggable bsae64 image
+- [x] there is a disconnect between the Settings.md file and the Datacore Example theme console. oh ok so the colors do work it's just for some reason the tab color is not changing?
+- [x] these datacore widgets should be able to run from anywhere int he vault or any note becaues they always pull the prop from the settings.md file?
+- [x] the colors are a little bit off for sure. 
 - [ ] ok we need a moving gradient as part of the theme to match the color
 - [ ] get buttons to have a moving border gradient
 - [ ] we probably need a button to turn on and off "flashy"
-- [ ] what if we can turn all of the elements in the theme preview into clickable things that ask you what to set for the theme. for example you just click on the bar background and it asks for background base64 string or click ont he draggable gif and it asks for a base 64 string or if something is a color is asks for the hex or buttons to set boarder pixel size, glow size, etc and get that flash on/off button but also get a button to turn "flashy" on and off.
+- [x] what if we can turn all of the elements in the theme preview into clickable things that ask you what to set for the theme. for example you just click on the bar background and it asks for background base64 string or click ont he draggable gif and it asks for a base 64 string or if something is a color is asks for the hex or buttons to set boarder pixel size, glow size, etc and get that flash on/off button but also get a button to turn "flashy" on and off.
 - [ ] connect the vault to clippy or a kind of AI driven plugin that is able to use all of the datacore.jsx files as tool calls. now we can talk to it in real language and it's able to pull up stuff in our vault like add water, food, show me the workout plan, what show me sleep analytics, change settings.
-- [ ] bar icon size and bar animation setting, squish, wiggle, I think I wrote this own already,
-- [ ] testing recent notes
+- [x] bar icon size and bar animation setting, squish, wiggle, I think I wrote this own already,
+- [x] testing recent notes
 - [ ] oops I forgot to mention changing icons to be emoji or base64
+- [ ] is the daily note template messing with the widgets because some values are set in the frontmatter of the template?
 
 
 Query total # pages in vault

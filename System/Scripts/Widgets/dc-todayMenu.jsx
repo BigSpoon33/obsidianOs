@@ -1,19 +1,47 @@
+// ═══════════════════════════════════════════════════════════════════════════════
+// TODAY MENU / DAILY NUTRITION WIDGET
+// Displays today's meals and tracks consumed macros
+// Reads goals from Settings.md activities array
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const { GloToggle } = await dc.require(
+    dc.fileLink("System/Scripts/Components/dc-gloToggle.jsx")
+);
+
+const SETTINGS_PATH = "System/Settings.md";
+
 function DailyNutrition() {
     // --- 1. SETUP & DATA FETCHING ---
     const file = app.workspace.getActiveFile();
     const currentFile = dc.useFile(file); 
     const fm = currentFile?.frontmatter || {};
 
+    // Load goals from Settings.md activities array
+    const getGoalsFromSettings = () => {
+        try {
+            const settingsFile = app.vault.getAbstractFileByPath(SETTINGS_PATH);
+            if (!settingsFile) return null;
+            const settingsCache = app.metadataCache.getFileCache(settingsFile);
+            const activities = settingsCache?.frontmatter?.activities || [];
+            
+            return {
+                cal: activities.find(a => a.id === 'calories')?.goal || 2000,
+                pro: activities.find(a => a.id === 'protein')?.goal || 150,
+                carb: activities.find(a => a.id === 'carbs')?.goal || 200,
+                fat: activities.find(a => a.id === 'fat')?.goal || 65
+            };
+        } catch (e) {
+            console.error("Failed to load goals from Settings:", e);
+            return { cal: 2000, pro: 150, carb: 200, fat: 65 };
+        }
+    };
+
+    const goals = getGoalsFromSettings();
+
+    // Still need plannerFm for today's planned meals
     const plannerFile = app.metadataCache.getFirstLinkpathDest("Meal Planner.md", "");
     const plannerCache = plannerFile ? app.metadataCache.getFileCache(plannerFile) : null;
     const plannerFm = plannerCache?.frontmatter || {};
-
-    const goals = {
-        cal: Number(plannerFm["goal-calories"]) || 2000,
-        pro: Number(plannerFm["goal-protein"]) || 150,
-        carb: Number(plannerFm["goal-carbs"]) || 200,
-        fat: Number(plannerFm["goal-fat"]) || 65
-    };
 
     const recipeMap = new Map();
     const allFiles = app.vault.getMarkdownFiles();
@@ -62,6 +90,9 @@ function DailyNutrition() {
     }));
     
     const [snacks, setSnacks] = dc.useState(() => getInitialSnacks());
+    
+    // Track nutrition completion status
+    const [isNutritionComplete, setIsNutritionComplete] = dc.useState(fm["nutrition-completed"] || false);
     
     const calculateStats = () => {
         const currentStats = { cal: 0, pro: 0, carb: 0, fat: 0 };
@@ -173,11 +204,27 @@ function DailyNutrition() {
             
             {/* HEADER */}
             <div style={{marginBottom:'20px'}}>
-                <div style={{display:'flex', justifyContent:'space-between', alignItems:'baseline', marginBottom:'5px'}}>
+                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'5px'}}>
                     <h3 style={{margin:0, fontSize:'1em'}}>🍎 Nutrition</h3>
-                    <span style={{fontSize:'0.9em', fontWeight:'bold', color: stats.cal > goals.cal ? '#ff6b6b' : '#4facfe'}}>
-                        {stats.cal} / {goals.cal} kcal
-                    </span>
+                    <div style={{display:'flex', alignItems:'center', gap:'12px'}}>
+                        <span style={{fontSize:'0.9em', fontWeight:'bold', color: stats.cal > goals.cal ? '#ff6b6b' : '#4facfe'}}>
+                            {stats.cal} / {goals.cal} kcal
+                        </span>
+                        {/* Nutrition Completion Toggle - Themed */}
+                        <GloToggle
+                            targetKey="nutrition-completed"
+                            onLabel="Logged"
+                            offLabel="Log Done"
+                            onSub="All meals tracked"
+                            offSub="Tap when done"
+                            width="140px"
+                            padding="8px 12px"
+                            onChange={(val) => {
+                                setIsNutritionComplete(val);
+                                new Notice(val ? "Nutrition logged! 🍎" : "Nutrition marked incomplete");
+                            }}
+                        />
+                    </div>
                 </div>
                 <ProgressBar current={stats.cal} max={goals.cal} color={stats.cal > goals.cal ? '#ff6b6b' : '#4facfe'} height="6px" />
                 <div style={{display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:'8px', marginTop:'10px', fontSize:'0.8em'}}>

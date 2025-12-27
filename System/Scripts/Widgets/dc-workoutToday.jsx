@@ -1,5 +1,16 @@
+// ═══════════════════════════════════════════════════════════════════════════════
+// TODAY'S WORKOUT WIDGET
+// Displays today's scheduled workout from Settings.md
+// Includes workout-completed toggle to track daily completion
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const { GloToggle } = await dc.require(
+    dc.fileLink("System/Scripts/Components/dc-gloToggle.jsx")
+);
+
 function WorkoutWidget() {
-    // 1. GET SETTINGS
+    // 1. GET SETTINGS & CURRENT FILE
+    const currentFile = dc.useCurrentFile();
     const pages = dc.useQuery("@page");
     if (!pages) return <div style={{opacity: 0.5}}>⏳ Loading...</div>;
 
@@ -9,6 +20,16 @@ function WorkoutWidget() {
     );
 
     if (!settingsNote) return <div style={{opacity: 0.5}}>⚠️ System/Settings.md not found</div>;
+
+    // STATE: Track workout completion (read from frontmatter for styling)
+    const fm = currentFile?.frontmatter || {};
+    const [isCompleted, setIsCompleted] = dc.useState(fm["workout-completed"] || false);
+    
+    // Sync completion state when frontmatter changes
+    dc.useEffect(() => {
+        const val = fm["workout-completed"] || false;
+        setIsCompleted(val);
+    }, [fm["workout-completed"]]);
 
     // 2. DETERMINE TODAY'S SCHEDULE
     const dayName = moment().format('dddd').toLowerCase();
@@ -28,7 +49,7 @@ function WorkoutWidget() {
             }}>
                 <div style={{fontSize: '2em', marginBottom: '5px'}}>🧘</div>
                 <b>Rest Day</b>
-                <div style={{fontSize: '0.8em'}}>No workout scheduled.</div>
+                <div style={{fontSize: '0.8em'}}>No workout scheduled for {dayName}.</div>
             </div>
         );
     }
@@ -89,14 +110,19 @@ function WorkoutWidget() {
         <div style={{
             padding: '20px',
             borderRadius: '12px',
-            background: 'var(--background-secondary)',
-            borderLeft: '4px solid var(--text-accent)',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+            background: isCompleted 
+                ? 'linear-gradient(135deg, var(--background-secondary), rgba(16, 185, 129, 0.1))' 
+                : 'var(--background-secondary)',
+            borderLeft: isCompleted 
+                ? '4px solid #10b981' 
+                : '4px solid var(--text-accent)',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            transition: 'all 0.3s ease'
         }}>
             {/* HEADER */}
             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px'}}>
                 <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-                    <span style={{fontSize: '1.8em'}}>🏋️</span>
+                    <span style={{fontSize: '1.8em'}}>{isCompleted ? '✅' : '🏋️'}</span>
                     <div>
                         <h3 style={{margin: 0, fontSize: '1.1em'}}>{workoutPage.$name}</h3>
                         <span style={{fontSize: '0.8em', opacity: 0.7, textTransform: 'uppercase', letterSpacing: '1px'}}>
@@ -104,7 +130,23 @@ function WorkoutWidget() {
                         </span>
                     </div>
                 </div>
-                <a href={workoutPage.$path} className="internal-link" style={{textDecoration: 'none', fontSize: '1.5em'}}>↗️</a>
+                <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
+                    {/* Workout Completion Toggle - Themed */}
+                    <GloToggle
+                        targetKey="workout-completed"
+                        onLabel="Done!"
+                        offLabel="Mark Done"
+                        onSub="Workout complete"
+                        offSub="Tap to complete"
+                        width="160px"
+                        padding="10px 14px"
+                        onChange={(val) => {
+                            setIsCompleted(val);
+                            new Notice(val ? "Workout marked complete! 💪" : "Workout marked incomplete");
+                        }}
+                    />
+                    <a href={workoutPage.$path} className="internal-link" style={{textDecoration: 'none', fontSize: '1.5em'}}>↗️</a>
+                </div>
             </div>
 
             {/* FOCUS */}

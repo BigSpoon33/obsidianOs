@@ -403,6 +403,10 @@ function useTheme() {
     const [isLoading, setIsLoading] = dc.useState(true);
     const [themeName, setThemeName] = dc.useState("default");
     const [colorOverrideName, setColorOverrideName] = dc.useState("");
+    const [settings, setSettings] = dc.useState({
+        widgetBackgrounds: true,
+        flashyMode: true,
+    });
     
     dc.useEffect(() => {
         const loadTheme = async () => {
@@ -418,9 +422,12 @@ function useTheme() {
                 const settingsCache = app.metadataCache.getFileCache(settingsFile);
                 const activeThemeId = settingsCache?.frontmatter?.["widget-theme"] || "nyanCat";
                 const colorOverride = settingsCache?.frontmatter?.["color-override"] || "";
+                const widgetBackgrounds = settingsCache?.frontmatter?.["widget-backgrounds"] !== false;
+                const flashyMode = settingsCache?.frontmatter?.["flashy-mode"] !== false;
                 
                 setThemeName(activeThemeId);
                 setColorOverrideName(colorOverride);
+                setSettings({ widgetBackgrounds, flashyMode });
                 
                 // 2. Create cache key
                 const cacheKey = `${activeThemeId}:${colorOverride}`;
@@ -481,7 +488,7 @@ function useTheme() {
         loadTheme();
     }, []);
     
-    return { theme, isLoading, themeName, colorOverrideName };
+    return { theme, isLoading, themeName, colorOverrideName, settings };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

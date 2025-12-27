@@ -46,18 +46,53 @@ const { GloBadge } = await dc.require(
 
 const SETTINGS_PATH = "System/Settings.md";
 
+// Helper to check if icon is URL or base64
+function isIconImage(icon) {
+    if (!icon) return false;
+    return icon.startsWith("http://") || 
+           icon.startsWith("https://") || 
+           icon.startsWith("data:image/");
+}
+
+// Render icon as emoji or image
+function IconPreview({ icon, size = 24 }) {
+    if (!icon) return <span style={{ fontSize: size }}>📊</span>;
+    
+    if (isIconImage(icon)) {
+        return (
+            <img 
+                src={icon} 
+                alt="icon" 
+                style={{ 
+                    width: size, 
+                    height: size, 
+                    objectFit: "contain",
+                    borderRadius: 4,
+                }} 
+            />
+        );
+    }
+    
+    return <span style={{ fontSize: size }}>{icon}</span>;
+}
+
 // ═══════════════════════════════════════════════════════════════════════════════
 // MAIN COMPONENT: ActivityLogger
 // ═══════════════════════════════════════════════════════════════════════════════
 
 function ActivityLogger() {
-    const { theme, isLoading: themeLoading } = useTheme();
+    const { theme, isLoading: themeLoading, settings } = useTheme();
     const currentFile = dc.useCurrentFile();
+    const showBackgrounds = settings?.widgetBackgrounds !== false;
     
     // State
     const [activities, setActivities] = dc.useState([]);
     const [values, setValues] = dc.useState({});
     const [loading, setLoading] = dc.useState(true);
+    
+    // Refs to track saving state (prevents UI reversion bug)
+    const savingRef = dc.useRef(false);
+    const pendingValuesRef = dc.useRef({});
     
     // Load CSS
     useComponentCSS();
@@ -92,20 +127,55 @@ function ActivityLogger() {
     dc.useEffect(() => {
         if (!currentFile || activities.length === 0) return;
         
+        // Skip loading entirely if we're in the middle of saving
+        if (savingRef.current) return;
+        
         const loadValues = () => {
-            const fm = currentFile.frontmatter || {};
+            // Always read from metadata cache for reliability
+            // Datacore's currentFile.frontmatter can be stale or a proxy object
+            let fm = {};
+            try {
+                const filePath = currentFile.path || currentFile.$path;
+                if (filePath) {
+                    const file = app.vault.getAbstractFileByPath(filePath);
+                    if (file) {
+                        const cache = app.metadataCache.getFileCache(file);
+                        fm = cache?.frontmatter || {};
+                    }
+                }
+            } catch (e) {
+                console.warn("Failed to read frontmatter from metadata cache:", e);
+                // Fallback to Datacore's frontmatter
+                fm = currentFile.frontmatter || {};
+            }
+            
             const newValues = {};
             
             activities.forEach(activity => {
+                const pendingValue = pendingValuesRef.current[activity.id];
                 const fieldValue = fm[activity.field];
-                if (fieldValue !== undefined && fieldValue !== null) {
-                    newValues[activity.id] = fieldValue;
-                } else {
-                    // Default values based on type
-                    if (activity.type === "boolean") {
-                        newValues[activity.id] = false;
+                
+                // If we have a pending value, check if frontmatter has caught up
+                if (pendingValue !== undefined) {
+                    if (fieldValue === pendingValue) {
+                        // Frontmatter matches our pending value - safe to clear
+                        delete pendingValuesRef.current[activity.id];
+                        newValues[activity.id] = fieldValue;
                     } else {
-                        newValues[activity.id] = 0;
+                        // Frontmatter hasn't caught up yet - keep using pending value
+                        newValues[activity.id] = pendingValue;
+                    }
+                } else {
+                    // No pending value - use frontmatter or default
+                    if (fieldValue !== undefined && fieldValue !== null) {
+                        newValues[activity.id] = fieldValue;
+                    } else {
+                        // Default values based on type
+                        if (activity.type === "boolean") {
+                            newValues[activity.id] = false;
+                        } else {
+                            newValues[activity.id] = 0;
+                        }
                     }
                 }
             });
@@ -124,6 +194,10 @@ function ActivityLogger() {
         // Don't update managed activities
         if (activity.managed) return;
         
+        // Mark as saving to prevent UI reversion
+        savingRef.current = true;
+        pendingValuesRef.current[activity.id] = newValue;
+        
         // Update local state immediately
         setValues(prev => ({ ...prev, [activity.id]: newValue }));
         
@@ -137,6 +211,12 @@ function ActivityLogger() {
             }
         } catch (e) {
             console.error("Failed to save activity value:", e);
+        } finally {
+            // Brief delay before allowing new loads, but don't clear pending value
+            // The pending value will be cleared when frontmatter catches up (in useEffect)
+            setTimeout(() => {
+                savingRef.current = false;
+            }, 100);
         }
     };
     
@@ -145,6 +225,14 @@ function ActivityLogger() {
         if (!activity.increment || activity.managed) return;
         const currentValue = values[activity.id] || 0;
         const newValue = currentValue + activity.increment;
+        await updateValue(activity, newValue);
+    };
+    
+    // Quick subtract (decrement value)
+    const handleQuickSubtract = async (activity) => {
+        if (!activity.increment || activity.managed) return;
+        const currentValue = values[activity.id] || 0;
+        const newValue = Math.max(0, currentValue - activity.increment);
         await updateValue(activity, newValue);
     };
     
@@ -198,8 +286,8 @@ function ActivityLogger() {
     return (
         <div style={{
             ...styles.container,
-            background: surface,
-            border: `1px solid ${primary}33`,
+            background: showBackgrounds ? surface : "transparent",
+            border: showBackgrounds ? `1px solid ${primary}33` : "none",
             color: text,
         }}>
             {/* Header */}
@@ -218,11 +306,13 @@ function ActivityLogger() {
                         value={values[activity.id]}
                         onChange={(val) => updateValue(activity, val)}
                         onQuickAdd={() => handleQuickAdd(activity)}
+                        onQuickSubtract={() => handleQuickSubtract(activity)}
                         theme={theme}
                         primary={primary}
                         textMuted={textMuted}
                         success={success}
                         surface={surface}
+                        showBackgrounds={showBackgrounds}
                     />
                 ))}
             </div>
@@ -239,11 +329,13 @@ function ActivityRow({
     value,
     onChange,
     onQuickAdd,
+    onQuickSubtract,
     theme,
     primary,
     textMuted,
     success,
     surface,
+    showBackgrounds = true,
 }) {
     const activityColor = activity.color || primary;
     const currentValue = value || 0;
@@ -282,6 +374,22 @@ function ActivityRow({
     // ─────────────────────────────────────────────────────────────────────────
     
     const renderInput = () => {
+        // Theme sprite settings
+        const barSprite = theme["bar-sprite"] || null;
+        const barSpriteWidth = theme["bar-sprite-width"] || 34;
+        const barSpriteHeight = theme["bar-sprite-height"] || 21;
+        const barTrackBg = theme["bar-track-bg"] || `${activityColor}22`;
+        const barHeight = theme["bar-height"] || "14px";
+        const barBorderRadius = theme["bar-border-radius"] || "6px";
+        
+        // Toggle sprite settings
+        const toggleSprite = theme["toggle-sprite"] || theme["bar-sprite"] || null;
+        const toggleSpriteWidth = theme["toggle-sprite-width"] || theme["bar-sprite-width"] || 50;
+        const toggleSpriteHeight = theme["toggle-sprite-height"] || theme["bar-sprite-height"] || 40;
+        const toggleIdleBg = theme["toggle-idle-bg"] || null;
+        const toggleHoverBg = theme["toggle-hover-bg"] || null;
+        const toggleActiveBg = theme["toggle-active-bg"] || null;
+        
         // Managed activities are read-only
         if (activity.managed) {
             return (
@@ -292,8 +400,9 @@ function ActivityRow({
                         draggable={false}
                         showSprite={false}
                         fillGradient={`linear-gradient(90deg, ${activityColor}, ${activityColor}aa)`}
-                        trackBg={`${activityColor}22`}
+                        trackBg={barTrackBg}
                         height="12px"
+                        borderRadius={barBorderRadius}
                     />
                     <GloBadge variant="outlined" size="small" color={textMuted}>
                         managed
@@ -311,25 +420,43 @@ function ActivityRow({
                             max={(activity.goal || 100) * 1.5}
                             draggable={true}
                             onChange={onChange}
-                            step={activity.increment || 1}
+                            step={1}
                             showSprite={true}
+                            sprite={barSprite}
+                            spriteWidth={barSpriteWidth}
+                            spriteHeight={barSpriteHeight}
                             fillGradient={`linear-gradient(90deg, ${activityColor}, ${activityColor}aa)`}
-                            trackBg={`${activityColor}22`}
-                            height="16px"
+                            trackBg={barTrackBg}
+                            height={barHeight}
+                            borderRadius={barBorderRadius}
                         />
                         {activity.increment && (
-                            <GloButton
-                                label={`+${activity.increment}`}
-                                size="small"
-                                variant="ghost"
-                                onClick={onQuickAdd}
-                                style={{ 
-                                    fontSize: 11, 
-                                    padding: "4px 8px",
-                                    color: activityColor,
-                                    border: `1px solid ${activityColor}44`,
-                                }}
-                            />
+                            <div style={styles.quickButtons}>
+                                <GloButton
+                                    label={`-${activity.increment}`}
+                                    size="small"
+                                    variant="ghost"
+                                    onClick={onQuickSubtract}
+                                    style={{ 
+                                        fontSize: 11, 
+                                        padding: "4px 8px",
+                                        color: activityColor,
+                                        border: `1px solid ${activityColor}44`,
+                                    }}
+                                />
+                                <GloButton
+                                    label={`+${activity.increment}`}
+                                    size="small"
+                                    variant="ghost"
+                                    onClick={onQuickAdd}
+                                    style={{ 
+                                        fontSize: 11, 
+                                        padding: "4px 8px",
+                                        color: activityColor,
+                                        border: `1px solid ${activityColor}44`,
+                                    }}
+                                />
+                            </div>
                         )}
                     </div>
                 );
@@ -343,10 +470,14 @@ function ActivityRow({
                             draggable={true}
                             onChange={(val) => onChange(Math.round(val))}
                             step={1}
-                            showSprite={false}
+                            showSprite={true}
+                            sprite={barSprite}
+                            spriteWidth={barSpriteWidth}
+                            spriteHeight={barSpriteHeight}
                             fillGradient={`linear-gradient(90deg, ${activityColor}, ${activityColor}aa)`}
-                            trackBg={`${activityColor}22`}
-                            height="14px"
+                            trackBg={barTrackBg}
+                            height={barHeight}
+                            borderRadius={barBorderRadius}
                         />
                         <div style={styles.ratingStars}>
                             {Array.from({ length: activity.max || 5 }, (_, i) => (
@@ -374,9 +505,16 @@ function ActivityRow({
                             targetKey={activity.field}
                             onLabel="Done"
                             offLabel="Not yet"
-                            showSprite={false}
+                            showSprite={true}
+                            sprite={toggleSprite}
+                            spriteWidth={toggleSpriteWidth}
+                            spriteHeight={toggleSpriteHeight}
+                            idleBg={toggleIdleBg}
+                            hoverBg={toggleHoverBg}
+                            activeBg={toggleActiveBg || `${activityColor}44`}
                             glow={true}
-                            activeBg={`${activityColor}44`}
+                            width="auto"
+                            padding="10px 16px"
                         />
                     </div>
                 );
@@ -402,18 +540,21 @@ function ActivityRow({
         }
     };
     
+    // Determine row background
+    const rowBackground = showBackgrounds
+        ? (goalReached ? `linear-gradient(90deg, ${success}11, transparent)` : "rgba(255,255,255,0.02)")
+        : (goalReached ? `linear-gradient(90deg, ${success}11, transparent)` : "transparent");
+    
     return (
         <div style={{
             ...styles.activityRow,
             borderLeft: `4px solid ${activityColor}`,
-            background: goalReached 
-                ? `linear-gradient(90deg, ${success}11, transparent)`
-                : "transparent",
+            background: rowBackground,
         }}>
             {/* Left: Icon and Label */}
             <div style={styles.rowHeader}>
                 <div style={styles.rowLabel}>
-                    <span style={{ fontSize: 22 }}>{activity.icon || "📊"}</span>
+                    <IconPreview icon={activity.icon} size={22} />
                     <div>
                         <div style={{ fontSize: 14, fontWeight: 600 }}>
                             {activity.label}
@@ -515,6 +656,10 @@ const styles = {
         display: "flex",
         alignItems: "center",
         gap: 12,
+    },
+    quickButtons: {
+        display: "flex",
+        gap: 4,
     },
     ratingInput: {
         display: "flex",

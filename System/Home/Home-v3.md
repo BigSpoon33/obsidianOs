@@ -7,6 +7,14 @@ banner: "System/Attachments/Kimetsu No Yaiba Art GIF by Luigi Salas - Motion Des
 banner_x: 0.5
 banner_y: 0.61
 edit_mode: true
+breakfast: "[[Make-Ahead Rhubarb Yogurt Parfaits]]"
+lunch: "[[Mango Chicken Meal Prep Bowls]]"
+dinner: "[[Roast Beef Horseradish Roll-Ups]]"
+snacks: []
+consumed-calories: 0
+consumed-protein: 0
+consumed-carbs: 0
+consumed-fat: 0
 ---
 
 <div style="text-align: center; padding: 30px 0 20px 0;">
@@ -139,71 +147,23 @@ return function View() {
 
 ---
 
-## 📊 Today at a Glance
+## 📊 Activity Tracker
 
-```dataviewjs
-// Get today's note
-const today = dv.date('today');
-const todayNote = dv.pages('#daily')
-  .where(p => p.file.day && p.file.day.hasSame(today, 'day'))
-  .first();
+```datacorejsx
+const scriptPath = "System/Scripts/Widgets/dc-activityTracker.jsx";
+const target = dc.fileLink(scriptPath);
+const result = await dc.require(target);
+const view = result?.renderedView ?? result?.View ?? result;  
+const Func = result?.Func ?? null;
 
-if (!todayNote) {
-  dv.paragraph(`
-<div style="text-align: center; padding: 40px; background: var(--background-secondary); border-radius: 12px;">
-  <div style="font-size: 3em; margin-bottom: 15px;">📝</div>
-  <h3>No entry for today yet!</h3>
-  <p style="color: var(--text-muted);">Create your daily note to start tracking</p>
-  <a href="obsidian://advanced-uri?vault=kepano-obsidian&daily=true" style="display: inline-block; margin-top: 15px; padding: 10px 20px; background: var(--interactive-accent); color: white; border-radius: 20px; text-decoration: none;">Create Today's Note</a>
-</div>
-  `);
-} else {
-  // Calculate health score
-  const sleep = todayNote["sleep-quality"] || 0;
-  const mood = todayNote.mood || 0;
-  const energy = todayNote.energy || 0;
-  const water = todayNote["water-ml"] || 0;
-  const exercise = todayNote["exercise-minutes"] || 0;
-  
-  const healthScore = sleep && mood ? ((sleep + mood + energy) / 3).toFixed(1) : "—";
-  const scoreEmoji = healthScore >= 4 ? "😎" : healthScore >= 3 ? "🙂" : healthScore >= 2 ? "😐" : healthScore === "—" ? "⚫" : "😔";
-  
-  const container = dv.el("div", "");
-  container.style.cssText = `
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-    margin: 20px 0;
-  `;
-  
-  const stats = [
-    { icon: scoreEmoji, label: "Health", value: healthScore, unit: "/5" },
-    { icon: "😴", label: "Sleep", value: sleep || "—", unit: "/5" },
-    { icon: "😊", label: "Mood", value: mood || "—", unit: "/5" },
-    { icon: "💧", label: "Water", value: water || "—", unit: "ml" },
-    { icon: "🏃", label: "Exercise", value: exercise || "—", unit: "min" }
-  ];
-  
-  stats.forEach(stat => {
-    const card = container.createDiv();
-    card.style.cssText = `
-      background: var(--background-secondary);
-      border-radius: 10px;
-      padding: 15px;
-      text-align: center;
-    `;
-    
-    card.innerHTML = `
-      <div style="font-size: 2em; margin-bottom: 5px;">${stat.icon}</div>
-      <div style="font-size: 1.5em; font-weight: bold; margin-bottom: 3px;">
-        ${stat.value}<span style="font-size: 0.6em;">${stat.unit}</span>
-      </div>
-      <div style="color: var(--text-muted); font-size: 0.85em;">${stat.label}</div>
-    `;
-  });
+return function View() {
+    const currentFile = dc.useCurrentFile();
+    if (Func) {
+        return Func({ currentFile, scriptPath });
+    }
+    return view ?? <p>Failed to render Activity Tracker</p>;
 }
 ```
-clicking these cards should take you to the respective heading or note
 
 ---
 

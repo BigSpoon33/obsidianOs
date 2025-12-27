@@ -80,7 +80,8 @@ const DEFAULT_ACTIVITY = {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 function ActivityManager() {
-    const { theme, isLoading: themeLoading } = useTheme();
+    const { theme, isLoading: themeLoading, settings } = useTheme();
+    const showBackgrounds = settings?.widgetBackgrounds !== false;
     
     // State
     const [activities, setActivities] = dc.useState([]);
@@ -279,8 +280,8 @@ function ActivityManager() {
     return (
         <div style={{
             ...styles.container,
-            background: surface,
-            border: `1px solid ${primary}33`,
+            background: showBackgrounds ? surface : "transparent",
+            border: showBackgrounds ? `1px solid ${primary}33` : "none",
             color: text,
         }}>
             {/* Header */}
@@ -318,6 +319,7 @@ function ActivityManager() {
                         primary={primary}
                         textMuted={textMuted}
                         surface={surface}
+                        showBackgrounds={showBackgrounds}
                     />
                 ))}
                 
@@ -399,6 +401,7 @@ function ActivityCard({
     primary,
     textMuted,
     surface,
+    showBackgrounds = true,
 }) {
     const activityColor = activity.color || primary;
     
@@ -406,11 +409,11 @@ function ActivityCard({
         return (
             <div style={{
                 ...styles.activityCard,
-                background: `linear-gradient(135deg, ${activityColor}22, ${surface})`,
+                background: showBackgrounds ? `linear-gradient(135deg, ${activityColor}22, ${surface})` : "transparent",
                 border: `2px solid ${activityColor}`,
             }}>
                 <div style={styles.cardHeader}>
-                    <span style={{ fontSize: 20 }}>{editingData.icon || "📊"}</span>
+                    <IconPreview icon={editingData.icon} size={20} />
                     <span style={{ fontSize: 14, fontWeight: 600, color: activityColor }}>
                         Editing: {activity.label}
                     </span>
@@ -443,12 +446,12 @@ function ActivityCard({
     return (
         <div style={{
             ...styles.activityCard,
-            background: surface,
+            background: showBackgrounds ? surface : "transparent",
             borderLeft: `4px solid ${activityColor}`,
         }}>
             <div style={styles.cardHeader}>
                 <div style={styles.cardTitle}>
-                    <span style={{ fontSize: 24 }}>{activity.icon || "📊"}</span>
+                    <IconPreview icon={activity.icon} size={24} />
                     <div>
                         <div style={{ fontSize: 14, fontWeight: 600 }}>{activity.label}</div>
                         <div style={{ fontSize: 11, color: textMuted }}>
@@ -472,6 +475,18 @@ function ActivityCard({
                 {activity.goal && (
                     <span style={{ fontSize: 12, color: textMuted }}>
                         Goal: <strong style={{ color: activityColor }}>{activity.goal}</strong> {activity.unit}
+                        {activity.goalManagedBy && (
+                            <span style={{ 
+                                marginLeft: 6, 
+                                fontSize: 10, 
+                                color: "#f59e0b",
+                                fontStyle: "italic" 
+                            }}>
+                                (set by {activity.goalManagedBy === 'mealPlanner' ? 'Meal Planner' : 
+                                         activity.goalManagedBy === 'weeklyWorkout' ? 'Weekly Workout' : 
+                                         activity.goalManagedBy})
+                            </span>
+                        )}
                     </span>
                 )}
                 {activity.max && (
@@ -509,15 +524,67 @@ function ActivityCard({
 // SUB-COMPONENT: Activity Form
 // ═══════════════════════════════════════════════════════════════════════════════
 
+// Helper to check if icon is URL or base64
+function isIconImage(icon) {
+    if (!icon) return false;
+    return icon.startsWith("http://") || 
+           icon.startsWith("https://") || 
+           icon.startsWith("data:image/");
+}
+
+// Render icon as emoji or image
+function IconPreview({ icon, size = 24 }) {
+    if (!icon) return <span style={{ fontSize: size }}>📊</span>;
+    
+    if (isIconImage(icon)) {
+        return (
+            <img 
+                src={icon} 
+                alt="icon" 
+                style={{ 
+                    width: size, 
+                    height: size, 
+                    objectFit: "contain",
+                    borderRadius: 4,
+                }} 
+            />
+        );
+    }
+    
+    return <span style={{ fontSize: size }}>{icon}</span>;
+}
+
 function ActivityForm({ data, onChange, theme, textMuted }) {
     const updateField = (key, value) => {
         onChange({ ...data, [key]: value });
+    };
+    
+    // Handle image URL/base64 paste
+    const handleIconImagePaste = () => {
+        const input = prompt("Paste image URL or base64 data URL:\n\n(e.g., https://... or data:image/png;base64,...)");
+        if (input && input.trim()) {
+            const trimmed = input.trim();
+            if (isIconImage(trimmed)) {
+                updateField("icon", trimmed);
+            } else {
+                new Notice("Invalid URL. Must start with http://, https://, or data:image/");
+            }
+        }
     };
     
     const showGoalField = data.type === "value";
     const showMaxField = data.type === "rating";
     const showUnitField = data.type === "value";
     const showIncrementField = data.type === "value";
+    const goalIsReadOnly = data.goalManagedBy && data.goalManagedBy !== null;
+    
+    // Format goalManagedBy for display
+    const getGoalManagedByLabel = (value) => {
+        if (!value) return null;
+        if (value === 'mealPlanner') return 'Meal Planner';
+        if (value === 'weeklyWorkout') return 'Weekly Workout';
+        return value;
+    };
     
     return (
         <div style={styles.form}>
@@ -533,13 +600,37 @@ function ActivityForm({ data, onChange, theme, textMuted }) {
                 </div>
                 <div style={styles.formField}>
                     <label style={{ ...styles.label, color: textMuted }}>Icon</label>
-                    <GloInput
-                        value={data.icon || ""}
-                        onChange={(val) => updateField("icon", val)}
-                        placeholder="💧"
-                        size="small"
-                        style={{ width: 60 }}
-                    />
+                    <div style={styles.iconInputRow}>
+                        <div style={styles.iconPreview}>
+                            <IconPreview icon={data.icon} size={22} />
+                        </div>
+                        {!isIconImage(data.icon) && (
+                            <GloInput
+                                value={data.icon || ""}
+                                onChange={(val) => updateField("icon", val)}
+                                placeholder="💧"
+                                size="small"
+                                style={{ width: 50 }}
+                            />
+                        )}
+                        <GloButton
+                            label={isIconImage(data.icon) ? "✕" : "🔗"}
+                            size="small"
+                            variant="ghost"
+                            onClick={() => {
+                                if (isIconImage(data.icon)) {
+                                    updateField("icon", "📊");
+                                } else {
+                                    handleIconImagePaste();
+                                }
+                            }}
+                            title={isIconImage(data.icon) ? "Clear image" : "Add image URL"}
+                            style={{ 
+                                padding: "4px 8px",
+                                fontSize: 14,
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
             
@@ -576,19 +667,20 @@ function ActivityForm({ data, onChange, theme, textMuted }) {
                 </div>
                 <div style={styles.formField}>
                     <label style={{ ...styles.label, color: textMuted }}>Color</label>
-                    <div style={styles.colorPicker}>
-                        {DEFAULT_COLORS.map(color => (
-                            <div
-                                key={color}
-                                onClick={() => updateField("color", color)}
-                                style={{
-                                    ...styles.colorSwatch,
-                                    background: color,
-                                    border: data.color === color ? "2px solid white" : "2px solid transparent",
-                                    boxShadow: data.color === color ? `0 0 8px ${color}` : "none",
-                                }}
-                            />
-                        ))}
+                    <div style={styles.colorPickerRow}>
+                        <input
+                            type="color"
+                            value={data.color || "#0984E3"}
+                            onChange={(e) => updateField("color", e.target.value)}
+                            style={styles.colorInput}
+                        />
+                        <span style={{ 
+                            fontSize: 12, 
+                            color: textMuted,
+                            fontFamily: "monospace",
+                        }}>
+                            {data.color || "#0984E3"}
+                        </span>
                     </div>
                 </div>
             </div>
@@ -596,16 +688,41 @@ function ActivityForm({ data, onChange, theme, textMuted }) {
             {showGoalField && (
                 <div style={styles.formRow}>
                     <div style={styles.formField}>
-                        <label style={{ ...styles.label, color: textMuted }}>Goal</label>
-                        <GloInput
-                            type="number"
-                            value={data.goal || ""}
-                            onChange={(val) => updateField("goal", Number(val) || null)}
-                            placeholder="3500"
-                            size="small"
-                        />
+                        <label style={{ ...styles.label, color: textMuted }}>
+                            Goal
+                            {goalIsReadOnly && (
+                                <span style={{ 
+                                    marginLeft: 6, 
+                                    color: "#f59e0b", 
+                                    fontWeight: "normal",
+                                    textTransform: "none" 
+                                }}>
+                                    (set by {getGoalManagedByLabel(data.goalManagedBy)})
+                                </span>
+                            )}
+                        </label>
+                        {goalIsReadOnly ? (
+                            <div style={{
+                                padding: "8px 12px",
+                                background: "rgba(255,255,255,0.05)",
+                                borderRadius: 6,
+                                fontSize: 14,
+                                color: textMuted,
+                                border: "1px dashed rgba(255,255,255,0.2)",
+                            }}>
+                                {data.goal || "—"} {data.unit || ""}
+                            </div>
+                        ) : (
+                            <GloInput
+                                type="number"
+                                value={data.goal || ""}
+                                onChange={(val) => updateField("goal", Number(val) || null)}
+                                placeholder="3500"
+                                size="small"
+                            />
+                        )}
                     </div>
-                    {showUnitField && (
+                    {showUnitField && !goalIsReadOnly && (
                         <div style={styles.formField}>
                             <label style={{ ...styles.label, color: textMuted }}>Unit</label>
                             <GloInput
@@ -784,17 +901,34 @@ const styles = {
         textTransform: "uppercase",
         letterSpacing: "0.5px",
     },
-    colorPicker: {
+    colorPickerRow: {
         display: "flex",
-        gap: 6,
-        flexWrap: "wrap",
+        alignItems: "center",
+        gap: 10,
     },
-    colorSwatch: {
-        width: 24,
-        height: 24,
+    colorInput: {
+        width: 40,
+        height: 32,
+        padding: 0,
+        border: "none",
         borderRadius: 6,
         cursor: "pointer",
-        transition: "all 0.2s ease",
+        background: "transparent",
+    },
+    iconInputRow: {
+        display: "flex",
+        alignItems: "center",
+        gap: 6,
+    },
+    iconPreview: {
+        width: 32,
+        height: 32,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "rgba(255,255,255,0.05)",
+        borderRadius: 6,
+        border: "1px solid rgba(255,255,255,0.1)",
     },
     savingOverlay: {
         position: "absolute",

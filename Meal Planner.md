@@ -4,11 +4,7 @@ tags:
   - kitchen
 cssclasses:
   - dashboard
-goal-calories: 2500
-goal-protein: 150
-goal-carbs: 200
-goal-fat: 65
-monday-break: "[[Make-Ahead Rhubarb Yogurt Parfaits]]"
+monday-break: "[[Make-Ahead Greek Yogurt Parfait]]"
 monday-lunch: "[[Chickpea Curry]]"
 monday-dinner: "[[Roast Beef Horseradish Roll-Ups]]"
 tuesday-dinner: "[[Cilantro-Lime Grilled Chicken]]"

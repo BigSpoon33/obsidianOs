@@ -1,7 +1,32 @@
+// ═══════════════════════════════════════════════════════════════════════════════
+// SLEEP TRACKER / MORNING CHECK-IN WIDGET
+// Tracks sleep times and morning vitals
+// Reads sleep goal from Settings.md activities array
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const SETTINGS_PATH = "System/Settings.md";
+
 function SleepTracker() {
     // 1. SETUP
     const currentFile = dc.useCurrentFile();
     const fm = currentFile?.frontmatter || {};
+
+    // Load sleep goal from Settings.md activities array
+    const getSleepGoal = () => {
+        try {
+            const settingsFile = app.vault.getAbstractFileByPath(SETTINGS_PATH);
+            if (!settingsFile) return 8;
+            const settingsCache = app.metadataCache.getFileCache(settingsFile);
+            const activities = settingsCache?.frontmatter?.activities || [];
+            const sleepActivity = activities.find(a => a.id === 'sleep');
+            return sleepActivity?.goal || 8;
+        } catch (e) {
+            console.error("Failed to load sleep goal:", e);
+            return 8;
+        }
+    };
+
+    const sleepGoal = getSleepGoal();
 
     // STATE
     const [bedtime, setBedtime] = dc.useState(fm["sleep-bedtime"] || "23:00");
@@ -157,9 +182,28 @@ function SleepTracker() {
 
             <div className="clocks-wrapper">
                 <ClockInput label="Bedtime" value={bedtime} onChange={setBedtime} color="#ff9a9e" />
-                <div className="sleep-duration">
-                    <span className="duration-val">{totalHours}</span>
-                    <span className="duration-unit">hrs</span>
+                <div className="sleep-duration" style={{
+                    background: totalHours >= sleepGoal 
+                        ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(52, 211, 153, 0.1))' 
+                        : 'transparent',
+                    borderRadius: '8px',
+                    padding: '8px'
+                }}>
+                    <span className="duration-val" style={{
+                        color: totalHours >= sleepGoal ? '#10b981' : 'var(--text-normal)'
+                    }}>
+                        {totalHours}
+                    </span>
+                    <span className="duration-unit" style={{
+                        color: totalHours >= sleepGoal ? '#10b981' : 'var(--text-muted)'
+                    }}>
+                        / {sleepGoal} hrs
+                    </span>
+                    {totalHours >= sleepGoal && (
+                        <span style={{fontSize: '0.7em', color: '#10b981', display: 'block', marginTop: '4px'}}>
+                            Goal met!
+                        </span>
+                    )}
                 </div>
                 <ClockInput label="Wake Up" value={wakeup} onChange={setWakeup} color="#a18cd1" />
             </div>

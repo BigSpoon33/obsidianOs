@@ -353,6 +353,14 @@ function ThemeDashboard({
                         )}
                     </div>
 
+                    {/* Widget Settings */}
+                    <div style={styles.section}>
+                        <h3 style={{ ...styles.sectionTitle, color: primaryColor }}>
+                            Widget Settings
+                        </h3>
+                        <WidgetSettingsPanel primaryColor={primaryColor} accentColor={accentColor} textMuted={textMuted} surfaceColor={surfaceColor} />
+                    </div>
+
                     {/* Apply Button */}
                     <div style={styles.applySection}>
                         <button
@@ -866,6 +874,104 @@ function PreviewSection({ title, color, children }) {
                 {title}
             </h4>
             {children}
+        </div>
+    );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// SUB-COMPONENT: Widget Settings Panel
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const SETTINGS_PATH = "System/Settings.md";
+
+function WidgetSettingsPanel({ primaryColor, accentColor, textMuted, surfaceColor }) {
+    const [widgetBackgrounds, setWidgetBackgrounds] = dc.useState(true);
+    const [loading, setLoading] = dc.useState(true);
+    
+    // Load current settings
+    dc.useEffect(() => {
+        const loadSettings = () => {
+            try {
+                const file = app.vault.getAbstractFileByPath(SETTINGS_PATH);
+                if (file) {
+                    const cache = app.metadataCache.getFileCache(file);
+                    const fm = cache?.frontmatter || {};
+                    setWidgetBackgrounds(fm["widget-backgrounds"] !== false);
+                }
+            } catch (e) {
+                console.error("Failed to load widget settings:", e);
+            }
+            setLoading(false);
+        };
+        loadSettings();
+    }, []);
+    
+    // Save setting to Settings.md
+    const toggleWidgetBackgrounds = async () => {
+        const newValue = !widgetBackgrounds;
+        setWidgetBackgrounds(newValue);
+        
+        try {
+            const file = app.vault.getAbstractFileByPath(SETTINGS_PATH);
+            if (file) {
+                await app.fileManager.processFrontMatter(file, (fm) => {
+                    fm["widget-backgrounds"] = newValue;
+                });
+                new Notice(`Widget backgrounds ${newValue ? "enabled" : "disabled"}`);
+            }
+        } catch (e) {
+            console.error("Failed to save widget backgrounds setting:", e);
+            new Notice("Failed to save setting");
+        }
+    };
+    
+    if (loading) {
+        return <div style={{ fontSize: 12, color: textMuted }}>Loading...</div>;
+    }
+    
+    return (
+        <div style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 12,
+        }}>
+            {/* Widget Backgrounds Toggle */}
+            <div style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                padding: "12px 14px",
+                background: surfaceColor,
+                borderRadius: 8,
+                border: `1px solid ${primaryColor}22`,
+            }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                    <span style={{ fontSize: 13, fontWeight: 600 }}>Widget Backgrounds</span>
+                    <span style={{ fontSize: 11, color: textMuted }}>
+                        Show container backgrounds on widgets
+                    </span>
+                </div>
+                <label style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                    cursor: "pointer",
+                }}>
+                    <input
+                        type="checkbox"
+                        checked={widgetBackgrounds}
+                        onChange={toggleWidgetBackgrounds}
+                        style={{ width: 18, height: 18, cursor: "pointer" }}
+                    />
+                    <span style={{ 
+                        fontSize: 12, 
+                        fontWeight: 500,
+                        color: widgetBackgrounds ? accentColor : textMuted 
+                    }}>
+                        {widgetBackgrounds ? "On" : "Off"}
+                    </span>
+                </label>
+            </div>
         </div>
     );
 }

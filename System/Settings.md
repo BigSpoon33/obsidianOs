@@ -14,7 +14,9 @@ activities:
     unit: ml
     color: "#0984E3"
     icon: 💧
-    increment: 750
+    increment: 800
+    managed: false
+    goalManagedBy:
   - id: sleep
     label: Sleep
     field: sleep-hours
@@ -23,6 +25,8 @@ activities:
     unit: hrs
     color: "#00B894"
     icon: 😴
+    managed: false
+    goalManagedBy:
   - id: energy
     label: Energy
     field: energy
@@ -30,39 +34,95 @@ activities:
     max: 5
     color: "#FDCB6E"
     icon: ⚡
+    managed: false
+    goalManagedBy:
+  - id: mood
+    label: Mood
+    field: mood
+    type: rating
+    max: 5
+    color: "#A29BFE"
+    icon: 😊
+    managed: false
+    goalManagedBy:
+  - id: sleep-quality
+    label: Sleep Quality
+    field: sleep-quality
+    type: rating
+    max: 5
+    color: "#74B9FF"
+    icon: 💤
+    managed: false
+    goalManagedBy:
   - id: calories
     label: Calories
     field: consumed-calories
     type: value
-    goal: 2000
+    goal: 300
     unit: kcal
-    color: "#FF7675"
+    color: "#4FACFE"
     icon: 🔥
     managed: true
-  - id: exercise
+    goalManagedBy: mealPlanner
+  - id: protein
+    label: Protein
+    field: consumed-protein
+    type: value
+    goal: 150
+    unit: g
+    color: "#00B894"
+    icon: 🥩
+    managed: true
+    goalManagedBy: mealPlanner
+  - id: carbs
+    label: Carbs
+    field: consumed-carbs
+    type: value
+    goal: 200
+    unit: g
+    color: "#FDCB6E"
+    icon: 🍞
+    managed: true
+    goalManagedBy: mealPlanner
+  - id: fat
+    label: Fat
+    field: consumed-fat
+    type: value
+    goal: 65
+    unit: g
+    color: "#E17055"
+    icon: 🥑
+    managed: true
+    goalManagedBy: mealPlanner
+  - id: exercise-minutes
     label: Exercise
     field: exercise-minutes
     type: value
-    goal: 30
+    goal: 45
     unit: min
     color: "#E17055"
     icon: 🏃
-  - id: test
-    label: Test
-    field: test-activity
-    type: value
-    goal: 1
-    unit: "1"
-    color: "#6C5CE7"
-    icon: 📊
-    increment: 1
     managed: false
-  - id: coffee
-    label: Coffee
-    field: coffee
+    goalManagedBy: weeklyWorkout
+  - id: workout-days
+    label: Workout Days
+    field: workout-completed
     type: count
-    color: "#FF7675"
-    icon: 📊
+    goal: 4
+    unit: days/week
+    color: "#6C5CE7"
+    icon: 💪
+    managed: true
+    goalManagedBy: weeklyWorkout
+  - id: cofee
+    label: Coffee
+    field: cofee
+    type: value
+    goal: 2
+    unit: "1"
+    color: "#4b2902"
+    icon: ☕
+    increment: 1
     managed: false
 weight-goal: 75
 weight-unit: kg
@@ -73,9 +133,10 @@ schedule-saturday: "[[Push Day]]"
 schedule-sunday: "[[Push Day]]"
 schedule-monday: "[[Push Day]]"
 widget-theme: nyanCat
-color-override: savageCroc
+color-override: whiteCrane
 sync-to-obsidian: true
 flashy-mode: true
+widget-backgrounds: false
 schedule-thursday: "[[Push Day]]"
 __preview_toggle_on: false
 __preview_toggle_off: false

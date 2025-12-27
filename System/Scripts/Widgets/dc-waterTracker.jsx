@@ -1,24 +1,37 @@
+// ═══════════════════════════════════════════════════════════════════════════════
+// WATER TRACKER WIDGET
+// Tracks daily water intake with draggable progress bar
+// Reads goal and increment from Settings.md activities array
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const SETTINGS_PATH = "System/Settings.md";
+
 function WaterTracker() {
     // 1. SETUP & DATA
     const currentFile = dc.useCurrentFile();
     
-    // Fetch all pages, then filter in JS (Robust)
-    const pages = dc.useQuery("@page");
-    if (!pages) return <div style={{opacity: 0.5, padding:'10px'}}>⏳ Loading Hydration...</div>;
+    // Load goals from Settings.md activities array
+    const getWaterSettings = () => {
+        try {
+            const settingsFile = app.vault.getAbstractFileByPath(SETTINGS_PATH);
+            if (!settingsFile) return { goal: 3000, bottleSize: 500 };
+            const settingsCache = app.metadataCache.getFileCache(settingsFile);
+            const activities = settingsCache?.frontmatter?.activities || [];
+            const waterActivity = activities.find(a => a.id === 'water');
+            
+            return {
+                goal: waterActivity?.goal || 3000,
+                bottleSize: waterActivity?.increment || 500
+            };
+        } catch (e) {
+            console.error("Failed to load water settings:", e);
+            return { goal: 3000, bottleSize: 500 };
+        }
+    };
 
-    const settingsNote = pages.find(p => 
-        (p.tags && (p.tags.has("#settings") || p.tags.has("settings"))) || 
-        (p.$path && p.$path.endsWith("System/Settings.md"))
-    );
-
-    if (!settingsNote) return (
-        <div style={{padding:'10px', border:'1px solid red', borderRadius:'8px', color:'red'}}>
-            ⚠️ Error: Could not find 'System/Settings.md'.
-        </div>
-    );
-
-    const goal = settingsNote.value("water-goal-ml") || 3000;
-    const bottleSize = settingsNote.value("water-bottle-size") || 500;
+    const waterSettings = getWaterSettings();
+    const goal = waterSettings.goal;
+    const bottleSize = waterSettings.bottleSize;
     const currentMl = currentFile?.value("water-ml") || 0;
 
     // STATE

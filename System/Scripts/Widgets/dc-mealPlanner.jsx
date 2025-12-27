@@ -1,3 +1,11 @@
+// ═══════════════════════════════════════════════════════════════════════════════
+// MEAL PLANNER WIDGET
+// Manages weekly meal planning and nutrition goals
+// Goals are stored in Settings.md activities array
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const SETTINGS_PATH = "System/Settings.md";
+
 function MealPlanner() {
     // --- 1. SETUP & STATE ---
     const file = app.workspace.getActiveFile();
@@ -8,14 +16,36 @@ function MealPlanner() {
     // Local State
     const [localChanges, setLocalChanges] = dc.useState({});
     const [selectedSavedPlan, setSelectedSavedPlan] = dc.useState("");
-    const [showGoals, setShowGoals] = dc.useState(false); 
+    const [showGoals, setShowGoals] = dc.useState(false);
+    const [localGoals, setLocalGoals] = dc.useState(null);
 
-    // Nutrition Goals
-    const goals = {
-        cal: Number(fm["goal-calories"]) || 2000,
-        pro: Number(fm["goal-protein"]) || 150,
-        carb: Number(fm["goal-carbs"]) || 200,
-        fat: Number(fm["goal-fat"]) || 65
+    // --- LOAD GOALS FROM SETTINGS.MD ACTIVITIES ARRAY ---
+    const getGoalsFromSettings = () => {
+        try {
+            const settingsFile = app.vault.getAbstractFileByPath(SETTINGS_PATH);
+            if (!settingsFile) return null;
+            const settingsCache = app.metadataCache.getFileCache(settingsFile);
+            const activities = settingsCache?.frontmatter?.activities || [];
+            
+            return {
+                cal: activities.find(a => a.id === 'calories')?.goal || 2000,
+                pro: activities.find(a => a.id === 'protein')?.goal || 150,
+                carb: activities.find(a => a.id === 'carbs')?.goal || 200,
+                fat: activities.find(a => a.id === 'fat')?.goal || 65
+            };
+        } catch (e) {
+            console.error("Failed to load goals from Settings:", e);
+            return null;
+        }
+    };
+
+    // Nutrition Goals - prefer localGoals (just updated), then Settings.md, then fallback
+    const settingsGoals = getGoalsFromSettings();
+    const goals = localGoals || settingsGoals || {
+        cal: 2000,
+        pro: 150,
+        carb: 200,
+        fat: 65
     };
 
     // --- 2. DATA FETCHING ---
@@ -71,10 +101,41 @@ function MealPlanner() {
         });
     };
 
-    const updateGoal = async (key, val) => {
-        await app.fileManager.processFrontMatter(file, (f) => {
-            f[key] = Number(val);
+    // Update goal in Settings.md activities array
+    const updateGoal = async (activityId, newGoal) => {
+        const numGoal = Number(newGoal) || 0;
+        
+        // Update local state immediately for responsive UI
+        setLocalGoals(prev => {
+            const current = prev || goals;
+            const updated = { ...current };
+            if (activityId === 'calories') updated.cal = numGoal;
+            else if (activityId === 'protein') updated.pro = numGoal;
+            else if (activityId === 'carbs') updated.carb = numGoal;
+            else if (activityId === 'fat') updated.fat = numGoal;
+            return updated;
         });
+        
+        // Save to Settings.md activities array
+        try {
+            const settingsFile = app.vault.getAbstractFileByPath(SETTINGS_PATH);
+            if (!settingsFile) {
+                new Notice("Settings.md not found!");
+                return;
+            }
+            
+            await app.fileManager.processFrontMatter(settingsFile, (fm) => {
+                const activities = fm.activities || [];
+                const idx = activities.findIndex(a => a.id === activityId);
+                if (idx !== -1) {
+                    activities[idx].goal = numGoal;
+                    fm.activities = activities;
+                }
+            });
+        } catch (e) {
+            console.error("Failed to update goal:", e);
+            new Notice("Failed to save goal");
+        }
     };
 
     const randomizeWeek = () => {
@@ -225,14 +286,14 @@ function MealPlanner() {
         );
     };
 
-    const GoalInput = ({ label, field, val }) => (
+    const GoalInput = ({ label, activityId, val }) => (
         <div style={{display:'flex', flexDirection:'column', gap:'4px'}}>
             <label style={{fontSize:'0.7em', color:'var(--text-muted)', textTransform:'uppercase'}}>{label}</label>
             <input 
                 type="number" 
                 value={val} 
-                onChange={(e) => updateGoal(field, e.target.value)}
-                style={{width:'80px', background:'var(--background-primary)', border:'1px solid var(--background-modifier-border)', padding:'4px', borderRadius:'4px'}}
+                onChange={(e) => updateGoal(activityId, e.target.value)}
+                style={{width:'80px', background:'var(--background-primary)', border:'1px solid var(--background-modifier-border)', padding:'4px', borderRadius:'4px', color:'var(--text-normal)'}}
             />
         </div>
     );
@@ -369,17 +430,20 @@ function MealPlanner() {
                     </div>
                 </div>
 
-                {/* GOALS MENU */}
+                {/* GOALS MENU - Saves to Settings.md activities array */}
                 {showGoals && (
                     <div style={{
                         display: 'flex', gap: '15px', padding: '10px', 
                         background: 'var(--background-secondary-alt)', 
                         width: '100%', borderRadius: '8px', border: '1px solid var(--interactive-accent)'
                     }}>
-                        <GoalInput label="Daily Calories" field="goal-calories" val={goals.cal} />
-                        <GoalInput label="Protein (g)" field="goal-protein" val={goals.pro} />
-                        <GoalInput label="Carbs (g)" field="goal-carbs" val={goals.carb} />
-                        <GoalInput label="Fat (g)" field="goal-fat" val={goals.fat} />
+                        <GoalInput label="Daily Calories" activityId="calories" val={goals.cal} />
+                        <GoalInput label="Protein (g)" activityId="protein" val={goals.pro} />
+                        <GoalInput label="Carbs (g)" activityId="carbs" val={goals.carb} />
+                        <GoalInput label="Fat (g)" activityId="fat" val={goals.fat} />
+                        <div style={{display:'flex', alignItems:'flex-end', fontSize:'0.65em', color:'var(--text-muted)', fontStyle:'italic'}}>
+                            Saved to Settings.md
+                        </div>
                     </div>
                 )}
                 
